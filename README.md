@@ -1,7 +1,11 @@
 list-spring-mvc
 ===============
 
-Spring MVC Version Of My List Application
+### Version
+
+This Is Considered To Be Version 2.0.0 Of My List Application
+
+### Technologies / Tools
 
 <ul>
 <li>Spring Framework</li>
@@ -14,3 +18,13 @@ Spring MVC Version Of My List Application
 <li>Apache Tiles</li>
 <li>jQuery / jQuery UI</li>
 </ul>
+
+### Clone and Import In Eclipse/STS
+
+1) Clone Repository
+```
+git clone https://github.com/blixabargeld/list-spring-mvc.git
+```
+2) Import
+```
+File -> Import -> Maven -> Existing Maven project
