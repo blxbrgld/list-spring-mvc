@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+  <definition extends="default" name="category/list">
+  	<put-attribute name="title" value="List Of Categories" />
+    <put-attribute name="body" value="/WEB-INF/views/category/list.jsp" />
+    <put-attribute name="sidebar" value="/WEB-INF/views/category/sidebar.jsp" />
+  </definition>
+  <definition extends="default" name="category/form">
+  	<put-attribute name="title" value="Create | Update Category" />
+  	<put-attribute name="body" value="/WEB-INF/views/category/form.jsp" />
+  	<put-attribute name="sidebar" value="/WEB-INF/views/category/sidebar.jsp" />
+  </definition>
+</tiles-definitions>

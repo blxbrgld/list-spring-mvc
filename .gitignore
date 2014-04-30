@@ -1,0 +1,20 @@
+#Temporary Files
+*~
+
+#Eclipse
+.classpath
+.project
+.settings/
+
+#Maven
+target/
+
+#Javadocs
+doc/
+
+#Database Properties
+src/main/resources/database/database.properties
+
+#Item Images Except no-image.png
+src/main/webapp/resources/images/items/*
+!src/main/webapp/resources/images/items/no-image.png
