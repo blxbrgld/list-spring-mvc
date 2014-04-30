@@ -28,3 +28,11 @@ git clone https://github.com/blixabargeld/list-spring-mvc.git
 2) Import
 ```
 File -> Import -> Maven -> Existing Maven project
+```
+3) Restore MySQL Dump
+
+4) Create database.properties File
+
+5) beans-data.xml Lucene Index Folder
+
+6) web.xml Images Folder
