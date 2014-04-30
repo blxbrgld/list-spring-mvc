@@ -5,14 +5,12 @@ Spring MVC Version Of My List Application
 
 <ul>
 <li>Spring Framework</li>
-Spring MVC
-Spring Security
-Hibernate ORM
-Hibernate Validator
-Hibernate Search
-HTML
-CSS
-JSP / JSTL
-Apache Tiles
-jQuery
+<li>Spring MVC</li>
+<li>Spring Security</li>
+<li>Hibernate ORM</li>
+<li>Hibernate Validator</li>
+<li>Hibernate Search</li>
+<li>JSP / JSTL</li>
+<li>Apache Tiles</li>
+<li>jQuery</li>
 </ul>
