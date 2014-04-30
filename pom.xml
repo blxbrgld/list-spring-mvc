@@ -33,7 +33,6 @@
 		<junit-version>4.7</junit-version>
 	</properties>
 	<dependencies>
-	
 		<!-- Spring Framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -57,7 +56,6 @@
     		<artifactId>spring-orm</artifactId>
     		<version>${spring-framework-version}</version>
 		</dependency>
-		
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -79,7 +77,6 @@
         	<artifactId>spring-security-taglibs</artifactId>
         	<version>${spring-security-version}</version>
     	</dependency>
-		
 		<!-- Hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -91,11 +88,13 @@
 		     <artifactId>hibernate-entitymanager</artifactId>
 		     <version>${hibernate-version}</version>
 		</dependency>
+		<!-- Hibernate Validator -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate-version}</version>
 		</dependency>
+		<!-- Hibernate Search -->
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-search</artifactId>
@@ -106,14 +105,12 @@
 		   	<artifactId>hibernate-search-analyzers</artifactId>
 		   	<version>${hibernate-search-version}</version>
 		</dependency>
-
 		<!-- MySQL Connector -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-version}</version>
 		</dependency>
-			
 		<!-- Apache Commons Libraries -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -150,21 +147,18 @@
 			<artifactId>commons-codec</artifactId>
 			<version>${commons-codec-version}</version>
 		</dependency>
-
 		<!-- Apache Tiles -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 		    <artifactId>tiles-extras</artifactId>
 		    <version>${apache-tiles-version}</version>
 		</dependency>
-
 		<!-- Apache POI -->
 		<dependency>
       		<groupId>org.apache.poi</groupId>
       		<artifactId>poi</artifactId>
       		<version>${apache-poi-version}</version>
     	</dependency>
-
 		<!-- Jackson -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -176,21 +170,18 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>${jackson-version}</version>
 		</dependency>
-
 		<!-- Thumbnails Generation Library -->
 		<dependency>
 			<groupId>net.coobird</groupId>
 			<artifactId>thumbnailator</artifactId>
 			<version>[0.4, 0.5)</version>
 		</dependency>
-
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${aspectj-version}</version>
-		</dependency>	
-		
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -233,14 +224,12 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
-		</dependency>
-				
+		</dependency>	
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -259,7 +248,6 @@
 			<artifactId>jstl</artifactId>
 			<version>${javax-servlet-version}</version>
 		</dependency>
-	
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
