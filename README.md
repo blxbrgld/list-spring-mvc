@@ -19,7 +19,7 @@ This Is Considered To Be Version 2.0.0 Of My List Application
 <li>jQuery / jQuery UI</li>
 </ul>
 
-### Clone and Import In Eclipse/STS
+### Import Project In Eclipse/STS
 
 1) Clone Repository
 ```
