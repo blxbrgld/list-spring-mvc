@@ -12,5 +12,5 @@ Spring MVC Version Of My List Application
 <li>Hibernate Search</li>
 <li>JSP / JSTL</li>
 <li>Apache Tiles</li>
-<li>jQuery</li>
+<li>jQuery / jQuery UI</li>
 </ul>
