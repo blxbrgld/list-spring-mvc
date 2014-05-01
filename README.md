@@ -1,9 +1,9 @@
 list-spring-mvc
 ===============
 
-### Version
+### About
 
-This Is Considered To Be Version 2.0.0 Of My List Application
+I consider this to be Version 2.0.0 of MyList Application.
 
 ### Technologies / Tools
 
@@ -19,7 +19,11 @@ This Is Considered To Be Version 2.0.0 Of My List Application
 <li>jQuery / jQuery UI</li>
 </ul>
 
-### Import Project In Eclipse/STS
+### What Does It Look Like
+
+Hopefully very soon I'll deploy a sample instance at OpenShift.
+
+### Import In Eclipse/STS
 
 1) Clone Repository
 ```
@@ -29,10 +33,15 @@ git clone https://github.com/blixabargeld/list-spring-mvc.git
 ```
 File -> Import -> Maven -> Existing Maven project
 ```
-3) Restore MySQL Dump
-
-4) Create database.properties File
-
-5) beans-data.xml Lucene Index Folder
-
-6) web.xml Images Folder
+3) Create Database
+```
+/src/main/resources/database/mysql/ contains MySQL Dumps of a sample database and database schema without data
+```
+4) Create /src/main/resources/database/database.properties File
+```
+database.driverClassName, database.url, database.username, database.password are the minimum requirements
+```
+5) Create /src/main/resources/miscellaneous.properties File
+```
+filepath.lucene, filepath.images are the minimum requirements
+```
