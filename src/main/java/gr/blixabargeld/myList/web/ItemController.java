@@ -27,7 +27,6 @@ import gr.blixabargeld.myList.service.SubtitlesService;
 import gr.blixabargeld.myList.utilities.ReturningValues;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -56,7 +55,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/item")
 public class ItemController {
 
-	@Inject private ServletContext servletContext;
 	@Inject private ItemService itemService;
 	@Inject private CategoryService categoryService;
 	@Inject private CommentService commentService;
@@ -248,9 +246,9 @@ public class ItemController {
 		if(current != null) {
 			
 			try {
-				File currentPhoto = new File(servletContext.getInitParameter("imagesFolder"), "items/" + current.getPhotoPath());
+				File currentPhoto = new File(System.getProperty("filepath.images"), "items/" + current.getPhotoPath());
 				OutputStream output = response.getOutputStream();
-				Files.copy(FileSystems.getDefault().getPath(servletContext.getInitParameter("imagesFolder") + "items/" + (currentPhoto.exists() ? current.getPhotoPath() : "no-image.png")), output);
+				Files.copy(FileSystems.getDefault().getPath(System.getProperty("filepath.images") + "items/" + (currentPhoto.exists() ? current.getPhotoPath() : "no-image.png")), output);
 				output.flush();
 			} 
 			catch (IOException exception) {
@@ -273,14 +271,14 @@ public class ItemController {
 			
 			deletePhoto(item.getPhotoPath()); //Delete Old Image
 			String filename = "item_" + String.format("%05d", item.getId()) + photo.getOriginalFilename().substring(photo.getOriginalFilename().lastIndexOf('.'));
-        	File file = new File(servletContext.getInitParameter("imagesFolder"), "temporary/" + filename);
+        	File file = new File(System.getProperty("filepath.images"), "temporary/" + filename);
         	
         	try {
         		photo.transferTo(file);
         		Thumbnails
         			.of(file)
         			.size(150, 150)
-        			.toFile(new File(servletContext.getInitParameter("imagesFolder"), "items/" + filename));
+        			.toFile(new File(System.getProperty("filepath.images"), "items/" + filename));
         		file.delete(); //Delete Temporary Image
         		item.setPhotoPath(filename); //Set Object's Attribute
         	}
@@ -298,7 +296,7 @@ public class ItemController {
 	void deletePhoto(String photo) {
 		
 		if(photo != null) {
-			File file = new File(servletContext.getInitParameter("imagesFolder"), "items/" + photo);
+			File file = new File(System.getProperty("filepath.images"), "items/" + photo);
 			file.delete();
 		}
 	}	

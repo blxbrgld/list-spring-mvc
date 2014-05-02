@@ -8,14 +8,7 @@
 			/WEB-INF/spring/beans-security.xml
 		</param-value>
   </context-param>
-  <context-param>
-  	<param-name>imagesFolder</param-name>
-   	<param-value>/home/papadopoulos/Workspace/Spring/mylist-spring/src/main/webapp/resources/images/</param-value>
-  </context-param>
-  <context-param>
-	<param-name>authorsEmail</param-name>
-   	<param-value>nikolaos.i.papadopoulos@gmail.com</param-value>
-  </context-param>
+  <!-- Listeners -->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>

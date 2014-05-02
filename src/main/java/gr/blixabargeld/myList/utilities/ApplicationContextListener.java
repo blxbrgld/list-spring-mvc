@@ -3,11 +3,12 @@ package gr.blixabargeld.myList.utilities;
 import gr.blixabargeld.myList.dao.CategoryDetailsDao;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
+import java.util.Properties;
 import java.util.Random;
 
 import javax.servlet.ServletContext;
@@ -29,21 +30,41 @@ public class ApplicationContextListener implements ServletContextListener {
 		CategoryDetailsDao categoryDetailsDao = (CategoryDetailsDao) applicationContext.getBean(gr.blixabargeld.myList.dao.CategoryDetailsDao.class);
 	    ServletContext context = event.getServletContext();
 
-	    //Categories For Menus
-	    Map<String, List<String>> categoriesTree = categoryDetailsDao.categoriesTree(); 
-		context.setAttribute("categoriesTree", categoriesTree);
-	    
-		//Wallpaper
-		String path = context.getInitParameter("imagesFolder") + "wallpapers";
-		context.setAttribute("wallpaper", randomWallpaper(path));
+	    /**
+	     * Read Values From miscellaneous.properties File
+	     */
+		final String props = "/miscellaneous.properties";
+		final Properties propsFromFile = new Properties();
 		
-		//Author's Email Address + Year For Footer
+		try {
+			
+			propsFromFile.load(getClass().getResourceAsStream(props));
+		} 
+		catch (IOException exception) {
+			
+			exception.printStackTrace();
+		}
+		
+		for(String prop : propsFromFile.stringPropertyNames()) {
+			
+			if(System.getProperty(prop) == null) {
+				
+				System.setProperty(prop, propsFromFile.getProperty(prop));
+			}
+		}
+	    
+	    /**
+	     * Set Miscellaneous Context Parameters For Menu, Footer etc.
+	     */
+	    context.setAttribute("categoriesTree", categoryDetailsDao.categoriesTree()); //Menu Categories
+	    
+		context.setAttribute("wallpaper", randomWallpaper(System.getProperty("filepath.images") + "wallpapers")); //Wallpaper
+		
 		GregorianCalendar currentDate = new GregorianCalendar();
 		int currentYear = currentDate.get(Calendar.YEAR);
-		context.setAttribute("currentYear", currentYear);
+		context.setAttribute("currentYear", currentYear); //Year
 		
-		String authorsEmail = context.getInitParameter("authorsEmail");
-		context.setAttribute("authorsEmail", authorsEmail);
+		context.setAttribute("authorsEmail", System.getProperty("author.email")); //Author's Email
 	}
 	
 	@Override
