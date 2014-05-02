@@ -22,7 +22,7 @@ USE `mylist-spring`;
 --
 
 --
--- Table structure for table `Activities`
+-- Table Structure for table `Activities`
 --
 
 DROP TABLE IF EXISTS `Activities`;
