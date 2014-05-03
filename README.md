@@ -37,11 +37,11 @@ File -> Import -> Maven -> Existing Maven project
 ```
 /src/main/resources/database/mysql/ contains MySQL Dumps of a sample database and database schema without data
 ```
-4) Create /src/main/resources/database/database.properties File
+4) Create <project_base_dir>/src/main/resources/database/database.properties File
 ```
 database.driverClassName, database.url, database.username, database.password are the minimum requirements
 ```
-5) Create /src/main/resources/miscellaneous.properties File
+5) Create <project_base_dir>/src/main/resources/miscellaneous.properties File
 ```
 filepath.lucene, filepath.images, author.email are the minimum requirements
 ```
