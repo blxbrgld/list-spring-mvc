@@ -35,7 +35,7 @@ File -> Import -> Maven -> Existing Maven project
 ```
 3) Create Database
 ```
-/src/main/resources/database/mysql/ contains MySQL Dumps of a sample database and database schema without data
+src/main/resources/database/mysql/ contains MySQL Dumps of a sample database and database schema without data
 ```
 4) Create src/main/resources/database/database.properties File
 ```
