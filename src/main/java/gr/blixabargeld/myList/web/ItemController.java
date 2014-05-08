@@ -274,17 +274,21 @@ public class ItemController {
         	File file = new File(System.getProperty("filepath.images"), "temporary/" + filename);
         	
         	try {
+        	
         		photo.transferTo(file);
         		Thumbnails
         			.of(file)
         			.size(150, 150)
         			.toFile(new File(System.getProperty("filepath.images"), "items/" + filename));
-        		file.delete(); //Delete Temporary Image
         		item.setPhotoPath(filename); //Set Object's Attribute
         	}
         	catch(IOException exception) {
         		
         		exception.printStackTrace();
+        	}
+        	finally {
+        		
+        		file.delete(); //Delete Temporary Image
         	}
 		}
 	}
