@@ -39,7 +39,7 @@ src/main/resources/database/mysql/ contains MySQL Dumps of a sample database and
 ```
 4) Create src/main/resources/database/database.properties File
 ```
-database.driverClassName, database.url, database.username, database.password are the minimum requirements
+dataSource.driverClassName, dataSource.url, dataSource.username, dataSource.password are the minimum requirements
 ```
 5) Create src/main/resources/miscellaneous.properties File
 ```
