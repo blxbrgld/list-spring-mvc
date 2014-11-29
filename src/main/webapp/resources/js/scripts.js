@@ -79,4 +79,16 @@ $(function() {
 	        minLength: 3
 	    });
 	});
+	
+	/*On Selection Of Music Category Hide Unwanted Fields and Clear Values Already Given*/
+	$(document).on("change", "select#category", function() {
+		var music = ["Music", "Popular Music", "Classical Music", "Greek Music"];
+		if(jQuery.inArray($("#category :selected").text(), music)!=-1) {
+			$("input#titleEll, input#year, select#subtitles").val("");
+			$("input#titleEll, input#year, select#subtitles").parent("div").hide();
+		}
+		else {
+			$("input#titleEll, input#year, select#subtitles").parent("div").show();
+		}
+	});
 });

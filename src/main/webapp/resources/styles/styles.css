@@ -144,6 +144,7 @@ h1 {
   	width:100%;
   	text-align:center; 	
   	font-size:0.8em;
+  	margin:2em auto;
 }
 /*
 * FLASH MESSAGES
@@ -256,7 +257,8 @@ form img {
 	margin-bottom:0.9em;
 }
 div.textarea {
-	width:60%;	
+	width:60%;
+	margin-bottom:1em;
 }
 .errors {
 	color:red;
@@ -379,7 +381,9 @@ div.thumbsLeft {
 div.thumbsRight {
   	position:absolute;
   	top:1.3em;
-  	left:155px; /*thumbsRight + 10px*/
+  	box-sizing:border-box;
+  	width:100%;
+  	padding-left:155px; /*thumbsLeft + 10px*/
 }
 .thumbsRight div {
 	clear:both;
@@ -395,7 +399,7 @@ div.thumbsRight {
   	font-style:italic;
 }
 .thumbsRight div.tags {	
-	margin-top:0.6em;
+	margin:0.6em 0 0.6em 0;
 	font-size:1.2em;
 }
 .thumbsRight div.tags img {
@@ -432,8 +436,8 @@ div.thumbsRight {
 	font-weight:bold;
 }
 .thumbsRight div.film {
+	width:100%;
 	min-height:20px;
-	padding-top:4px;
 }
 .thumbsRight div.film div {
 	color:black;
