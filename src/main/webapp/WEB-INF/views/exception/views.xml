@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+  <definition extends="default" name="exception/exception">
+    <put-attribute name="title" value="Exception Raised" />
+    <put-attribute name="body" value="/WEB-INF/views/exception/exception.jsp" />
+  </definition>
+  <definition extends="default" name="exception/404">
+    <put-attribute name="title" value="Page Not Found" />
+    <put-attribute name="body" value="/WEB-INF/views/exception/404.jsp" />
+  </definition>
+</tiles-definitions>

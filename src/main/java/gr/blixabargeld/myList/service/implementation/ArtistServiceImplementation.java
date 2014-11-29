@@ -120,7 +120,7 @@ public class ArtistServiceImplementation implements ArtistService {
 	public List<String> findArtistsLike(String term) {
 		
 		List<Artist> artistList = artistDao.findLike(term);
-		List<String> titleList = new ArrayList<>();
+		List<String> titleList = new ArrayList<String>();
 		
 		for(Artist artist : artistList) {
 			

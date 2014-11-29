@@ -14,5 +14,5 @@
   <definition extends="default" name="denied">
   	<put-attribute name="title" value="Access Denied" />
     <put-attribute name="body" value="/WEB-INF/views/denied.jsp" />
-  </definition>
+  </definition>  
 </tiles-definitions>

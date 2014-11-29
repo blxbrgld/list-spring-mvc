@@ -491,3 +491,16 @@ a.disabled {
 .addPadding {
 	padding-top:0.9em;
 }
+/*
+* Exception Pages
+*/
+.exception-message {
+	border:1px solid #e1e1e1;
+	font-family:Monaco, Consolas, monospace;
+	font-size:0.9em;
+	line-height:1.2em;
+	padding:1em;
+}
+.exception-message span {
+	font-weight:bold;
+}

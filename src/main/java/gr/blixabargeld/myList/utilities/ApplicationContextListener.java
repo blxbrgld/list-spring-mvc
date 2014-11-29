@@ -27,7 +27,7 @@ public class ApplicationContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 
 		ApplicationContext applicationContext = (ApplicationContext) event.getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-		CategoryDetailsDao categoryDetailsDao = (CategoryDetailsDao) applicationContext.getBean(gr.blixabargeld.myList.dao.CategoryDetailsDao.class);
+		CategoryDetailsDao categoryDetailsDao = applicationContext.getBean(gr.blixabargeld.myList.dao.CategoryDetailsDao.class);
 	    ServletContext context = event.getServletContext();
 
 	    /**
