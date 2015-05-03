@@ -8,10 +8,12 @@
 <spring:url value="/resources/js/scripts.js" var="scriptsUrl" />
 <spring:url value="/resources/styles/styles.css" var="stylesUrl" />
 <spring:url value="/resources/styles/smoothness/jquery-ui-1.10.4.custom.min.css" var="smoothnessUrl" />
+<spring:url value="/resources/images/styles/favicon.ico" var="faviconUrl" />
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
 	<title><tiles:getAsString name="title" /></title>
+	<link rel="shortcut icon" type="image/x-icon" href="${faviconUrl}" />
 	<script src="${jqueryUrl}" type="text/javascript"><!-- /required for FF3 and Opera --></script>
 	<script src="${jqueryUiUrl}" type="text/javascript"><!-- /required for FF3 and Opera --></script>
 	<script src="${menuJs}" type="text/javascript"><!-- /required for FF3 and Opera --></script>
