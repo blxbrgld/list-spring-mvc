@@ -1,9 +1,9 @@
-list-spring-mvc
-===============
+list-spring-mvc Application 3.0
+===============================
 
-### About
+### Changes From Version 2.0
 
-I consider this to be Version 2.0.0 of MyList Application.
+Bootstap 3 added to the game. Nearly everything redesigned and now the application is fully mobile friendly. Furthermore, all administrator pages are now under the /admin path so that we can separate the logic of the front-end and the back-end in case we want to add some caching rules (for example).
 
 ### Technologies / Tools
 
@@ -14,8 +14,8 @@ I consider this to be Version 2.0.0 of MyList Application.
 <li>Hibernate ORM</li>
 <li>Hibernate Validator</li>
 <li>Hibernate Search</li>
-<li>JSP / JSTL</li>
 <li>Apache Tiles</li>
+<li>Bootstrap</li>
 <li>jQuery / jQuery UI</li>
 </ul>
 
@@ -27,7 +27,7 @@ Hopefully very soon I'll deploy a sample instance at OpenShift.
 
 1) Clone Repository
 ```
-git clone https://github.com/blixabargeld/list-spring-mvc.git
+git clone https://github.com/blxbrgld/list-spring-mvc.git
 ```
 2) Import
 ```

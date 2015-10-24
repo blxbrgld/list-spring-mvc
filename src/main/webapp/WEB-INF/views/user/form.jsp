@@ -13,46 +13,47 @@
 <spring:message var="deleteLabel" code="label.delete" />
 <spring:message var="confirmLabel" code="label.delete.confirm" />
 <spring:message var="confirmMessage" code="label.user.delete.confirm" />
-<form:form action="." modelAttribute="user">
-	<h1>${pageTitle}</h1>
-	<div><form:hidden path="id" /></div>
-	<fieldset>
-		<legend>${detailsLabel}</legend>
-		<div>
-			<form:label path="username">${usernameLabel}</form:label>
-			<form:input path="username" placeholder="${usernameLabel}" />
-			<form:errors path="username" class="errors" />
-		</div>
-		<div>
-			<form:label path="password">${passwordLabel}</form:label>
-			<form:password path="password" placeholder="${passwordLabel}" />
-			<form:errors path="password" class="errors" />
-		</div>
-		<div>
-			<form:label path="confirmPassword">${confirmPasswordLabel}</form:label>
-			<form:password path="confirmPassword" placeholder="${confirmPasswordLabel}" />
-			<form:errors path="confirmPassword" class="errors" />
-		</div>
-		<div>
-			<form:label path="email">${emailLabel}</form:label>
-			<form:input path="email" placeholder="${emailLabel}" />
-			<form:errors path="email" class="errors" />
-		</div>
-	</fieldset>
-	<fieldset>
-		<legend>${roleLabel}</legend>
-		<div>
-			<form:label path="role">${roleLabel}</form:label>
-			<form:select path="role">
-				<form:option value="" label="${roleSelectLabel}" />			
-				<form:options items="${selectRole}" itemValue="id" itemLabel="title" />
-			</form:select>
-			<form:errors path="role" class="errors" />
-		</div>
-	</fieldset>
-	<div class="centered addPadding">
-		<input type="submit" value="${submitLabel}" class="btn" />
-		<c:if test="${user.id!=null}"><a href="<c:url value='/user/delete/${user.id}' />" class="btn dialog-confirm" data-open="user-edit-delete">${deleteLabel}</a></c:if>
-	</div>
-</form:form>
-<div class="dialog" id="user-edit-delete" title="${confirmLabel}"><p>${confirmMessage}</p></div>
+<div class="content">
+	<h3>${pageTitle}</h3>
+	<form:form action="." modelAttribute="user">
+		<form:hidden path="id" />
+		<fieldset>
+			<legend>${detailsLabel}</legend>
+			<div class="form-group">
+				<form:label path="username">${usernameLabel}</form:label>
+				<form:input path="username" class="form-control" placeholder="${usernameLabel}" />
+				<form:errors path="username" class="errors" />
+			</div>
+			<div class="form-group">
+				<form:label path="password">${passwordLabel}</form:label>
+				<form:password path="password" class="form-control" placeholder="${passwordLabel}" />
+				<form:errors path="password" class="errors" />
+			</div>
+			<div class="form-group">
+				<form:label path="confirmPassword">${confirmPasswordLabel}</form:label>
+				<form:password path="confirmPassword" class="form-control" placeholder="${confirmPasswordLabel}" />
+				<form:errors path="confirmPassword" class="errors" />
+			</div>
+			<div class="form-group">
+				<form:label path="email">${emailLabel}</form:label>
+				<form:input path="email" class="form-control" placeholder="${emailLabel}" />
+				<form:errors path="email" class="errors" />
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>${roleLabel}</legend>
+			<div class="form-group">
+				<form:label path="role">${roleLabel}</form:label>
+				<form:select path="role" class="form-control">
+					<form:option value="" label="${roleSelectLabel}" />			
+					<form:options items="${selectRole}" itemValue="id" itemLabel="title" />
+				</form:select>
+				<form:errors path="role" class="errors" />
+			</div>
+		</fieldset>
+		<button class="btn btn-lg btn-primary" type="submit">${submitLabel}</button>
+		<c:if test="${user.id!=null}">
+			<a href="<c:url value='/admin/user/delete/${user.id}' />" class="btn btn-danger btn-lg confirm-dialog" role="button" dialog="${confirmMessage}" accept="${confirmLabel}">${deleteLabel}</a>
+		</c:if>
+	</form:form>
+</div>

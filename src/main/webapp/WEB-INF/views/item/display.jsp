@@ -12,221 +12,266 @@
 <spring:message var="descriptionLabel" code='label.description' />
 <spring:message var="noResultsLabel" code="title.item.search.noResults" />
 <spring:message var="editLabel" code="label.edit" />
-<c:choose>
-	<c:when test="${pageHeaderAttribute==null}"><h1><spring:message code="${pageHeader}" /></h1></c:when>
-	<c:otherwise><h1><spring:message code="${pageHeader}" arguments="${pageHeaderAttribute}" /></h1></c:otherwise>
-</c:choose>
-<c:choose>
-	<c:when test="${fn:length(itemList) gt 0}">
-		<c:forEach var="items" items="${itemList}">
-			<c:choose>
-				<c:when test="${items.category.id==1 || items.category.parent.id==1}">
-					<!-- Music Items -->
-					<div class="itemContainer">
-						<div class="thumbsLeft">
-							<c:choose>
-								<c:when test="${items.photoPath!=null}">
-									<img class="photo" src="<c:url value='${contextPath}/resources/images/items/${items.photoPath}' />" />
-								</c:when>
-								<c:otherwise>
-									<img class="photo" src="<c:url value='${contextPath}/resources/images/items/no-image.png' />" />
-								</c:otherwise>
-							</c:choose>
-							<div class="info">
-								<c:if test="${items.place!=null}">
-									<img src="<c:url value='${contextPath}/resources/images/styles/database.png' />" />${items.place}
-								</c:if>
-								<c:choose>
-									<c:when test="${items.discs!=null && items.discs>1}"><c:set var="discs" value="${items.discs} Discs" /></c:when>
-									<c:otherwise><c:set var="discs" value="1 Disc" /></c:otherwise>
-								</c:choose>
-								<img src="<c:url value='${contextPath}/resources/images/styles/disk.png' />" />${discs}
-								<security:authorize access="hasRole('Administrator')">
-									<a class="edit" href="<c:url value='update/${items.id}' />">${editLabel}</a>
-								</security:authorize>
+<div class="content">
+	<c:choose>
+		<c:when test="${pageHeaderAttribute==null}"><h3><spring:message code="${pageHeader}" /></h3></c:when>
+		<c:otherwise><h3><spring:message code="${pageHeader}" arguments="${pageHeaderAttribute}" /></h3></c:otherwise>
+	</c:choose>
+	<c:choose>
+		<c:when test="${fn:length(itemList) gt 0}">
+			<c:forEach var="items" items="${itemList}">
+				<c:choose>
+					<c:when test="${items.category.id==1 || items.category.parent.id==1}">
+						<%--Music Items--%>
+						<div class="row item music">
+							<div class="col-xs-4 col-sm-2 text-center left"><%--Left Column--%>
+								<div class="row">
+									<div class="col-xs-12 picture"><%--Image--%>
+										<c:choose>
+											<c:when test="${items.photoPath!=null}">
+												<img class="img-thumbnail" src="<c:url value='${contextPath}/resources/images/items/${items.photoPath}' />" />
+											</c:when>
+											<c:otherwise>
+												<img class="img-thumbnail" src="<c:url value='${noImage}' />" />
+											</c:otherwise>
+										</c:choose>
+									</div>
+									<div class="col-xs-12 info"><%--Info--%>
+										<c:if test="${items.place!=null}">
+											<span><i class="fa fa-database"></i>${items.place}</span>
+										</c:if>
+										<c:choose>
+											<c:when test="${items.discs!=null && items.discs>1}">
+												<c:set var="discs" value="${items.discs} Discs" />
+											</c:when>
+											<c:otherwise>
+												<c:set var="discs" value="1 Disc" />
+											</c:otherwise>
+										</c:choose>
+										<span><i class="fa fa-clone"></i>${discs}</span>
+										<security:authorize access="hasRole('Administrator')">
+											<a href="<c:url value='/admin/item/update/${items.id}' />">${editLabel}</a>
+										</security:authorize>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="thumbsRight">
-							<%-- Loop Through Artists & Check if Artists With Activity='Musician' Exist --%>
-							<c:set var="artistFound" value="0" />
-							<c:forEach var="loopArtists" items="${items.artistActivityItems}">
-								<c:if test="${loopArtists.idActivity.title=='Musician'}">
-									<c:set var="artistFound" value="1" />
-								</c:if>
-							</c:forEach>
-							<div class="title-main">	
-								<c:choose>
-									<c:when test="${artistFound==1}">
-										<c:set var="artistFound" value="0" />
-										<c:forEach var="loopArtists" items="${items.artistActivityItems}">
-											<c:if test="${loopArtists.idActivity.title=='Musician'}">
-												<c:if test="${artistFound==1}"> | </c:if>
-												<c:set var="artistFound" value="1" />
-												<a href="<c:url value='/item/list?artist=${loopArtists.idArtist.id}' />">${loopArtists.idArtist.title}</a>
-											</c:if>
-										</c:forEach>
-									</c:when>
-									<c:otherwise>
-										${noneListedLabel}
-									</c:otherwise>
-								</c:choose>
-							</div>
-							<%-- Loop Through Artists & Check if Artists With Activity='Conductor' Exist --%>
-							<c:set var="artistFound" value="0" />
-							<c:forEach var="loopArtists" items="${items.artistActivityItems}">
-								<c:if test="${loopArtists.idActivity.title=='Conductor'}">
-									<c:set var="artistFound" value="1" />
-								</c:if>
-							</c:forEach>
-							<!-- Conductors Row Only If Conductors Exist -->
-							<c:if test="${artistFound==1}">
-								<div class="title-main">
+							<div class="col-xs-8 col-sm-10 right"><%--Right Column--%>
+								<div class="row">
+									<%--Loop Through Artists & Check if Artists With Activity='Musician' Exist--%>
+									<c:set var="artistFound" value="0" />
+									<c:forEach var="loopArtists" items="${items.artistActivityItems}">
+										<c:if test="${loopArtists.idActivity.title=='Musician'}">
+											<c:set var="artistFound" value="1" />
+										</c:if>
+									</c:forEach>
+									<div class="col-xs-12 musician">	
+										<c:choose>
+											<c:when test="${artistFound==1}">
+												<h4>
+													<c:set var="artistFound" value="0" />
+													<c:forEach var="loopArtists" items="${items.artistActivityItems}">
+														<c:if test="${loopArtists.idActivity.title=='Musician'}">
+															<c:if test="${artistFound==1}"> | </c:if>
+															<c:set var="artistFound" value="1" />
+															<a href="<c:url value='/item/list?artist=${loopArtists.idArtist.id}' />">${loopArtists.idArtist.title}</a>
+														</c:if>
+													</c:forEach>
+												</h4>
+											</c:when>
+											<c:otherwise>
+												<h4>${noneListedLabel}</h4>
+											</c:otherwise>
+										</c:choose>
+									</div>
+									<%-- Loop Through Artists & Check if Artists With Activity='Conductor' Exist --%>
 									<c:set var="artistFound" value="0" />
 									<c:forEach var="loopArtists" items="${items.artistActivityItems}">
 										<c:if test="${loopArtists.idActivity.title=='Conductor'}">
-											<c:if test="${artistFound==1}"> | </c:if>
 											<c:set var="artistFound" value="1" />
-											<a href="<c:url value='/item/list?artist=${loopArtists.idArtist.id}' />">${loopArtists.idArtist.title}</a>
 										</c:if>
 									</c:forEach>
-									[ ${conductorsLabel} ]
-								</div>			
-							</c:if>			
-							<div class="title-sub">${items.titleEng} <c:if test="${items.year!=null}">(${items.year})</c:if></div>
-							<div class="tags">
-			  					<span class="tag">${items.category.title}</span>
-								<c:if test="${items.commentItems!=null}">
-									<c:forEach var="loopComments" items="${items.commentItems}">
-										<span class="tag short">${loopComments.idComment.title}</span>
-									</c:forEach>
-								</c:if>
-								<c:if test="${items.description!=null}">
-									<img id="descriptionImage" src="<c:url value='${contextPath}/resources/images/styles/document.png' />" title="${descriptionLabel}" />
-								</c:if>
-								<c:if test="${items.rating!=null}">
-									<img class="rating${items.rating}" src="<c:url value='${contextPath}/resources/images/styles/blank.gif' />" />
-								</c:if>
+									<!-- Conductors Row Only If Conductors Exist -->
+									<c:if test="${artistFound==1}">
+										<div class="col-xs-12 conductor">
+											<c:set var="artistFound" value="0" />
+											<c:forEach var="loopArtists" items="${items.artistActivityItems}">
+												<c:if test="${loopArtists.idActivity.title=='Conductor'}">
+													<c:if test="${artistFound==1}"> | </c:if>
+													<c:set var="artistFound" value="1" />
+													<a href="<c:url value='/item/list?artist=${loopArtists.idArtist.id}' />">${loopArtists.idArtist.title}</a>
+												</c:if>
+											</c:forEach>
+											<span>[ ${conductorsLabel} ]</span>
+										</div>
+									</c:if>
+									<div class="col-xs-12 title">
+										${items.titleEng} <c:if test="${items.year!=null}">(${items.year})</c:if>
+									</div>
+									<div class="col-xs-12">
+					  					<span class="category">
+					  						${items.category.title}
+					  					</span>
+										<c:if test="${items.commentItems!=null}">
+											<c:forEach var="loopComments" items="${items.commentItems}">
+												<span class="comment">${loopComments.idComment.title}</span>
+											</c:forEach>
+										</c:if>
+										<c:if test="${items.description!=null}">
+											<span class="description toggle"><i class="fa fa-file-text-o"></i>Description</span>
+										</c:if>
+										<c:if test="${items.rating!=null}">
+											<span class="rating rating${items.rating}"></span>
+										</c:if>
+									</div>
+									<div class="col-xs-12 description hidden">
+										${items.description}
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="description invisible">${items.description}</div>
-					</div>
-				</c:when>
-				<c:when test="${items.category.id==2 || items.category.parent.id==2}">
-					<!--  Film Items -->
-					<div class="itemContainer">
-						<div class="thumbsLeft">
-							<c:choose>
-								<c:when test="${items.photoPath!=null}">
-									<img class="photo taller" src="<c:url value='${contextPath}/resources/images/items/${items.photoPath}' />" />
-								</c:when>
-								<c:otherwise>
-									<img class="photo" src="<c:url value='${contextPath}/resources/images/items/no-image.png' />" />
-								</c:otherwise>
-							</c:choose>
-							<div class="info">
-								<c:if test="${items.subtitles!=null}">
-									<span>
+						</div>						
+					</c:when>
+					<c:when test="${items.category.id==2 || items.category.parent.id==2}">
+						<%--Film Items--%>
+						<div class="row item music">
+							<div class="col-xs-4 col-sm-2 text-center left"><%--Left Column--%>
+								<div class="row">
+									<div class="col-xs-12 picture"><%--Image--%>
 										<c:choose>
-											<c:when test="${items.subtitles.id==1}">
-												<img src="<c:url value='${contextPath}/resources/images/styles/x.png' />" title="${noSubsLabel}" />
-											</c:when>
-											<c:when test="${items.subtitles.id==2}">
-												<img src="<c:url value='${contextPath}/resources/images/styles/greece.gif' />" title="${greekSubsLabel}" />
+											<c:when test="${items.photoPath!=null}">
+												<img class="img-thumbnail" src="<c:url value='${contextPath}/resources/images/items/${items.photoPath}' />" />
 											</c:when>
 											<c:otherwise>
-												<img src="<c:url value='${contextPath}/resources/images/styles/usa.gif' />" title="${englishSubsLabel}" />
+												<img class="img-thumbnail" src="<c:url value='${noImage}' />" />
 											</c:otherwise>
 										</c:choose>
-									</span>
-								</c:if>
-								<c:if test="${items.place!=null}">
-									<span><img src="<c:url value='${contextPath}/resources/images/styles/database.png' />" />${items.place}</span>
-								</c:if>
-								<c:choose>
-									<c:when test="${items.discs!=null && items.discs>1}"><c:set var="discs" value="${items.discs} Discs" /></c:when>
-									<c:otherwise><c:set var="discs" value="1 Disc" /></c:otherwise>
-								</c:choose>
-								<span><img src="<c:url value='${contextPath}/resources/images/styles/disk.png' />" />${discs}</span>
-								<security:authorize access="hasRole('Administrator')">
-									<span><a class="edit" href="<c:url value='update/${items.id}' />">${editLabel}</a></span>
-								</security:authorize>
+									</div>
+									<div class="col-xs-12 info"><%--Info--%>
+										<c:if test="${items.subtitles!=null}">
+											<c:choose>
+												<c:when test="${items.subtitles.id==1}">
+													<img class="language" src="<c:url value='${contextPath}/resources/images/styles/x.png' />" title="${noSubsLabel}" />
+												</c:when>
+												<c:when test="${items.subtitles.id==2}">
+													<img class="language" src="<c:url value='${contextPath}/resources/images/styles/greece.gif' />" title="${greekSubsLabel}" />
+												</c:when>
+												<c:otherwise>
+													<img class="language" src="<c:url value='${contextPath}/resources/images/styles/usa.gif' />" title="${englishSubsLabel}" />
+												</c:otherwise>
+											</c:choose>
+										</c:if>
+										<c:if test="${items.place!=null}">
+											<span><i class="fa fa-database"></i>${items.place}</span>
+										</c:if>
+										<c:choose>
+											<c:when test="${items.discs!=null && items.discs>1}"><c:set var="discs" value="${items.discs} Discs" /></c:when>
+											<c:otherwise><c:set var="discs" value="1 Disc" /></c:otherwise>
+										</c:choose>
+										<span><i class="fa fa-clone"></i>${discs}</span>
+										<security:authorize access="hasRole('Administrator')">
+											<a href="<c:url value='update/${items.id}' />">${editLabel}</a>
+										</security:authorize>
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="thumbsRight">
-							<div class="title-main">${items.titleEng} <c:if test="${items.year!=null}">(${items.year})</c:if></div>
-							<c:if test="${items.titleEll!=null}"><div class="title-sub">${items.titleEll}</div></c:if>		
-							<div class="tags">
-								<span class="tag">${items.category.title}</span>
-								<c:if test="${items.commentItems!=null}">
-									<c:forEach var="loopComments" items="${items.commentItems}">
-										<span class="tag short">${loopComments.idComment.title}</span>
+							<div class="col-xs-8 col-sm-10 right"><%--Right Column--%>
+								<div class="row">
+									<div class="col-xs-12 title">
+										<h4>${items.titleEng} <c:if test="${items.year!=null}">(${items.year})</c:if></h4>
+									</div>
+									<c:if test="${items.titleEll!=null}">
+										<div class="col-xs-12 subtitle">
+											<h5>${items.titleEll}</h5>
+										</div>
+									</c:if>
+									<div class="col-xs-12">
+										<span class="category">${items.category.title}</span>
+										<c:if test="${items.commentItems!=null}">
+											<c:forEach var="loopComments" items="${items.commentItems}">
+												<span class="comment">${loopComments.idComment.title}</span>
+											</c:forEach>
+										</c:if>
+										<c:if test="${items.description!=null}">
+											<span class="description toggle"><i class="fa fa-file-text-o"></i>Description</span>
+										</c:if>
+										<c:if test="${items.rating!=null}">
+											<span class="rating rating${items.rating}"></span>
+										</c:if>
+									</div>
+									<%--Loop Through Artists & Check if Artists With Activity='Director' Exist--%>
+									<c:set var="artistFound" value="0" />
+									<c:forEach var="loopArtists" items="${items.artistActivityItems}">
+										<c:if test="${loopArtists.idActivity.title=='Director'}">
+											<c:set var="artistFound" value="1" />
+										</c:if>
 									</c:forEach>
-								</c:if>
-								<c:if test="${items.description!=null}">
-									<img id="descriptionImage" src="<c:url value='${contextPath}/resources/images/styles/document.png' />" title="${descriptionLabel}" />
-								</c:if>
-								<c:if test="${items.rating!=null}">
-									<img class="rating${items.rating}" src="<c:url value='${contextPath}/resources/images/styles/blank.gif' />" />
-								</c:if>
-							</div>
-							<%-- Loop Through Artists & Check if Artists With Activity='Director' Exist --%>
-							<c:set var="artistFound" value="0" />
-							<c:forEach var="loopArtists" items="${items.artistActivityItems}">
-								<c:if test="${loopArtists.idActivity.title=='Director'}">
-									<c:set var="artistFound" value="1" />
-								</c:if>
-							</c:forEach>
-							<div class="film"><!-- Director Row Always Present -->
-								<div>${directorsLabel} :</div>
-								<c:choose>
-									<c:when test="${artistFound==1}">
-										<c:set var="artistFound" value="0" />
-										<c:forEach var="loopArtists" items="${items.artistActivityItems}">
-											<c:if test="${loopArtists.idActivity.title=='Director'}">
-												<c:if test="${artistFound==1}"> | </c:if>
-												<c:set var="artistFound" value="1" />
-												<a href="<c:url value='/item/list?artist=${loopArtists.idArtist.id}' />">${loopArtists.idArtist.title}</a>
-											</c:if>
-										</c:forEach>
-									</c:when>
-									<c:otherwise>
-										${noneListedLabel}
-									</c:otherwise>
-								</c:choose>
-							</div>
-							<%-- Loop Through Artists & Check if Artists With Activity='Actor' Exist --%>
-							<c:set var="artistFound" value="0" />
-							<c:forEach var="loopArtists" items="${items.artistActivityItems}">
-								<c:if test="${loopArtists.idActivity.title=='Actor'}">
-									<c:set var="artistFound" value="1" />
-								</c:if>
-							</c:forEach>
-							<div class="film"><!-- Actor Row Always Present -->
-								<div>${actorsLabel} : </div>
-								<c:choose>
-									<c:when test="${artistFound==1}">
-										<c:set var="artistFound" value="0" />
-										<c:forEach var="loopArtists" items="${items.artistActivityItems}">
-											<c:if test="${loopArtists.idActivity.title=='Actor'}">
-												<c:if test="${artistFound==1}"> | </c:if>
-												<c:set var="artistFound" value="1" />
-												<a href="<c:url value='/item/list?artist=${loopArtists.idArtist.id}' />">${loopArtists.idArtist.title}</a>
-											</c:if>
-										</c:forEach>
-									</c:when>
-									<c:otherwise>
-										${noneListedLabel}
-									</c:otherwise>
-								</c:choose>
+									<%--Director Row--%>
+									<div class="col-xs-12 director">
+										<div class="row">
+											<div class="col-xs-12 col-sm-1 activity">
+												${directorsLabel} :
+											</div>
+											<div class="col-xs-12 col-sm-11">
+												<c:choose>
+													<c:when test="${artistFound==1}">
+														<c:set var="artistFound" value="0" />
+														<c:forEach var="loopArtists" items="${items.artistActivityItems}">
+															<c:if test="${loopArtists.idActivity.title=='Director'}">
+																<c:if test="${artistFound==1}"> | </c:if>
+																<c:set var="artistFound" value="1" />
+																<a href="<c:url value='/item/list?artist=${loopArtists.idArtist.id}' />">${loopArtists.idArtist.title}</a>
+															</c:if>
+														</c:forEach>
+													</c:when>
+													<c:otherwise>
+														${noneListedLabel}
+													</c:otherwise>
+												</c:choose>
+											</div>
+										</div>
+									</div>
+									<%--Loop Through Artists & Check if Artists With Activity='Actor' Exist--%>
+									<c:set var="artistFound" value="0" />
+									<c:forEach var="loopArtists" items="${items.artistActivityItems}">
+										<c:if test="${loopArtists.idActivity.title=='Actor'}">
+											<c:set var="artistFound" value="1" />
+										</c:if>
+									</c:forEach>
+									<div class="col-xs-12 actor"><%--Actor Row Always Present--%>
+										<div class="row">
+											<div class="col-xs-12 col-sm-1 activity">
+												${actorsLabel} : 
+											</div>
+											<div class="col-xs-12 col-sm-11">
+												<c:choose>
+													<c:when test="${artistFound==1}">
+														<c:set var="artistFound" value="0" />
+														<c:forEach var="loopArtists" items="${items.artistActivityItems}">
+															<c:if test="${loopArtists.idActivity.title=='Actor'}">
+																<c:if test="${artistFound==1}"> | </c:if>
+																<c:set var="artistFound" value="1" />
+																<a href="<c:url value='/item/list?artist=${loopArtists.idArtist.id}' />">${loopArtists.idArtist.title}</a>
+															</c:if>
+														</c:forEach>
+													</c:when>
+													<c:otherwise>
+														${noneListedLabel}
+													</c:otherwise>
+												</c:choose>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 description hidden">
+										${items.description}
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="description invisible">${items.description}</div>
-					</div>
-				</c:when>
-			</c:choose>
-		</c:forEach>
-	</c:when>
-	<c:otherwise>
-		<p>${noResultsLabel}</p>
-	</c:otherwise>
-</c:choose>
+					</c:when>
+				</c:choose>
+			</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<p>${noResultsLabel}</p>
+		</c:otherwise>
+	</c:choose>
+</div>

@@ -1,3 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<h1><spring:message code="label.denied" /></h1>
-<p><spring:message code="message.denied" /></p>
+<spring:message var="deniedLabel" code="label.denied" />
+<spring:message var="deniedMessage" code="message.denied" />
+<div class="content">
+	<h3><spring:message code="${deniedLabel}" /></h3>
+	<p><spring:message code="${deniedMessage}" /></p>
+</div>

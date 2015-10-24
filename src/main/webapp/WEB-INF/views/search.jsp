@@ -5,13 +5,17 @@
 <spring:message var="musicLabel" code='label.music' />
 <spring:message var="filmsLabel" code='label.films' />
 <spring:message var="artistLabel" code='label.artist' />
-<form class="search-form" method="get" action="<c:url value="/item/list" />" >
-	<input type="text" name="searchFor" id="searchFor" placeholder="${searchLabel}" />
-	<select name="searchIn">
-		<option value="">${selectLabel}</option>
-		<option value="${musicLabel}">${musicLabel}</option>
-		<option value="${filmsLabel}">${filmsLabel}</option>
-		<option value="${artistLabel}">${artistLabel}</option>
-	</select>
-	<input type="button" value="" class="submitImage" onclick="validateSearchFor()" />
+<form class="navbar-form navbar-right" id="searchForm" role="search" method="get" action="<c:url value="/item/list" />">
+    <div class="form-group">
+		<input type="text" name="searchFor" id="searchFor" class="form-control" placeholder="${searchLabel}">
+	</div>
+	<div class="form-group">
+		<select name="searchIn" id="searchIn" class="form-control">
+			<option value="">${selectLabel}</option>
+			<option value="${musicLabel}">${musicLabel}</option>
+			<option value="${filmsLabel}">${filmsLabel}</option>
+			<option value="${artistLabel}">${artistLabel}</option>
+		</select>
+	</div>
+	<button type="submit" class="btn btn-default">Search</button>
 </form>

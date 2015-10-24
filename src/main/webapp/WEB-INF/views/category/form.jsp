@@ -10,28 +10,26 @@
 <spring:message var="deleteLabel" code="label.delete" />
 <spring:message var="confirmLabel" code="label.delete.confirm" />
 <spring:message var="confirmMessage" code="label.category.delete.confirm" />
-<form:form action="." modelAttribute="category">
-	<h1>${pageTitle}</h1>
-	<div><form:hidden path="id" /></div>
-	<fieldset>
-		<legend>${detailsLabel}</legend>
-		<div>
+<div class="content">
+	<h3>${pageTitle}</h3>
+	<form:form action="." modelAttribute="category">
+		<form:hidden path="id" />
+		<div class="form-group">
 			<form:label path="title">${titleLabel}</form:label>
-			<form:input path="title" placeholder="${titleLabel}" />
+			<form:input path="title" class="form-control" placeholder="${titleLabel}" />
 			<form:errors path="title" class="errors" />
 		</div>
-		<div>
+		<div class="form-group">
 			<form:label path="parent">${parentLabel}</form:label>
-			<form:select path="parent">
+			<form:select path="parent" class="form-control">
 				<form:option value="" label="${parentSelectLabel}" />			
 				<form:options items="${selectParent}" itemValue="id" itemLabel="title" />
 			</form:select>
 			<form:errors path="parent" class="errors" />
 		</div>
-	</fieldset>
-	<div class="centered addPadding">
-		<input type="submit" value="${submitLabel}" class="btn" />
-		<c:if test="${category.id!=null}"><a href="<c:url value='/category/delete/${category.id}' />" class="btn dialog-confirm" data-open="category-edit-delete">${deleteLabel}</a></c:if>
-	</div>
-</form:form>
-<div class="dialog" id="category-edit-delete" title="${confirmLabel}"><p>${confirmMessage}</p></div>
+		<button class="btn btn-lg btn-primary" type="submit">${submitLabel}</button>
+		<c:if test="${category.id!=null}">
+			<a href="<c:url value='/admin/category/delete/${category.id}' />" class="btn btn-danger btn-lg confirm-dialog" role="button" role="button" dialog="${confirmMessage}" accept="${confirmLabel}">${deleteLabel}</a>
+		</c:if>
+	</form:form>
+</div>

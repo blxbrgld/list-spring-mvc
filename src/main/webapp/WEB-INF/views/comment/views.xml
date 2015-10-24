@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
-       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-  <definition extends="default" name="comment/list">
-    <put-attribute name="title" value="List Of Comments" />
-    <put-attribute name="body" value="/WEB-INF/views/comment/list.jsp" />
-    <put-attribute name="sidebar" value="/WEB-INF/views/comment/sidebar.jsp" />
-  </definition>
-  <definition extends="default" name="comment/form">
-  	<put-attribute name="title" value="Create | Update Comment" />
-  	<put-attribute name="body" value="/WEB-INF/views/comment/form.jsp" />
-  	<put-attribute name="sidebar" value="/WEB-INF/views/comment/sidebar.jsp" />
-  </definition>
+  	<definition extends="default" name="comment/list">
+    	<put-attribute name="title" value="List Of Comments" />
+    	<put-attribute name="body" value="/WEB-INF/views/comment/list.jsp" />
+    	<put-attribute name="sidebar" value="/WEB-INF/views/comment/sidebar.jsp" />
+  	</definition>
+  	<definition extends="default" name="comment/form">
+  		<put-attribute name="title" value="Create | Update Comment" />
+  		<put-attribute name="body" value="/WEB-INF/views/comment/form.jsp" />
+  		<put-attribute name="sidebar" value="/WEB-INF/views/comment/sidebar.jsp" />
+  	</definition>
 </tiles-definitions>

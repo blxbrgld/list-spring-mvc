@@ -28,150 +28,154 @@
 <spring:message var="deleteLabel" code="label.delete" />
 <spring:message var="confirmLabel" code="label.delete.confirm" />
 <spring:message var="confirmMessage" code="label.item.delete.confirm" />
-<form:form action="." modelAttribute="item" enctype="multipart/form-data">
-	<h1>${pageTitle}</h1>
-	<div><form:hidden path="id" /></div>
-	<fieldset>
-		<legend>${categoryLabel}</legend>
-		<div>
-			<form:label path="category">${categoryLabel}</form:label>
-			<form:select path="category">
-				<form:option value="" label="${categorySelectLabel}" />			
-				<form:options items="${selectCategory}" itemValue="id" itemLabel="title" />
-			</form:select>
-			<form:errors path="category" class="errors" />
-		</div>
-	</fieldset>
-	<fieldset>
-		<legend>${detailsLabel}</legend>
-		<div>
-			<form:label path="titleEng">${titleEngLabel}</form:label>
-			<form:input path="titleEng" placeholder="${titleEngLabel}" />
-			<form:errors path="titleEng" class="errors" />
-		</div>
-		<div>
-			<form:label path="titleEll">${titleEllLabel}</form:label>
-			<form:input path="titleEll" placeholder="${titleEllLabel}" />
-			<form:errors path="titleEll" class="errors" />
-		</div>
-		<div>
-			<form:label path="year">${yearLabel}</form:label>
-			<form:input path="year" placeholder="${yearLabel}" />
-			<form:errors path="year" class="errors" />
-		</div>		
-		<div>
-			<form:label path="place">${placeLabel}</form:label>
-			<form:input path="place" placeholder="${placeLabel}" />
-			<form:errors path="place" class="errors" />
-		</div>		
-		<div>
-			<form:label path="discs">${discsLabel}</form:label>
-			<form:input path="discs" placeholder="${discsLabel}" />
-			<form:errors path="discs" class="errors" />
-		</div>		
-		<div>
-			<form:label path="subtitles">${subtitlesLabel}</form:label>
-			<form:select path="subtitles">
-				<form:option value="" label="${subtitlesSelectLabel}" />			
-				<form:options items="${selectSubtitles}" itemValue="id" itemLabel="title" />
-			</form:select>
-			<form:errors path="subtitles" class="errors" />
-		</div>	
-		<div>
-			<form:label path="rating">${ratingLabel}</form:label>
-			<form:select path="rating">
-				<form:option value="" label="${ratingSelectLabel}" />			
-				<form:options items="${selectRating}" />
-			</form:select>
-			<form:errors path="rating" class="errors" />
-		</div>
-		<div>
-			<form:label path="description">${descriptionLabel}</form:label>
-			<div class="textarea"><form:textarea path="description" /></div>
-			<form:errors path="description" class="errors" />
-		</div>		
-	</fieldset>
-	<!-- Artist / Activities -->
-	<fieldset>
-		<legend>${artistsLabel}</legend>
-		<form:errors path="artistActivityItems" element="div" class="errors" />
-		<!-- Hidden Div To Clone As Response To 'Add Artist' Event -->
-		<div id="hiddenArtist" class="invisible">
-			<label for="artist">${artistLabel}</label>
-			<input name="artists" type="text" value="" class="shortInput autoComplete" />
-			<select name="activities">
-				<option value="">${activitySelectLabel}</option>
-				<c:forEach var="ai" items="${selectActivity}">
-					<option value="${ai.id}">${ai.title}</option>
-				</c:forEach>
-			</select>
-			<a class="deleteArtist btn btnSmall">${deleteLabel}</a>
-		</div>
-		<c:forEach var="loopArtists" items="${item.artistActivityItems}" varStatus="loop">
-			<div>
-				<label for="artist">${artistLabel}</label>
-				<input name="artists" type="text" value="${loopArtists.idArtist.title}" class="shortInput autoComplete" />
-				<select name="activities">
+<div class="content">
+	<h3>${pageTitle}</h3>
+	<form:form action="." modelAttribute="item" enctype="multipart/form-data">
+		<form:hidden path="id" />
+		<fieldset>
+			<legend>${categoryLabel}</legend>
+			<div class="form-group">
+				<form:label path="category">${categoryLabel}</form:label>
+				<form:select path="category" class="form-control">
+					<form:option value="" label="${categorySelectLabel}" />			
+					<form:options items="${selectCategory}" itemValue="id" itemLabel="title" />
+				</form:select>
+				<form:errors path="category" class="errors" />
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>${detailsLabel}</legend>
+			<div class="form-group">
+				<form:label path="titleEng">${titleEngLabel}</form:label>
+				<form:input path="titleEng" class="form-control" placeholder="${titleEngLabel}" />
+				<form:errors path="titleEng" class="errors" />
+			</div>
+			<div class="form-group">
+				<form:label path="titleEll">${titleEllLabel}</form:label>
+				<form:input path="titleEll" class="form-control" placeholder="${titleEllLabel}" />
+				<form:errors path="titleEll" class="errors" />
+			</div>
+			<div class="form-group">
+				<form:label path="year">${yearLabel}</form:label>
+				<form:input path="year" class="form-control" placeholder="${yearLabel}" />
+				<form:errors path="year" class="errors" />
+			</div>		
+			<div class="form-group">
+				<form:label path="place">${placeLabel}</form:label>
+				<form:input path="place" class="form-control" placeholder="${placeLabel}" />
+				<form:errors path="place" class="errors" />
+			</div>		
+			<div class="form-group">
+				<form:label path="discs">${discsLabel}</form:label>
+				<form:input path="discs" class="form-control" placeholder="${discsLabel}" />
+				<form:errors path="discs" class="errors" />
+			</div>		
+			<div class="form-group">
+				<form:label path="subtitles">${subtitlesLabel}</form:label>
+				<form:select path="subtitles" class="form-control">
+					<form:option value="" label="${subtitlesSelectLabel}" />			
+					<form:options items="${selectSubtitles}" itemValue="id" itemLabel="title" />
+				</form:select>
+				<form:errors path="subtitles" class="errors" />
+			</div>	
+			<div class="form-group">
+				<form:label path="rating">${ratingLabel}</form:label>
+				<form:select path="rating" class="form-control">
+					<form:option value="" label="${ratingSelectLabel}" />			
+					<form:options items="${selectRating}" />
+				</form:select>
+				<form:errors path="rating" class="errors" />
+			</div>
+			<div class="form-group">
+				<form:label path="description">${descriptionLabel}</form:label>
+				<form:textarea path="description" class="form-control textarea" rows="10" placeholder="${descriptionLabel}" />
+				<form:errors path="description" class="errors" />
+			</div>		
+		</fieldset>
+		<%--Artists/Activities--%>
+		<fieldset>
+			<legend>${artistsLabel}</legend>
+			<form:errors path="artistActivityItems" element="div" class="errors" />
+			<%--Hidden Div To Clone As Response To 'Add Artist' Event--%>
+			<div id="hiddenArtist" class="form-group clearfix hidden itemArtists">
+				<input name="artists" type="text" value="" class="form-control autoComplete" placeholder="${artistLabel}" />
+				<select name="activities" class="form-control">
 					<option value="">${activitySelectLabel}</option>
 					<c:forEach var="ai" items="${selectActivity}">
-						<option <c:if test="${loopArtists.idActivity.id==ai.id}">selected='selected'</c:if> value="${ai.id}">${ai.title}</option>
+						<option value="${ai.id}">${ai.title}</option>
 					</c:forEach>
 				</select>
-				<a class="deleteArtist btn btnSmall">${deleteLabel}</a>
+				<a class="deleteArtist btn btn-danger" role="button">${deleteLabel}</a>
 			</div>
-		</c:forEach>
-		<div id="addArtistDiv" class="centered addPadding"><a id="addArtist" class="btn">${addArtistLabel}</a></div>
-	</fieldset>
-	<!-- Comments -->
-	<fieldset>
-		<legend>${commentsLabel}</legend>
-		<form:errors path="commentItems" element="div" class="errors" />
-		<!-- Hidden Div To Clone As Response To 'Add Comments' Event -->
-		<div id="hiddenComment" class="invisible">
-			<label for="comment">${commentLabel}</label>
-			<select name="comments">
-				<option value="">${commentSelectLabel}</option>
-				<c:forEach var="ci" items="${selectComment}">
-					<option value="${ci.id}">${ci.title}</option>
-				</c:forEach>
-			</select>
-			<a class="deleteComment btn btnSmall">${deleteLabel}</a>
-		</div>
-		<c:forEach var="loopComments" items="${item.commentItems}" varStatus="loop">
-			<div>
-				<label for="comment">${commentLabel}</label>
-				<select name="comments">
+			<c:forEach var="loopArtists" items="${item.artistActivityItems}" varStatus="loop">
+				<div class="form-group clearfix itemArtists">
+					<input name="artists" type="text" value="<c:out value='${loopArtists.idArtist.title}' />" class="form-control autoComplete" placeholder="${artistLabel}" />
+					<select name="activities" class="form-control">
+						<option value="">${activitySelectLabel}</option>
+						<c:forEach var="ai" items="${selectActivity}">
+							<option <c:if test="${loopArtists.idActivity.id==ai.id}">selected='selected'</c:if> value="${ai.id}">${ai.title}</option>
+						</c:forEach>
+					</select>
+					<a class="deleteArtist btn btn-danger" role="button">${deleteLabel}</a>
+				</div>
+			</c:forEach>
+			<div id="addArtistDiv" class="text-center"><%--Placeholder--%>
+				<a id="addArtist" class="btn btn-primary btn-lg" role="button">${addArtistLabel}</a>
+			</div>
+		</fieldset>
+		<%--Comments--%>
+		<fieldset>
+			<legend>${commentsLabel}</legend>
+			<form:errors path="commentItems" element="div" class="errors" />
+			<%--Hidden Div To Clone As Response To 'Add Comments' Event--%>
+			<div id="hiddenComment" class="form-group clearfix hidden itemComments">
+				<select name="comments" class="form-control">
 					<option value="">${commentSelectLabel}</option>
 					<c:forEach var="ci" items="${selectComment}">
-						<option <c:if test="${loopComments.idComment.id==ci.id}">selected='selected'</c:if> value="${ci.id}">${ci.title}</option>
+						<option value="${ci.id}">${ci.title}</option>
 					</c:forEach>
 				</select>
-				<a class="deleteComment btn btnSmall">${deleteLabel}</a>
+				<a class="deleteComment btn btn-danger" role="button">${deleteLabel}</a>
 			</div>
-		</c:forEach>
-		<div id="addCommentDiv" class="centered addPadding"><a id="addComment" class="btn">${addCommentLabel}</a></div>		
-	</fieldset>
-	<fieldset>
-		<legend>${photoLabel}</legend>
-		<!-- Display Current Photo On Update and Input For Uploading A New One -->
-		<c:choose>
-			<c:when test="${item.id!=null}">
-				<div><img src="${item.id}/photo" /></div>
-			</c:when>
-			<c:otherwise>
-				<img src="<c:url value='${contextPath}/resources/images/items/no-image.png' />" />
-			</c:otherwise>
-		</c:choose>
-		<div>
-			<form:hidden path="photoPath" class="addPadding" />
-			<form:label path="photo"></form:label>
-			<form:input path="photo" type="file" />
-		</div>
-		<form:errors path="photo" element="div" class="errors" />
-	</fieldset>
-	<div class="centered addPadding">
-		<input type="submit" value="${submitLabel}" class="btn" />
-		<c:if test="${item.id!=null}"><a href="<c:url value='/item/delete/${item.id}' />" class="btn dialog-confirm" data-open="item-edit-delete">${deleteLabel}</a></c:if>
-	</div>
-</form:form>
-<div class="dialog" id="item-edit-delete" title="${confirmLabel}"><p>${confirmMessage}</p></div>
+			<c:forEach var="loopComments" items="${item.commentItems}" varStatus="loop">
+				<div class="form-group clearfix itemComments">
+					<select name="comments" class="form-control">
+						<option value="">${commentSelectLabel}</option>
+						<c:forEach var="ci" items="${selectComment}">
+							<option <c:if test="${loopComments.idComment.id==ci.id}">selected='selected'</c:if> value="${ci.id}">${ci.title}</option>
+						</c:forEach>
+					</select>
+					<a class="deleteComment btn btn-danger" role="button">${deleteLabel}</a>
+				</div>
+			</c:forEach>
+			<div id="addCommentDiv" class="text-center"><%--Placeholder--%>
+				<a id="addComment" class="btn btn-primary btn-lg" role="button">${addCommentLabel}</a>
+			</div>		
+		</fieldset>
+		<%--Photo--%>
+		<fieldset>
+			<legend>${photoLabel}</legend>
+			<!-- Display Current Photo On Update and Input For Uploading A New One -->
+			<div class="form-group">
+				<c:choose>
+					<c:when test="${item.id!=null}">
+						<img src="${item.id}/photo" class="img-thumbnail" />
+					</c:when>
+					<c:otherwise>
+						<img src="<c:url value='${noImage}' />" class="img-thumbnail" />
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="form-group">
+				<form:hidden path="photoPath" class="addPadding" />
+				<form:label path="photo">Upload Photo</form:label>
+				<form:input path="photo" type="file" />
+			</div>
+			<form:errors path="photo" element="div" class="errors" />
+		</fieldset>
+		<button class="btn btn-lg btn-primary" type="submit">${submitLabel}</button>
+		<c:if test="${item.id!=null}">
+			<a href="<c:url value='/admin/item/delete/${item.id}' />" class="btn btn-danger btn-lg confirm-dialog" role="button" dialog="${confirmMessage}" accept="${confirmLabel}">${deleteLabel}</a>
+		</c:if>
+	</form:form>
+</div>

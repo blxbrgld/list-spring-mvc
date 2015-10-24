@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
-       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-  <definition extends="default" name="artist/list">
-    <put-attribute name="title" value="List Of Artists" />
-    <put-attribute name="body" value="/WEB-INF/views/artist/list.jsp" />
-    <put-attribute name="sidebar" value="/WEB-INF/views/artist/sidebar.jsp" />
-    <put-attribute name="pagination" value="/WEB-INF/views/pagination.jsp" />
-  </definition>
-  <definition extends="default" name="artist/form">
-  	<put-attribute name="title" value="Create | Update Artist" />
-  	<put-attribute name="body" value="/WEB-INF/views/artist/form.jsp" />
-  	<put-attribute name="sidebar" value="/WEB-INF/views/artist/sidebar.jsp" />
-  </definition>
+  	<definition extends="default" name="artist/list">
+    	<put-attribute name="title" value="List Of Artists" />
+    	<put-attribute name="body" value="/WEB-INF/views/artist/list.jsp" />
+    	<put-attribute name="sidebar" value="/WEB-INF/views/artist/sidebar.jsp" />
+    	<put-attribute name="pagination" value="/WEB-INF/views/pagination.jsp" />
+  	</definition>
+  	<definition extends="default" name="artist/form">
+  		<put-attribute name="title" value="Create | Update Artist" />
+  		<put-attribute name="body" value="/WEB-INF/views/artist/form.jsp" />
+  		<put-attribute name="sidebar" value="/WEB-INF/views/artist/sidebar.jsp" />
+  	</definition>
 </tiles-definitions>

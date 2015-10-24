@@ -10,28 +10,35 @@
 <spring:message var="editLabel" code="label.edit" />
 <spring:message var="confirmLabel" code="label.delete.confirm" />
 <spring:message var="confirmMessage" code="label.artist.delete.confirm" />
-<h1>${pageTitle}</h1>
-<table class="table-view">
-	<tr>
-		<th>${idLabel}</th>
-		<th>
-			${titleLabel}
-			<a href="<c:url value='list?property=title&order=ASC' />" title="${ascLabel}"><img src="<c:url value='${contextPath}/resources/images/styles/darr.png' />" /></a>	
-			<a href="<c:url value='list?property=title&order=DESC' />" title="${descLabel}"><img src="<c:url value='${contextPath}/resources/images/styles/uarr.png' />" /></a>	
-		</th>
-		<th>${dateLabel}</th>
-		<th>&nbsp;</th>
-	</tr>
-	<c:forEach var="artists" items="${artistList}">
-		<tr>
-			<td><c:out value="${artists.id}" /></td>
-			<td><c:out value="${artists.title}" /></td>
-			<td><spring:eval expression="artists.dateUpdated" /></td>
-			<td>
-				<a href="<c:url value='update/${artists.id}' />" title="${editLabel}"><img src="<c:url value='${contextPath}/resources/images/styles/edit.png' />" /></a>
-				<a href="<c:url value='delete/${artists.id}' />" title="${deleteLabel}" class="dialog-confirm" data-open="artist-list-delete"><img src="<c:url value='${contextPath}/resources/images/styles/delete.png' />" /></a>
-			</td>
-		</tr>
-	</c:forEach>
-</table>
-<div class="dialog" id="artist-list-delete" title="${confirmLabel}"><p>${confirmMessage}</p></div>
+<div class="content">
+	<h3>${pageTitle}</h3>
+	<div class="table-responsive">
+  		<table class="table table-striped">
+  			<thead>
+				<tr>
+					<th class="hidden-xs">${idLabel}</th>
+					<th>
+						${titleLabel}
+						<a href="<c:url value='list?property=title&order=ASC' />" title="${ascLabel}"><i class="fa fa-arrow-down"></i></a>	
+						<a href="<c:url value='list?property=title&order=DESC' />" title="${descLabel}"><i class="fa fa-arrow-up"></i></a>	
+					</th>
+					<th class="hidden-xs">${dateLabel}</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="artists" items="${artistList}">
+					<tr>
+						<td class="hidden-xs"><c:out value="${artists.id}" /></td>
+						<td><c:out value="${artists.title}" /></td>
+						<td class="hidden-xs"><spring:eval expression="artists.dateUpdated" /></td>
+						<td class="text-center text-nowrap">
+							<a href="<c:url value='update/${artists.id}' />" title="${editLabel}"><i class="fa fa-pencil-square-o"></i></a>
+							<a href="<c:url value='delete/${artists.id}' />" title="${deleteLabel}" class="confirm-dialog" role="button" dialog="${confirmMessage}" accept="${confirmLabel}"><i class="fa fa-times"></i></a>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+</div>

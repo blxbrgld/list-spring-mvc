@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
-       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-  <definition name="default" template="/WEB-INF/layouts/default.jsp">
-    <put-attribute name="menu" value="/WEB-INF/views/menu.jsp" />
-    <put-attribute name="search" value="/WEB-INF/views/search.jsp" />
-    <put-attribute name="administrator" value="/WEB-INF/views/administrator.jsp" />
-    <put-attribute name="credentials" value="/WEB-INF/views/credentials.jsp" />
-    <put-attribute name="wallpaper" value="/WEB-INF/views/wallpaper.jsp" />
-    <put-attribute name="sidebar" value="/WEB-INF/views/sidebar.jsp" />
-    <put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
-  </definition>
+	<definition name="default" template="/WEB-INF/layouts/default.jsp">
+    	<put-attribute name="menu" value="/WEB-INF/views/menu.jsp" />
+    	<put-attribute name="credentials" value="/WEB-INF/views/credentials.jsp" />
+    	<put-attribute name="wallpaper" value="/WEB-INF/views/wallpaper.jsp" />
+    	<put-attribute name="sidebar" value="/WEB-INF/views/sidebar.jsp" />
+    	<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
+  	</definition>
 </tiles-definitions>

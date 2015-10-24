@@ -8,20 +8,18 @@
 <spring:message var="deleteLabel" code="label.delete" />
 <spring:message var="confirmLabel" code="label.delete.confirm" />
 <spring:message var="confirmMessage" code="label.subtitles.delete.confirm" />
-<form:form action="." modelAttribute="subtitles">
-	<h1>${pageTitle}</h1>
-	<div><form:hidden path="id" /></div>
-	<fieldset>
-		<legend>${detailsLabel}</legend>
-		<div>
+<div class="content">
+	<h3>${pageTitle}</h3>
+	<form:form action="." modelAttribute="subtitles">
+		<form:hidden path="id" />		
+		<div class="form-group">
 			<form:label path="title">${titleLabel}</form:label>
-			<form:input path="title" placeholder="${titleLabel}" />
+			<form:input path="title" class="form-control" placeholder="${titleLabel}" />
 			<form:errors path="title" class="errors" />
 		</div>
-	</fieldset>
-	<div class="centered addPadding">
-		<input type="submit" value="${submitLabel}" class="btn" />
-		<c:if test="${subtitles.id!=null}"><a href="<c:url value='/subtitles/delete/${subtitles.id}' />" class="btn dialog-confirm" data-open="subtitles-edit-delete">${deleteLabel}</a></c:if>
-	</div>
-</form:form>
-<div class="dialog" id="subtitles-edit-delete" title="${confirmLabel}"><p>${confirmMessage}</p></div>
+		<button class="btn btn-lg btn-primary" type="submit">${submitLabel}</button>
+		<c:if test="${subtitles.id!=null}">
+			<a href="<c:url value='/admin/subtitles/delete/${subtitles.id}' />" class="btn btn-danger btn-lg confirm-dialog" role="button" dialog="${confirmMessage}" accept="${confirmLabel}">${deleteLabel}</a>
+		</c:if>
+	</form:form>
+</div>

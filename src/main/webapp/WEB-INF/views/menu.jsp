@@ -10,30 +10,63 @@
 <spring:message var="subtitlesLabel" code="label.subtitles" />
 <spring:message var="usersLabel" code="label.user.plural" />
 <spring:message var="editLabel" code="label.edit" />
-<spring:message var="moreLabel" code="label.more" />
-<ul class='menu' id='jMenu'>
-	<li><a href="<c:url value='/' />">${homeLabel}</a></li>
-	<c:forEach var="parent" items="${categoriesTree}">
-		<li><a href="<c:url value='/item/list?searchFor=*&searchIn=${parent.key}&property=titleEng' />">${parent.key}</a>
-			<ul>
-				<c:forEach var="child" items="${parent.value}" >
-					<li><a href="<c:url value='/item/list?searchFor=*&searchIn=${child}&property=titleEng' />">${child}</a></li>
-				</c:forEach>
-			</ul>
-		</li>
-	</c:forEach>
-	<security:authorize access="hasRole('Administrator')">
-		<li><a href="#">${editLabel}</a>
-			<ul>
-	    		<li class="hideOptions invisible"><a href="<c:url value='/category/list' />">${categoriesLabel}</a></li>
-	    		<li><a href="<c:url value='/item/list?view=list' />">${itemsLabel}</a></li>
-	    		<li><a href="<c:url value='/artist/list' />">${artistsLabel}</a></li>
-	    		<li class="hideOptions invisible"><a href="<c:url value='/activity/list' />">${activitiesLabel}</a></li>
-	    		<li class="hideOptions invisible"><a href="<c:url value='/comment/list' />">${commentsLabel}</a></li>
-	    		<li class="hideOptions invisible"><a href="<c:url value='/subtitles/list' />">${subtitlesLabel}</a></li>
-	    	</ul>
-		</li>
-		<li class="hideOptions invisible"><a href="<c:url value='/user/list' />">${usersLabel}</a></li>
-		<li class="hideOptions"><a href="#" id="showOptions">${moreLabel}</a></li>
-	</security:authorize>
-</ul>
+<spring:message var="administratorLabel" code="label.administrator" />
+<spring:message var="luceneRebuild" code="label.lucene.rebuild" />
+<spring:message var="confirmLabel" code="label.delete.confirm" />
+<spring:message var="confirmMessage" code="message.lucene.confirm" />
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container-fluid">
+		<%--Toggle Button--%>
+    	<div class="navbar-header">
+      		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#fixed-navbar-collapse" aria-expanded="false">
+        		<span class="sr-only">Toggle navigation</span>
+        		<span class="icon-bar"></span>
+        		<span class="icon-bar"></span>
+        		<span class="icon-bar"></span>
+      		</button>
+      		<a class="navbar-brand" href="<c:url value='/' />">${homeLabel}</a>
+    	</div>
+		<%--Links--%>
+    	<div class="collapse navbar-collapse" id="fixed-navbar-collapse">
+      		<ul class="nav navbar-nav">
+        		<c:forEach var="parent" items="${categoriesTree}">
+        			<li class="dropdown">
+	        			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${parent.key} <span class="caret"></span></a>
+	         		 	<ul class="dropdown-menu">
+	        				<c:forEach var="child" items="${parent.value}">
+	        					<li><a href="<c:url value='/item/list?searchFor=*&searchIn=${child}&property=titleEng' />">${child}</a></li>
+	        				</c:forEach>
+	        			</ul>
+        			</li>
+        		</c:forEach>
+        		<security:authorize access="hasRole('Administrator')">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${editLabel} <span class="caret"></span></a>
+	         		 	<ul class="dropdown-menu">
+				    		<li><a href="<c:url value='/admin/category/list' />">${categoriesLabel}</a></li>
+				    		<li><a href="<c:url value='/item/list?view=list' />">${itemsLabel}</a></li>
+				    		<li><a href="<c:url value='/admin/artist/list' />">${artistsLabel}</a></li>
+				    		<li><a href="<c:url value='/admin/activity/list' />">${activitiesLabel}</a></li>
+				    		<li><a href="<c:url value='/admin/comment/list' />">${commentsLabel}</a></li>
+				    		<li><a href="<c:url value='/admin/subtitles/list' />">${subtitlesLabel}</a></li>
+				    		<li role="separator" class="divider"></li>
+               	 			<li><a href="<c:url value='/admin/user/list' />">${usersLabel}</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${administratorLabel} <span class="caret"></span></a>
+	         		 	<ul class="dropdown-menu">
+	         		 		<c:forEach var="categoriesTree" items="${categoriesTree}">
+								<li><a href="<c:url value='/item/export?parent=${categoriesTree.key}' />"><spring:message code="label.export.items" arguments="${categoriesTree.key}" /></a></li>
+							</c:forEach>
+							<li role="separator" class="divider"></li>
+							<li><a href="<c:url value='/admin/administrator/lucene?mode=synchronously' />" class="confirm-dialog" dialog="${confirmMessage}" accept="${confirmLabel}">${luceneRebuild}</a></li>
+						</ul>
+					</li>
+				</security:authorize>
+      		</ul>
+			<%--Search Form--%>
+			<jsp:include page="search.jsp" />
+    	</div>
+	</div>
+</nav>
