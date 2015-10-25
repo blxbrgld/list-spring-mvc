@@ -270,7 +270,7 @@ public class ItemController {
 	void populateForm(Model model, Item item) {
 		model.addAttribute("item", item);
 		model.addAttribute("selectCategory", categoryService.getCategories(null, null));
-		model.addAttribute("selectComment", commentService.getComments(null, null));
+		model.addAttribute("selectComment", commentService.getComments("title", "ASC"));
 		model.addAttribute("selectActivity", activityService.getActivities(null, null));
 		model.addAttribute("selectSubtitles", subtitlesService.getSubtitles(null, null));
 		model.addAttribute("selectRating", Arrays.asList(new String[] {"1", "2", "3", "4", "5"}));
