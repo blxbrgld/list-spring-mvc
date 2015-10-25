@@ -41,6 +41,9 @@
 		</c:when>
 		<c:otherwise>
 			<a href="<c:url value='/item/list?view=list' />" class="btn btn-primary btn-lg" role="button">${listItems}</a>
+			<c:if test="${fn:contains(requestScope['javax.servlet.forward.servlet_path'],'/update') and not empty successMessage}">
+				<a href="<c:url value='/admin/item/create' />" class="btn btn-primary btn-lg" role="button">${createItem}</a>
+			</c:if>
 		</c:otherwise>
 	</c:choose>
 </div>
