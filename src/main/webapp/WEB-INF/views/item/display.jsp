@@ -29,7 +29,7 @@
 									<div class="col-xs-12 picture"><%--Image--%>
 										<c:choose>
 											<c:when test="${items.photoPath!=null}">
-												<img class="img-thumbnail" src="<c:url value='${contextPath}/resources/images/items/${items.photoPath}' />" />
+												<img class="img-thumbnail" src="<c:url value='${contextPath}/resources/images/items/${items.photoPath}' />" onError="this.src='<c:url value="${noImage}" />'" />
 											</c:when>
 											<c:otherwise>
 												<img class="img-thumbnail" src="<c:url value='${noImage}' />" />
@@ -138,7 +138,7 @@
 									<div class="col-xs-12 picture"><%--Image--%>
 										<c:choose>
 											<c:when test="${items.photoPath!=null}">
-												<img class="img-thumbnail" src="<c:url value='${contextPath}/resources/images/items/${items.photoPath}' />" />
+												<img class="img-thumbnail" src="<c:url value='${contextPath}/resources/images/items/${items.photoPath}' />" onError="this.src='<c:url value="${noImage}" />'" />
 											</c:when>
 											<c:otherwise>
 												<img class="img-thumbnail" src="<c:url value='${noImage}' />" />
@@ -168,7 +168,7 @@
 										</c:choose>
 										<span><i class="fa fa-clone"></i>${discs}</span>
 										<security:authorize access="hasRole('Administrator')">
-											<a href="<c:url value='update/${items.id}' />">${editLabel}</a>
+											<a href="<c:url value='/admin/item/update/${items.id}' />">${editLabel}</a>
 										</security:authorize>
 									</div>
 								</div>
