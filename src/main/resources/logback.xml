@@ -19,7 +19,7 @@
             <pattern>[%d{ISO8601}] [%contextName] [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-    <root level="debug">
+    <root level="warn">
         <appender-ref ref="FILE" />
     </root>
 </configuration>
