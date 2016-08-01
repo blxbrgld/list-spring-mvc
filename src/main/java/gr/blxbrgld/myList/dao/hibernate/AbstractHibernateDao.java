@@ -8,12 +8,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.NullPrecedence;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ReflectionUtils;
 
 import gr.blxbrgld.myList.dao.AbstractDao;
@@ -24,8 +25,8 @@ import gr.blxbrgld.myList.dao.AbstractDao;
  */
 public abstract class AbstractHibernateDao<T extends Object> implements AbstractDao<T> {
 
-	private static final Logger logger = Logger.getLogger(AbstractHibernateDao.class);
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractHibernateDao.class);
+
 	@Inject private SessionFactory sessionFactory;
 	private Class<T> domainClass;
 	
@@ -70,7 +71,7 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 				method.invoke(t, Calendar.getInstance());
 			}
 			catch(Exception exception) {
-				logger.error(exception);
+				LOGGER.error("Exception", exception);
 			}
 		}
 		getSession().persist(t);
@@ -89,7 +90,7 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 				method.invoke(t, Calendar.getInstance());
 			}
 			catch(Exception exception) {
-				logger.error(exception);
+				LOGGER.error("Exception", exception);
 			}
 		}		
 		

@@ -2,7 +2,6 @@ package gr.blxbrgld.myList.dao.hibernate;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.hibernate.Query;
@@ -10,6 +9,8 @@ import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -26,8 +27,8 @@ import gr.blxbrgld.myList.utilities.ReturningValues;
 @Repository
 public class HibernateItemDao extends AbstractHibernateDao<Item> implements ItemDao {
 
-	private static final Logger logger = Logger.getLogger(HibernateItemDao.class);
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(HibernateItemDao.class);
+
 	@SuppressWarnings("unchecked")
 	public List<Item> findByCategory(Category category) {
 		Query query = getSession().getNamedQuery("findItemsByCategory");
@@ -140,7 +141,7 @@ public class HibernateItemDao extends AbstractHibernateDao<Item> implements Item
 				fullTextSession.createIndexer().startAndWait();
 			} 
 			catch(InterruptedException exception) {
-				logger.error(exception);
+				LOGGER.error("InterruptedException", exception);
 			}
 		}
 		else {

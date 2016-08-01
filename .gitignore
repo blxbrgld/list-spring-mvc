@@ -1,10 +1,13 @@
 #Temporary Files
 *~
 
-#Eclipse
+#IDE Files
 .classpath
 .project
+.springBeans
 .settings/
+.idea/
+myList.iml
 
 #Maven
 target/

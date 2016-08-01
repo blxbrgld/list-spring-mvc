@@ -43,5 +43,5 @@ dataSource.driverClassName, dataSource.url, dataSource.username, dataSource.pass
 ```
 5) Create src/main/resources/miscellaneous.properties File
 ```
-filepath.lucene, filepath.images, author.email are the minimum requirements
+filepath.lucene, filepath.images, filepath.logs, author.email are the minimum requirements
 ```

@@ -15,17 +15,19 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import sun.misc.IOUtils;
 
 /**
  * Menu Categories and Other Attributes Initialization At Application's Startup
  */
 public class ApplicationContextListener implements ServletContextListener {
 
-	private static final Logger logger = Logger.getLogger(ApplicationContextListener.class);
-			
+	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationContextListener.class);
+
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		ServletContext context = event.getServletContext();
@@ -40,7 +42,7 @@ public class ApplicationContextListener implements ServletContextListener {
 			propsFromFile.load(getClass().getResourceAsStream(props));
 		} 
 		catch(IOException exception) {
-			logger.error(exception);
+			LOGGER.error("IOException", exception);
 		}
 		for(String prop : propsFromFile.stringPropertyNames()) {
 			if(System.getProperty(prop) == null) {
@@ -68,7 +70,7 @@ public class ApplicationContextListener implements ServletContextListener {
 	 * @param path Filesystem Folder Containing Application's Wallpapers
 	 * @return Random Filename to be Used As Wallpaper
 	 */
-	private static String randomWallpaper(String path) {
+	private String randomWallpaper(String path) {
 		String[] files = new File(path).list();
 		List<String> filenames = new ArrayList<String>();
 		for(String f : files) { filenames.add(f); }

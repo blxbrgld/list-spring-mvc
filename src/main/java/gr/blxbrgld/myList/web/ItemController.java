@@ -32,7 +32,8 @@ import javax.validation.Valid;
 
 import net.coobird.thumbnailator.Thumbnails;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +56,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class ItemController {
 
-	private static final Logger logger = Logger.getLogger(ItemController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
 	
 	@Inject private ItemService itemService;
 	@Inject private CategoryService categoryService;
@@ -218,7 +219,7 @@ public class ItemController {
 				output.flush();
 			} 
 			catch(IOException exception) {
-				logger.error(exception);
+				LOGGER.error("IOException", exception);
 			}
 		}
 		return null;
@@ -243,7 +244,7 @@ public class ItemController {
         		item.setPhotoPath(filename); //Set Object's Attribute
         	}
         	catch(IOException exception) {
-        		logger.error(exception);
+        		LOGGER.error("IOException", exception);
         	}
         	finally {
         		file.delete(); //Delete Temporary Image
