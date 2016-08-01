@@ -3,7 +3,7 @@ list-spring-mvc Application 3.0
 
 ### Changes From Version 2.0
 
-Bootstap 3 added to the game. Nearly everything redesigned and now the application is fully mobile friendly. Furthermore, all administrator pages are now under the /admin path so that we can separate the logic of the front-end and the back-end. This will help, for example, to create more easily a Varnish template for the application, which i'm planning to do very soon.
+Bootstap 3 added to the game. Nearly everything redesigned and now the application is full mobile friendly. Furthermore, all administrator pages are now under the /admin path so that we can separate the logic of the front-end and the back-end. This will help, among other things, to create more easily a Varnish template for the application, which i'm planning to do very soon.
 
 ### Technologies / Tools
 
