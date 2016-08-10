@@ -1,14 +1,13 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
-import javax.inject.Inject;
+import gr.blxbrgld.mylist.model.Category;
+import gr.blxbrgld.mylist.model.Role;
+import gr.blxbrgld.mylist.model.Subtitles;
+import gr.blxbrgld.mylist.service.CategoryService;
+import gr.blxbrgld.mylist.service.RoleService;
+import gr.blxbrgld.mylist.service.SubtitlesService;
 
-import gr.blxbrgld.myList.model.Category;
-import gr.blxbrgld.myList.model.Role;
-import gr.blxbrgld.myList.model.Subtitles;
-import gr.blxbrgld.myList.service.CategoryService;
-import gr.blxbrgld.myList.service.RoleService;
-import gr.blxbrgld.myList.service.SubtitlesService;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
@@ -16,13 +15,14 @@ import org.springframework.stereotype.Service;
 
 /**
  * ApplicationConversionServiceFactoryBean
+ * @author blxbrgld
  */
 @Service
 public class ApplicationConversionServiceFactoryBean extends FormattingConversionServiceFactoryBean {
 
-	@Inject private RoleService roleService;
-	@Inject private CategoryService categoryService;
-	@Inject private SubtitlesService subtitlesService;
+	@Autowired private RoleService roleService;
+	@Autowired private CategoryService categoryService;
+	@Autowired private SubtitlesService subtitlesService;
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -48,6 +48,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     
     public Converter<Long, Role> getIdToRoleConverter() {
         return new Converter<Long, Role>() {
+            @Override
             public Role convert(Long id) {
                 return roleService.getRole(id);
             }
@@ -56,16 +57,22 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 	
     public Converter<String, Role> getStringToRoleConverter() {
         return new Converter<String, Role>() {
+            @Override
             public Role convert(String id) {
-            	if(id.equals("")) return null;
-            		else return getObject().convert(Long.valueOf(id), Role.class);
+            	if("".equals(id)) {
+                    return null;
+                }
+            	else {
+                    return getObject().convert(Long.valueOf(id), Role.class);
+                }
             }
         };
     }
     
     public Converter<Long, Category> getIdToCategoryConverter() {
     	return new Converter<Long, Category>() {
-    		public Category convert(Long id) {
+    		@Override
+            public Category convert(Long id) {
     			return categoryService.getCategory(id);
     		}
     	};
@@ -73,16 +80,22 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     
     public Converter<String, Category> getStringToCategoryConverter() {
     	return new Converter<String, Category>() {
-    		public Category convert(String id) {
-    			if(id.equals("")) return null;
-    				else return getObject().convert(Long.valueOf(id), Category.class); 
+    		@Override
+            public Category convert(String id) {
+    			if("".equals(id)) {
+                    return null;
+                }
+    			else {
+                    return getObject().convert(Long.valueOf(id), Category.class);
+                }
     		}
     	};
     }
     
     public Converter<Long, Subtitles> getIdToSubtitlesConverter() {
     	return new Converter<Long, Subtitles>() {
-    		public Subtitles convert(Long id) {
+    		@Override
+            public Subtitles convert(Long id) {
     			return subtitlesService.getSubtitles(id);
     		}
     	};
@@ -90,9 +103,14 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     
     public Converter<String, Subtitles> getStringToSubtitlesConverter() {
     	return new Converter<String, Subtitles>() {
-    		public Subtitles convert(String id) {
-    			if(id.equals("")) return null;
-    				else return getObject().convert(Long.valueOf(id), Subtitles.class); 
+    		@Override
+            public Subtitles convert(String id) {
+    			if("".equals(id)) {
+                    return null;
+                }
+    			else {
+                    return getObject().convert(Long.valueOf(id), Subtitles.class);
+                }
     		}
     	};
     }

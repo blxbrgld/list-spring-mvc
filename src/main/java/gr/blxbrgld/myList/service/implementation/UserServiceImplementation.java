@@ -1,57 +1,77 @@
-package gr.blxbrgld.myList.service.implementation;
+package gr.blxbrgld.mylist.service.implementation;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
-import gr.blxbrgld.myList.dao.UserDao;
-import gr.blxbrgld.myList.model.User;
-import gr.blxbrgld.myList.service.UserService;
+import gr.blxbrgld.mylist.dao.UserDao;
+import gr.blxbrgld.mylist.model.User;
+import gr.blxbrgld.mylist.service.UserService;
 
 /**
  * User's Service Implementation
+ * @author blxbrgld
  */
 @Service
 @Transactional
 public class UserServiceImplementation implements UserService {
 
-	@Inject private UserDao userDao;
-	
+	@Autowired private UserDao userDao;
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void persistUser(User user, String password, Errors errors) {
 		validateUsername(user, errors);
 		validateEmail(user, errors);
 		boolean valid = !errors.hasErrors();
-		if(valid) userDao.persist(user, password);
+		if(valid) {
+            userDao.persist(user, password);
+        }
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void mergeUser(User user, String password, Errors errors) {
 		validateUsername(user, errors);
 		validateEmail(user, errors);
 		boolean valid = !errors.hasErrors();
-		if(valid) userDao.merge(user, password);		
+		if(valid) {
+            userDao.merge(user, password);
+        }
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public List<User> getUsers(String property, String order) {
 		return userDao.getAll(property, order);
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public User getUser(Long id) {
 		return userDao.get(id);
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void deleteUser(Long id) {
@@ -59,10 +79,9 @@ public class UserServiceImplementation implements UserService {
 	}
 	
 	/**
-	 * Get User Object Given It's Username
-	 * @param username User's Username
-	 * @return User Object
+     * {@inheritDoc}
 	 */
+    @Override
 	public User getUserByUsername(String username) {
 		return userDao.findByUsername(username);		
 	}

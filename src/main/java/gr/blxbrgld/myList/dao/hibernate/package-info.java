@@ -1,4 +1,5 @@
 /**
  * DAO Layer's Hibernate Implementation Classes
+ * @author blxbrgld
  */
-package gr.blxbrgld.myList.dao.hibernate;
+package gr.blxbrgld.mylist.dao.hibernate;

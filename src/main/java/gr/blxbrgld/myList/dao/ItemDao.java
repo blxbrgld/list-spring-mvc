@@ -1,15 +1,16 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
 import java.util.List;
 
-import gr.blxbrgld.myList.model.Artist;
-import gr.blxbrgld.myList.model.Category;
-import gr.blxbrgld.myList.model.Item;
-import gr.blxbrgld.myList.model.Subtitles;
-import gr.blxbrgld.myList.utilities.ReturningValues;
+import gr.blxbrgld.mylist.model.Artist;
+import gr.blxbrgld.mylist.model.Category;
+import gr.blxbrgld.mylist.model.Item;
+import gr.blxbrgld.mylist.model.Subtitles;
+import gr.blxbrgld.mylist.utilities.ReturningValues;
 
 /**
  * Item's DAO Interface
+ * @author blxbrgld
  */
 public interface ItemDao extends AbstractDao<Item> {
 

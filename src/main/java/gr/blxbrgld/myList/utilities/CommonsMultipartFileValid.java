@@ -1,4 +1,4 @@
-package gr.blxbrgld.myList.utilities;
+package gr.blxbrgld.mylist.utilities;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -14,10 +14,9 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import gr.blxbrgld.myList.utilities.CommonsMultipartFileValidator;
-
 /**
  * Defining CommonsMultipartFileValid Constraint Annotation
+ * @author blxbrgld
  */
 @Target({ANNOTATION_TYPE, METHOD, FIELD, PARAMETER, CONSTRUCTOR})
 @Retention(RetentionPolicy.RUNTIME)

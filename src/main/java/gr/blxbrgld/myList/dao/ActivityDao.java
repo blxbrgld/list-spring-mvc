@@ -1,9 +1,10 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
-import gr.blxbrgld.myList.model.Activity;
+import gr.blxbrgld.mylist.model.Activity;
 
 /**
  * Activity's DAO Interface
+ * @author blxbrgld
  */
 public interface ActivityDao extends AbstractDao<Activity> {
 

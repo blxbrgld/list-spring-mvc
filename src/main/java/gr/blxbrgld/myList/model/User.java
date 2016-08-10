@@ -1,30 +1,22 @@
-package gr.blxbrgld.myList.model;
-
-import java.io.Serializable;
-import java.util.Calendar;
+package gr.blxbrgld.mylist.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * User Java Bean
+ * @author blxbrgld
  */
 @NamedQueries({
 	@NamedQuery(
@@ -39,14 +31,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 })
 @Entity
 @Table(name = "Users")
-public class User implements Serializable {
+public class User extends BaseEntity {
 
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Id")
-	private Long id;
+    private static final long serialVersionUID = 1L;
 
 	@NotNull
 	@Length(min = 3, max = 45)
@@ -66,19 +53,6 @@ public class User implements Serializable {
 	@NotNull
 	@Column(name = "Enabled")
 	private boolean enabled = true;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "DateUpdated")
-	private Calendar dateUpdated;
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
 	public String getUsername() {
 		return username;
@@ -112,25 +86,17 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	public Calendar getDateUpdated() {
-		return dateUpdated;
-	}
-	
-	public void setDateUpdated(Calendar dateUpdated) {
-		this.dateUpdated = dateUpdated;
-	}
-	
 	/**
 	 * @return String Representation Of User Object
 	 */
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-				.append("id", id)
-				.append("username", username)
-				.append("email", email)
-				.append("role", role)
-				.append("enabled", enabled)
-				.toString();
+            .appendSuper(super.toString())
+            .append("username", username)
+            .append("email", email)
+            .append("role", role)
+            .append("enabled", enabled)
+            .toString();
 	}	
 }

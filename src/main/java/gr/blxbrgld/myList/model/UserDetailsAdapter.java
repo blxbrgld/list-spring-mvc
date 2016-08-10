@@ -1,4 +1,4 @@
-package gr.blxbrgld.myList.model;
+package gr.blxbrgld.mylist.model;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Authentication Implementing Spring's UserDetails Interface
+ * @author blxbrgld
  */
 @SuppressWarnings({ "deprecation", "serial" })
 public class UserDetailsAdapter implements UserDetails {

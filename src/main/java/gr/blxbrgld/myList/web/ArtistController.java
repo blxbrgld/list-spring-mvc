@@ -1,11 +1,12 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
-import gr.blxbrgld.myList.model.Artist;
-import gr.blxbrgld.myList.service.ArtistService;
+import gr.blxbrgld.mylist.model.Artist;
+import gr.blxbrgld.mylist.service.ArtistService;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
+import org.apache.commons.math.util.MathUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,15 +22,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Artist's Controller
+ * @author blxbrgld
  */
 @Controller
 @RequestMapping("/admin/artist")
 public class ArtistController {
 
-	@Inject private ArtistService artistService;
-	
-	@InitBinder
-	public void InitBinder(WebDataBinder binder) {
+	@Autowired private ArtistService artistService;
+
+    private static final String ARTIST_FORM = "artist/form";
+    private static final String ARTIST_LIST = "artist/list";
+    private static final String ARTIST_LIST_WITH_REDIRECT = "redirect:/admin/artist/list";
+
+    private static final double EPSILON = 0.001;
+
+    @InitBinder
+	public void initBinder(WebDataBinder binder) {
 		binder.setAllowedFields(new String[] { "id", "title", "description" });
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true)); //Convert Empty String Values To NULL
 	}
@@ -37,13 +45,13 @@ public class ArtistController {
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String createForm(Model model) {
 		populateForm(model, new Artist());
-		return "artist/form";
+		return ARTIST_FORM;
 	}
 	
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 		populateForm(model, artistService.getArtist(id));
-		return "artist/form";
+		return ARTIST_FORM;
 	}
 	
 	@RequestMapping(value = "*", method = RequestMethod.POST)
@@ -57,11 +65,11 @@ public class ArtistController {
 		
 		if(result.hasErrors()) {
 			populateForm(model, artist);
-			return "artist/form";
+			return ARTIST_FORM;
 		}
 		else {
 			redirectAttributes.addFlashAttribute("successMessage", "message.artist.create.success");
-			return "redirect:/admin/artist/list";
+			return ARTIST_LIST_WITH_REDIRECT;
 		}
 	}
 	
@@ -74,9 +82,9 @@ public class ArtistController {
 		int sizeNo = size == null ? 50 : size.intValue();
 		int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
 		model.addAttribute("artistList", artistService.getArtists(property, order, firstResult, sizeNo));
-		float noOfPages = (float) artistService.countArtists() / sizeNo;
-		model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || noOfPages == 0.0) ? noOfPages + 1 : noOfPages));
-		return "artist/list";
+		double noOfPages = (double) artistService.countArtists() / sizeNo;
+		model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || MathUtils.equals(noOfPages, 0.0, EPSILON)) ? noOfPages + 1 : noOfPages));
+        return ARTIST_LIST;
 	}
 	
 	@RequestMapping(value = "delete/{id}")
@@ -87,7 +95,7 @@ public class ArtistController {
 		else {
 			redirectAttributes.addFlashAttribute("errorMessage", "message.artist.delete.error");
 		}
-		return "redirect:/admin/artist/list";
+		return ARTIST_LIST_WITH_REDIRECT;
 	}
 	
 	/**

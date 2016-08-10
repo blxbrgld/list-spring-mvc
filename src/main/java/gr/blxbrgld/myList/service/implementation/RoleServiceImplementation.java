@@ -1,58 +1,78 @@
-package gr.blxbrgld.myList.service.implementation;
+package gr.blxbrgld.mylist.service.implementation;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
-import gr.blxbrgld.myList.dao.RoleDao;
-import gr.blxbrgld.myList.dao.UserDao;
-import gr.blxbrgld.myList.model.Role;
-import gr.blxbrgld.myList.service.RoleService;
+import gr.blxbrgld.mylist.dao.RoleDao;
+import gr.blxbrgld.mylist.dao.UserDao;
+import gr.blxbrgld.mylist.model.Role;
+import gr.blxbrgld.mylist.service.RoleService;
 
 /**
  * Role's Service Implementation
+ * @author blxbrgld
  */
 @Service
 @Transactional
 @PreAuthorize("denyAll")
 public class RoleServiceImplementation implements RoleService {
 
-	@Inject private RoleDao roleDao;
-	@Inject private UserDao userDao;
-	
+	@Autowired private RoleDao roleDao;
+	@Autowired private UserDao userDao;
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void persistRole(Role role, Errors errors) {
 		validateRole(role, errors);
 		boolean valid = !errors.hasErrors();
-		if(valid) roleDao.persist(role);
+		if(valid) {
+            roleDao.persist(role);
+        }
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void mergeRole(Role role, Errors errors) {
 		validateRole(role, errors);
 		boolean valid = !errors.hasErrors();
-		if(valid) roleDao.merge(role);
+		if(valid) {
+            roleDao.merge(role);
+        }
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public List<Role> getRoles(String property, String order) {
 		return roleDao.getAll(property, order);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public Role getRole(Long id) {
 		return roleDao.get(id);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public boolean deleteRole(Long id) {

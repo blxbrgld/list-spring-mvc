@@ -1,40 +1,31 @@
-package gr.blxbrgld.myList.model;
+package gr.blxbrgld.mylist.model;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Activity Java Bean
+ * @author blxbrgld
  */
 @NamedQuery(
 		name = "findActivityByTitle",
 		query = "FROM Activity WHERE title = :title")
 @Entity
 @Table(name = "Activities")
-public class Activity {
+public class Activity extends BaseEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Id")
-	private Long id;
-	
+    private static final long serialVersionUID = 1L;
+
 	@NotNull
 	@Length(min = 3, max = 45)
 	@Column(name = "Title")
@@ -42,20 +33,7 @@ public class Activity {
 	
 	@OneToMany(mappedBy = "idActivity")
 	private List<ArtistActivityItem> artistActivityItems;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "DateUpdated")
-	private Calendar dateUpdated;
-	
-	public Long getId() {
-		return id;
-	}	
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
+
 	public String getTitle() {
 		return title;
 	}
@@ -71,14 +49,6 @@ public class Activity {
 	public void setArtistActivityItems(List<ArtistActivityItem> artistActivityItems) {
 		this.artistActivityItems = artistActivityItems;
 	}
-	
-	public Calendar getDateUpdated() {
-		return dateUpdated;
-	}	
-	
-	public void setDateUpdated(Calendar dateUpdated) {
-		this.dateUpdated = dateUpdated;
-	}
 
 	/**
 	 * @return String Representation Of Activity Object
@@ -86,8 +56,8 @@ public class Activity {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-				.append("id", id)
-				.append("title", title)
-				.toString();
+            .appendSuper(super.toString())
+            .append("title", title)
+            .toString();
 	}
 }

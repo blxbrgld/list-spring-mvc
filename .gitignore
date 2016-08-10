@@ -16,8 +16,7 @@ target/
 doc/
 
 # .properties Files
-src/main/resources/database/database.properties
-src/main/resources/miscellaneous.properties
+src/main/resources/configuration.properties
 
 #Item Images Except no-image.png
 src/main/webapp/resources/images/items/*

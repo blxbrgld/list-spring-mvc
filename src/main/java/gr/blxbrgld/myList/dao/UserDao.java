@@ -1,12 +1,13 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
 import java.util.List;
 
-import gr.blxbrgld.myList.model.Role;
-import gr.blxbrgld.myList.model.User;
+import gr.blxbrgld.mylist.model.Role;
+import gr.blxbrgld.mylist.model.User;
 
 /**
  * User's DAO Interface
+ * @author blxbrgld
  */
 public interface UserDao extends AbstractDao<User> {
 

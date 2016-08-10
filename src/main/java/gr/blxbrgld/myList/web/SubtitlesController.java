@@ -1,11 +1,11 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
-import gr.blxbrgld.myList.model.Subtitles;
-import gr.blxbrgld.myList.service.SubtitlesService;
+import gr.blxbrgld.mylist.model.Subtitles;
+import gr.blxbrgld.mylist.service.SubtitlesService;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,28 +20,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Subtitles' Controller
+ * @author blxbrgld
  */
 @Controller
 @RequestMapping("/admin/subtitles")
 public class SubtitlesController {
 
-	@Inject private SubtitlesService subtitlesService;
-	
+	@Autowired private SubtitlesService subtitlesService;
+
+    private static final String SUBTITLES_FORM = "subtitles/form";
+    private static final String SUBTITLES_LIST = "subtitles/list";
+    private static final String SUBTITLES_LIST_WITH_REDIRECT = "redirect:/admin/subtitles/list";
+
 	@InitBinder
-	public void InitBinder(WebDataBinder binder) {
+	public void initBinder(WebDataBinder binder) {
 		binder.setAllowedFields(new String[] { "id", "title" });
 	}
 		
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String createForm(Model model) {
 		populateForm(model, new Subtitles());
-		return "subtitles/form";
+		return SUBTITLES_FORM;
 	}
 		
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 		populateForm(model, subtitlesService.getSubtitles(id));
-		return "subtitles/form";
+		return SUBTITLES_FORM;
 	}
 
 	@RequestMapping(value = "*", method = RequestMethod.POST)
@@ -54,20 +59,18 @@ public class SubtitlesController {
 		}
 		if(result.hasErrors()) {
 			populateForm(model, subtitles);
-			return "subtitles/form";
+			return SUBTITLES_FORM;
 		}
 		else {
 			redirectAttributes.addFlashAttribute("successMessage", "message.subtitles.create.success");
-			return "redirect:/admin/subtitles/list";
+			return SUBTITLES_LIST_WITH_REDIRECT;
 		}
 	}
 	
 	@RequestMapping(value = "list")
-	public String list( @RequestParam(value = "property", required = false) String property,
-					  	@RequestParam(value = "order", required = false) String order,
-					  	Model model) {
+	public String list(@RequestParam(value = "property", required = false) String property, @RequestParam(value = "order", required = false) String order, Model model) {
 		model.addAttribute("subtitlesList", subtitlesService.getSubtitles(property, order));
-		return "subtitles/list";
+		return SUBTITLES_LIST;
 	}
 	
 	@RequestMapping(value = "delete/{id}")
@@ -78,7 +81,7 @@ public class SubtitlesController {
 		else {
 			redirectAttributes.addFlashAttribute("errorMessage", "message.subtitles.delete.error");
 		}
-		return "redirect:/admin/subtitles/list";
+		return SUBTITLES_LIST_WITH_REDIRECT;
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package gr.blxbrgld.myList.utilities;
+package gr.blxbrgld.mylist.utilities;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,10 +8,9 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import gr.blxbrgld.myList.utilities.CommonsMultipartFileValid;
-
 /**
  * Implementing a Constraint Validator For The Constraint CommonsMultipartFileValid
+ * @author blxbrgld
  */
 public class CommonsMultipartFileValidator implements ConstraintValidator<CommonsMultipartFileValid, CommonsMultipartFile> {
 
@@ -49,7 +48,7 @@ public class CommonsMultipartFileValidator implements ConstraintValidator<Common
 	 * @return TRUE or FALSE
 	 */
 	private boolean validateFileExtension(CommonsMultipartFile value) {
-		int dotPosition = value.getOriginalFilename().lastIndexOf(".");  
+		int dotPosition = value.getOriginalFilename().lastIndexOf('.');
 		boolean result = false;
 		if(dotPosition != -1) {
 			String extension = value.getOriginalFilename().substring(dotPosition + 1);
@@ -71,10 +70,8 @@ public class CommonsMultipartFileValidator implements ConstraintValidator<Common
 	 */
 	private boolean validateFileSize(CommonsMultipartFile value) {
 		boolean result = false;
-		if(!value.isEmpty()) {
-			if(value.getSize() != 0 && value.getSize() <= Long.valueOf(fileSize)) {
-				result = true;
-			}
+		if(!value.isEmpty() && value.getSize() != 0 && value.getSize() <= Long.valueOf(fileSize)) {
+			result = true;
 		}
 		return result;
 	}

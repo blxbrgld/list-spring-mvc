@@ -1,11 +1,11 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
-import gr.blxbrgld.myList.model.Activity;
-import gr.blxbrgld.myList.service.ActivityService;
+import gr.blxbrgld.mylist.model.Activity;
+import gr.blxbrgld.mylist.service.ActivityService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,28 +20,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Activity's Controller
+ * @author blxbrgld
  */
 @Controller
 @RequestMapping("/admin/activity")
 public class ActivityController {
 	
-	@Inject private ActivityService activityService;
-	
+	@Autowired private ActivityService activityService;
+
+    private static final String ACTIVITY_FORM = "activity/form";
+    private static final String ACTIVITY_LIST = "activity/list";
+    private static final String ACTIVITY_LIST_WITH_REDIRECT = "redirect:/admin/activity/list";
+
 	@InitBinder
-	public void InitBinder(WebDataBinder binder) {
+	public void initBinder(WebDataBinder binder) {
 		binder.setAllowedFields(new String[] { "id", "title" });
 	}
 		
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String createForm(Model model) {
 		populateForm(model, new Activity());
-		return "activity/form";
+		return ACTIVITY_FORM;
 	}
 		
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 		populateForm(model, activityService.getActivity(id));
-		return "activity/form";
+		return ACTIVITY_FORM;
 	}
 
 	@RequestMapping(value = "*", method = RequestMethod.POST)
@@ -54,20 +59,18 @@ public class ActivityController {
 		}
 		if(result.hasErrors()) {
 			populateForm(model, activity);
-			return "activity/form";
+			return ACTIVITY_FORM;
 		}
 		else {
 			redirectAttributes.addFlashAttribute("successMessage", "message.activity.create.success");
-			return "redirect:/admin/activity/list";
+			return ACTIVITY_LIST_WITH_REDIRECT;
 		}
 	}
 	
 	@RequestMapping(value = "list")
-	public String list( @RequestParam(value = "property", required = false) String property,
-						@RequestParam(value = "order", required = false) String order,
-						Model model) {
+	public String list(@RequestParam(value = "property", required = false) String property, @RequestParam(value = "order", required = false) String order, Model model) {
 		model.addAttribute("activityList", activityService.getActivities(property, order));
-		return "activity/list";
+		return ACTIVITY_LIST;
 	}
 	
 	@RequestMapping(value = "delete/{id}")
@@ -78,7 +81,7 @@ public class ActivityController {
 		else {
 			redirectAttributes.addFlashAttribute("errorMessage", "message.activity.delete.error");
 		}
-		return "redirect:/admin/activity/list";
+		return ACTIVITY_LIST_WITH_REDIRECT;
 	}
 	
 	/**

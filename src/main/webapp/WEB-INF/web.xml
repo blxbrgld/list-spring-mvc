@@ -7,16 +7,17 @@
 	<context-param>
     	<param-name>contextConfigLocation</param-name>
     	<param-value>
-			WEB-INF/spring/applicationContext.xml
-			WEB-INF/spring/springSecurity.xml
-		</param-value>
+            WEB-INF/spring/dataSource.xml
+            WEB-INF/spring/application.xml
+            WEB-INF/spring/security.xml
+        </param-value>
   	</context-param>
   	<!-- Listeners -->
   	<listener>
     	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   	</listener>
 	<listener>
-    	<listener-class>gr.blxbrgld.myList.utilities.ApplicationContextListener</listener-class>
+    	<listener-class>gr.blxbrgld.mylist.utilities.ApplicationContextListener</listener-class>
   	</listener>
 	<!--Security Filter-->
   	<filter>
@@ -50,7 +51,7 @@
     	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     	<init-param>
       		<param-name>contextConfigLocation</param-name>
-      		<param-value>WEB-INF/spring/dispatcherServlet.xml</param-value>
+      		<param-value>WEB-INF/spring/dispatcher.xml</param-value>
     	</init-param>
     	<load-on-startup>1</load-on-startup>
   	</servlet>

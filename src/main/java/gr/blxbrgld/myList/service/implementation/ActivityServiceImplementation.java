@@ -1,58 +1,78 @@
-package gr.blxbrgld.myList.service.implementation;
+package gr.blxbrgld.mylist.service.implementation;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
-import gr.blxbrgld.myList.dao.ActivityDao;
-import gr.blxbrgld.myList.dao.ArtistActivityItemDao;
-import gr.blxbrgld.myList.model.Activity;
-import gr.blxbrgld.myList.service.ActivityService;
+import gr.blxbrgld.mylist.dao.ActivityDao;
+import gr.blxbrgld.mylist.dao.ArtistActivityItemDao;
+import gr.blxbrgld.mylist.model.Activity;
+import gr.blxbrgld.mylist.service.ActivityService;
 
 /**
  * Activity's Service Implementation
+ * @author blxbrgld
  */
 @Service
 @Transactional
 @PreAuthorize("denyAll")
 public class ActivityServiceImplementation implements ActivityService {
 
-	@Inject private ActivityDao activityDao;
-	@Inject private ArtistActivityItemDao artistActivityItemDao;
-	
+	@Autowired private ActivityDao activityDao;
+	@Autowired private ArtistActivityItemDao artistActivityItemDao;
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void persistActivity(Activity activity, Errors errors) {
 		validateTitle(activity, errors);
 		boolean valid = !errors.hasErrors();
-		if(valid) activityDao.persist(activity);
+		if(valid) {
+            activityDao.persist(activity);
+        }
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void mergeActivity(Activity activity, Errors errors) {
 		validateTitle(activity, errors);
 		boolean valid = !errors.hasErrors();
-		if(valid) activityDao.merge(activity);
-	}	
-	
+		if(valid) {
+            activityDao.merge(activity);
+        }
+	}
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public List<Activity> getActivities(String property, String order) {
 		return activityDao.getAll(property, order);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public Activity getActivity(Long id) {
 		return activityDao.get(id);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public boolean deleteActivity(Long id) {
@@ -65,6 +85,9 @@ public class ActivityServiceImplementation implements ActivityService {
 		}
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("permitAll")
 	public Long countActivities() {

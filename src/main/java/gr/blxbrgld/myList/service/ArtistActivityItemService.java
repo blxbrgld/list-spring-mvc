@@ -1,11 +1,12 @@
-package gr.blxbrgld.myList.service;
+package gr.blxbrgld.mylist.service;
 
-import gr.blxbrgld.myList.model.Artist;
-import gr.blxbrgld.myList.model.ArtistActivityItem;
-import gr.blxbrgld.myList.model.Item;
+import gr.blxbrgld.mylist.model.Artist;
+import gr.blxbrgld.mylist.model.ArtistActivityItem;
+import gr.blxbrgld.mylist.model.Item;
 
 /**
  * ArtistActivityItem's Service Interface
+ * @author blxbrgld
  */
 public interface ArtistActivityItemService {
 

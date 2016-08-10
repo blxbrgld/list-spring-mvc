@@ -1,4 +1,4 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * Generic Class's DAO Interface
  * @param <T> Generic Class
+ * @author blxbrgld
  */
 public interface AbstractDao<T extends Object> {
 

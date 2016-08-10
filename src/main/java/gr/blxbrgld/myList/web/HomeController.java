@@ -1,17 +1,16 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
 import java.text.SimpleDateFormat;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import gr.blxbrgld.myList.service.ActivityService;
-import gr.blxbrgld.myList.service.ArtistService;
-import gr.blxbrgld.myList.service.ItemService;
+import gr.blxbrgld.mylist.service.ActivityService;
+import gr.blxbrgld.mylist.service.ArtistService;
+import gr.blxbrgld.mylist.service.ItemService;
 
 /**
  * Home Page Controller
@@ -19,9 +18,11 @@ import gr.blxbrgld.myList.service.ItemService;
 @Controller
 public class HomeController {
 	
-	@Inject ItemService itemService;
-	@Inject ArtistService artistService;
-	@Inject ActivityService activityService;
+	@Autowired ItemService itemService;
+	@Autowired ArtistService artistService;
+	@Autowired ActivityService activityService;
+
+    private static final String HOME_PAGE = "home";
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {
@@ -48,6 +49,6 @@ public class HomeController {
 		model.addAttribute("lastArtistDate", dateFormat.format(artistService.findLastArtist().getDateUpdated().getTime()));
 		model.addAttribute("totalActivities", activityService.countActivities());
 		
-		return "home";
+		return HOME_PAGE;
 	}
 }

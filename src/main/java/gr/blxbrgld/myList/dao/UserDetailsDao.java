@@ -1,7 +1,8 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
 /**
  * UserDetails' DAO Interface
+ * @author blxbrgld
  */
 public interface UserDetailsDao {
 

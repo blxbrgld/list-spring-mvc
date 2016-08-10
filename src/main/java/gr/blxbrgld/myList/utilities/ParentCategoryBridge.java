@@ -1,12 +1,13 @@
-package gr.blxbrgld.myList.utilities;
+package gr.blxbrgld.mylist.utilities;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.search.bridge.StringBridge;
 
-import gr.blxbrgld.myList.model.Item;
+import gr.blxbrgld.mylist.model.Item;
 
 /**
  * 'films' or 'music' As Parent Category In A Dedicated Lucene Index Field Depending On Item's Category
+ * @author blxbrgld
  */
 public class ParentCategoryBridge implements StringBridge {
 

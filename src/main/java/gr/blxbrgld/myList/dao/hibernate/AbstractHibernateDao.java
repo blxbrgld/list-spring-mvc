@@ -1,12 +1,10 @@
-package gr.blxbrgld.myList.dao.hibernate;
+package gr.blxbrgld.mylist.dao.hibernate;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.Calendar;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import org.hibernate.Criteria;
 import org.hibernate.NullPrecedence;
@@ -15,19 +13,21 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ReflectionUtils;
 
-import gr.blxbrgld.myList.dao.AbstractDao;
+import gr.blxbrgld.mylist.dao.AbstractDao;
 
 /**
  * Generic Class's DAO Implementation
  * @param <T> Generic Class
+ * @author blxbrgld
  */
 public abstract class AbstractHibernateDao<T extends Object> implements AbstractDao<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractHibernateDao.class);
 
-	@Inject private SessionFactory sessionFactory;
+	@Autowired private SessionFactory sessionFactory;
 	private Class<T> domainClass;
 	
 	/**
@@ -60,12 +60,12 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 	}
 	
 	/**
-	 * Persist Generic Class Object. The Method Sets dateUpdated Property If It Exists
-	 * @param t Object To Be Persisted
+     * {@inheritDoc}
 	 */
 	@Override
 	public void persist(T t) {
-		Method method = ReflectionUtils.findMethod(getDomainClass(), "setDateUpdated", new Class[] { Calendar.class });
+		@SuppressWarnings("rawtypes")
+        Method method = ReflectionUtils.findMethod(getDomainClass(), "setDateUpdated", new Class[] { Calendar.class });
 		if(method!=null) {
 			try {
 				method.invoke(t, Calendar.getInstance());
@@ -79,11 +79,11 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 	}
 	
 	/**
-	 * Merge Generic Class Object. The Method Sets dateUpdated Property If It Exists
-	 * @param t Object To Be Merged
+     * {@inheritDoc}
 	 */
 	@Override
 	public void merge(T t) {
+        @SuppressWarnings("rawtypes")
 		Method method = ReflectionUtils.findMethod(getDomainClass(), "setDateUpdated", new Class[] { Calendar.class });
 		if(method!=null) {
 			try {
@@ -96,24 +96,33 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 		
 		getSession().merge(t);
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@SuppressWarnings("unchecked")
 	public T get(Serializable id) {
 		return (T) getSession().get(getDomainClass(), id);
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@SuppressWarnings("unchecked")
 	public T load(Serializable id) {
 		return (T) getSession().load(getDomainClass(), id);
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<T> getAll(String property, String order) {
 		Criteria criteria = getSession().createCriteria(getDomainClass());
-		if(order!=null && order.equals("DESC")) {
+		if(order!=null && "DESC".equals(order)) {
 			criteria.addOrder(Order.desc(property).nulls(NullPrecedence.FIRST));
 		}
 		else if(property!=null) {
@@ -121,12 +130,15 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 		}
 		return (List<T>) criteria.list();
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<T> getAll(String property, String order, int first, int size) {
 		Criteria criteria = getSession().createCriteria(getDomainClass());
-		if(order!=null && order.equals("DESC")) {
+		if(order!=null && "DESC".equals(order)) {
 			criteria.addOrder(Order.desc(property).nulls(NullPrecedence.FIRST));
 		}
 		else if(property!=null) {
@@ -136,18 +148,27 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 		criteria.setMaxResults(size);
 		return (List<T>) criteria.list();
 	}
-	
-	@Override
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
 	public void delete(T t) {
 		getSession().delete(t);
 	}
-	
-	@Override
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
 	public void deleteById(Serializable id) {
 		delete(load(id));
 	}
-	
-	@Override
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
 	public Long count() {
 		return (Long) getSession().createQuery("SELECT COUNT(*) FROM " + getDomainClassName()).uniqueResult();
 	}

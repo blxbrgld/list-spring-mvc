@@ -1,11 +1,11 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
-import gr.blxbrgld.myList.model.Category;
-import gr.blxbrgld.myList.service.CategoryService;
+import gr.blxbrgld.mylist.model.Category;
+import gr.blxbrgld.mylist.service.CategoryService;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,28 +20,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Category's Controller
+ * @author blxbrgld
  */
 @Controller
 @RequestMapping("/admin/category")
 public class CategoryController {
 
-	@Inject private CategoryService categoryService;
-	
-	@InitBinder
-	public void InitBinder(WebDataBinder binder) {
+	@Autowired private CategoryService categoryService;
+
+    private static final String CATEGORY_FORM = "category/form";
+    private static final String CATEGORY_LIST = "category/list";
+    private static final String CATEGORY_LIST_WITH_REDIRECT = "redirect:/admin/category/list";
+
+    @InitBinder
+	public void initBinder(WebDataBinder binder) {
 		binder.setAllowedFields(new String[] { "id", "title", "parent" } );
 	}
 	
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String createForm(Model model) {
 		populateForm(model, new Category());
-		return "category/form";
+		return CATEGORY_FORM;
 	}
 	
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 		populateForm(model, categoryService.getCategory(id));
-		return "category/form";
+		return CATEGORY_FORM;
 	}
 	
 	@RequestMapping(value = "*", method = RequestMethod.POST)
@@ -54,20 +59,18 @@ public class CategoryController {
 		}
 		if(result.hasErrors()) {
 			populateForm(model, category);
-			return "category/form";
+			return CATEGORY_FORM;
 		}
 		else {
 			redirectAttributes.addFlashAttribute("successMessage", "message.category.create.success");
-			return "redirect:/admin/category/list";
+			return CATEGORY_LIST_WITH_REDIRECT;
 		}
 	}
 	
 	@RequestMapping(value = "list")
-	public String list( @RequestParam(value = "property", required = false) String property,
-						@RequestParam(value = "order", required = false) String order,
-						Model model) {
+	public String list(@RequestParam(value = "property", required = false) String property, @RequestParam(value = "order", required = false) String order, Model model) {
 		model.addAttribute("categoryList", categoryService.getCategories(property, order));
-		return "category/list";
+		return CATEGORY_LIST;
 	}
 	
 	@RequestMapping(value = "delete/{id}")
@@ -78,7 +81,7 @@ public class CategoryController {
 		else {
 			redirectAttributes.addFlashAttribute("errorMessage", "message.category.delete.error");
 		}
-		return "redirect:/admin/category/list";
+		return CATEGORY_LIST_WITH_REDIRECT;
 	}
 	
 	/**

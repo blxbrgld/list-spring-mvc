@@ -1,4 +1,5 @@
 /**
  * DAO Layer's Interfaces
+ * @author blxbrgld
  */
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;

@@ -1,4 +1,5 @@
 /**
  * Service Layer's Interfaces
+ * @author blxbrgld
  */
-package gr.blxbrgld.myList.service;
+package gr.blxbrgld.mylist.service;

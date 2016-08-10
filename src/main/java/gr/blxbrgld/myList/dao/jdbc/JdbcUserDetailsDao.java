@@ -1,24 +1,27 @@
-package gr.blxbrgld.myList.dao.jdbc;
+package gr.blxbrgld.mylist.dao.jdbc;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import gr.blxbrgld.myList.dao.UserDetailsDao;
+import gr.blxbrgld.mylist.dao.UserDetailsDao;
 
 /**
  * User's DAO Implementation
+ * @author blxbrgld
  */
 @Repository
 public class JdbcUserDetailsDao implements UserDetailsDao {
 
-	@Inject private JdbcTemplate jdbcTemplate;
+	@Autowired private JdbcTemplate jdbcTemplate;
 	
-	private static final String FIND_PASSWORD_QUERY = "SELECT Password FROM Users WHERE Username = ?";
-	
+	private static final String SELECT_QUERY = "SELECT Password FROM Users WHERE Username = ?";
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public String findPasswordByUsername(String username) {
-		return jdbcTemplate.queryForObject(FIND_PASSWORD_QUERY, new Object[] { username }, String.class);
+		return jdbcTemplate.queryForObject(SELECT_QUERY, new Object[] { username }, String.class);
 	}
 }

@@ -1,26 +1,28 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Exception's Controller
+ * @author blxbrgld
+ */
 @ControllerAdvice
 public class ExceptionController {
-	
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController.class);
+
+    private static final String EXCEPTION_PAGE = "exception/exception";
+
 	@ExceptionHandler(Exception.class)
 	public ModelAndView handleException(Exception exception) {
-		ModelAndView model = new ModelAndView("exception/exception");
-		try { //Try To Add Some Info To The Model
-			model.addObject("exceptionMessage", exception.getMessage());
-			model.addObject("exceptionStackTrace", exceptionStackTraceToString(exception));
-		}
-		catch(Exception e) { //Do Nothing Here
-		
-		}
+		ModelAndView model = new ModelAndView(EXCEPTION_PAGE);
+        model.addObject("exceptionMessage", exception.getMessage());
+        model.addObject("exceptionStackTrace", exceptionStackTraceToString(exception));
 		return model;
 	}
 	
@@ -30,9 +32,7 @@ public class ExceptionController {
 	 * @return Stack Trace's String Representation
 	 */
 	private String exceptionStackTraceToString(Exception exception) {
-		Writer writer = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(writer);
-		exception.printStackTrace(printWriter);
-		return writer.toString();
+        LOGGER.error("Exception", exception); //Log Before Returning
+        return ExceptionUtils.getStackTrace(exception);
 	}
 }

@@ -97,7 +97,7 @@
 			<legend>${artistsLabel}</legend>
 			<form:errors path="artistActivityItems" element="div" class="errors" />
 			<%--Hidden Div To Clone As Response To 'Add Artist' Event--%>
-			<div id="hiddenArtist" class="form-group clearfix hidden itemArtists">
+			<div id="hiddenArtist" class="form-group clearfix hidden item-artists">
 				<input name="artists" type="text" value="" class="form-control autoComplete" placeholder="${artistLabel}" />
 				<select name="activities" class="form-control">
 					<option value="">${activitySelectLabel}</option>
@@ -108,7 +108,7 @@
 				<a class="deleteArtist btn btn-danger" role="button">${deleteLabel}</a>
 			</div>
 			<c:forEach var="loopArtists" items="${item.artistActivityItems}" varStatus="loop">
-				<div class="form-group clearfix itemArtists">
+				<div class="form-group clearfix item-artists">
 					<input name="artists" type="text" value="<c:out value='${loopArtists.idArtist.title}' />" class="form-control autoComplete" placeholder="${artistLabel}" />
 					<select name="activities" class="form-control">
 						<option value="">${activitySelectLabel}</option>
@@ -128,7 +128,7 @@
 			<legend>${commentsLabel}</legend>
 			<form:errors path="commentItems" element="div" class="errors" />
 			<%--Hidden Div To Clone As Response To 'Add Comments' Event--%>
-			<div id="hiddenComment" class="form-group clearfix hidden itemComments">
+			<div id="hiddenComment" class="form-group clearfix hidden item-comments">
 				<select name="comments" class="form-control">
 					<option value="">${commentSelectLabel}</option>
 					<c:forEach var="ci" items="${selectComment}">
@@ -138,7 +138,7 @@
 				<a class="deleteComment btn btn-danger" role="button">${deleteLabel}</a>
 			</div>
 			<c:forEach var="loopComments" items="${item.commentItems}" varStatus="loop">
-				<div class="form-group clearfix itemComments">
+				<div class="form-group clearfix item-comments">
 					<select name="comments" class="form-control">
 						<option value="">${commentSelectLabel}</option>
 						<c:forEach var="ci" items="${selectComment}">
@@ -158,11 +158,11 @@
 			<!-- Display Current Photo On Update and Input For Uploading A New One -->
 			<div class="form-group">
 				<c:choose>
-					<c:when test="${item.id!=null}">
-						<img src="${item.id}/photo" class="img-thumbnail" />
+					<c:when test="${item.id!=null && item.photoPath!=null}">
+						<img src="<c:url value='${imagesPath}${item.photoPath}' />" class="img-thumbnail" onError="this.src='<c:url value='${imagesPath}${defaultImage}' />'" />
 					</c:when>
 					<c:otherwise>
-						<img src="<c:url value='${noImage}' />" class="img-thumbnail" />
+						<img src="<c:url value='${imagesPath}${defaultImage}' />" class="img-thumbnail" />
 					</c:otherwise>
 				</c:choose>
 			</div>

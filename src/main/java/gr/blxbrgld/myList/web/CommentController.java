@@ -1,11 +1,11 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
-import gr.blxbrgld.myList.model.Comment;
-import gr.blxbrgld.myList.service.CommentService;
+import gr.blxbrgld.mylist.model.Comment;
+import gr.blxbrgld.mylist.service.CommentService;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,28 +20,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Comment's Controller
+ * @author blxbrgld
  */
 @Controller
 @RequestMapping("/admin/comment")
 public class CommentController {
 
-	@Inject private CommentService commentService;
-	
+	@Autowired private CommentService commentService;
+
+    private static final String COMMENT_FORM = "comment/form";
+    private static final String COMMENT_LIST = "comment/list";
+    private static final String COMMENT_LIST_WITH_REDIRECT = "redirect:/admin/comment/list";
+
 	@InitBinder
-	public void InitBinder(WebDataBinder binder) {
+	public void initBinder(WebDataBinder binder) {
 		binder.setAllowedFields(new String[] { "id", "title" });
 	}
 	
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String createForm(Model model) {
 		populateForm(model, new Comment());
-		return "comment/form";
+		return COMMENT_FORM;
 	}
 	
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 		populateForm(model, commentService.getComment(id));
-		return "comment/form";
+		return COMMENT_FORM;
 	}
 	
 	@RequestMapping(value = "*", method = RequestMethod.POST)
@@ -54,20 +59,18 @@ public class CommentController {
 		}
 		if(result.hasErrors()) {
 			populateForm(model, comment);
-			return "comment/form";
+			return COMMENT_FORM;
 		}
 		else {
 			redirectAttributes.addFlashAttribute("successMessage", "message.comment.create.success");
-			return "redirect:/admin/comment/list";
+			return COMMENT_LIST_WITH_REDIRECT;
 		}
 	}
 	
 	@RequestMapping(value = "list")
-	public String list( @RequestParam(value = "property", required = false) String property,
-						@RequestParam(value = "order", required = false) String order,
-						Model model) {
+	public String list(@RequestParam(value = "property", required = false) String property, @RequestParam(value = "order", required = false) String order, Model model) {
 		model.addAttribute("commentList", commentService.getComments(property, order));
-		return "comment/list";
+		return COMMENT_LIST;
 	}
 	
 	@RequestMapping(value = "delete/{id}")
@@ -78,7 +81,7 @@ public class CommentController {
 		else {
 			redirectAttributes.addFlashAttribute("errorMessage", "message.comment.delete.error");
 		}
-		return "redirect:/admin/comment/list";
+		return COMMENT_LIST_WITH_REDIRECT;
 	}
 	
 	/**

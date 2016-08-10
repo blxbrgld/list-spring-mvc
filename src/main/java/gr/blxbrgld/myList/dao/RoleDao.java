@@ -1,9 +1,10 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
-import gr.blxbrgld.myList.model.Role;
+import gr.blxbrgld.mylist.model.Role;
 
 /**
  * Role's DAO Interface
+ * @author blxbrgld
  */
 public interface RoleDao extends AbstractDao<Role> {
 

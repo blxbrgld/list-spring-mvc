@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <contextName>myList</contextName>
-    <property resource="miscellaneous.properties" />
+    <contextName>mylist</contextName>
+    <property resource="configuration.properties" />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.out</target>
         <encoder>
@@ -9,9 +9,9 @@
         </encoder>
     </appender>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${filepath.logs}/myList.log</file>
+        <file>${filepath.logs}/mylist.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${filepath.logs}/myList.%d{yyyy-MM-dd}.zip</fileNamePattern>
+            <fileNamePattern>${filepath.logs}/mylist.%d{yyyy-MM-dd}.zip</fileNamePattern>
             <maxHistory>7</maxHistory>
             <cleanHistoryOnStart>false</cleanHistoryOnStart>
         </rollingPolicy>

@@ -1,4 +1,4 @@
-package gr.blxbrgld.myList.utilities;
+package gr.blxbrgld.mylist.utilities;
 
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Filter;
@@ -12,6 +12,7 @@ import org.hibernate.search.filter.StandardFilterKey;
 
 /**
  * Filter Hibernate Search Results By 'Music' or 'Film' Argument Given By User
+ * @author blxbrgld
  */
 public class ParentCategoryFilterFactory {
 
@@ -25,8 +26,7 @@ public class ParentCategoryFilterFactory {
 	public Filter getFilter() {
 		Term term = new Term("itemParentCategory", parentCategory);
 		Query query = new TermQuery(term);
-		Filter filter = new QueryWrapperFilter(query);
-		return filter;
+		return new QueryWrapperFilter(query);
 	}
 	
 	@Key

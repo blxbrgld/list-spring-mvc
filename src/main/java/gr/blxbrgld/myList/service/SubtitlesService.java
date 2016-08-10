@@ -1,13 +1,14 @@
-package gr.blxbrgld.myList.service;
+package gr.blxbrgld.mylist.service;
 
 import java.util.List;
 
 import org.springframework.validation.Errors;
 
-import gr.blxbrgld.myList.model.Subtitles;
+import gr.blxbrgld.mylist.model.Subtitles;
 
 /**
  * Subtitles' Service Interface
+ * @author blxbrgld
  */
 public interface SubtitlesService {
 

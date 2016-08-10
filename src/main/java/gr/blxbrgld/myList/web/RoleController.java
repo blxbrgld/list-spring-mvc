@@ -1,11 +1,11 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
-import gr.blxbrgld.myList.model.Role;
-import gr.blxbrgld.myList.service.RoleService;
+import gr.blxbrgld.mylist.model.Role;
+import gr.blxbrgld.mylist.service.RoleService;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,28 +20,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Role's Controller
+ * @author blxbrgld
  */
 @Controller
 @RequestMapping("/admin/role")
 public class RoleController {
 
-	@Inject private RoleService roleService;
+	@Autowired private RoleService roleService;
+
+    private static final String ROLE_FORM = "role/form";
+    private static final String ROLE_LIST = "role/list";
+    private static final String ROLE_LIST_WITH_REDIRECT = "redirect:/admin/role/list";
 	
 	@InitBinder
-	public void InitBinder(WebDataBinder binder) {
+	public void initBinder(WebDataBinder binder) {
 		binder.setAllowedFields(new String[] { "id", "title" });
 	}
 	
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String createForm(Model model) {
 		populateForm(model, new Role());
-		return "role/form";
+		return ROLE_FORM;
 	}	
 	
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 		populateForm(model, roleService.getRole(id));
-		return "role/form";
+		return ROLE_FORM;
 	}
 	
 	@RequestMapping(value = "*", method = RequestMethod.POST)
@@ -55,20 +60,18 @@ public class RoleController {
 		
 		if(result.hasErrors()) {
 			populateForm(model, role);
-			return "role/form";
+			return ROLE_FORM;
 		}
 		else {
 			redirectAttributes.addFlashAttribute("successMessage", "message.role.create.success");
-			return "redirect:/admin/role/list";
+			return ROLE_LIST_WITH_REDIRECT;
 		}
 	}
 
 	@RequestMapping(value = "list")
-	public String list( @RequestParam(value = "property", required = false) String property,
-						@RequestParam(value = "order", required = false) String order,
-						Model model) {
+	public String list(@RequestParam(value = "property", required = false) String property, @RequestParam(value = "order", required = false) String order, Model model) {
 		model.addAttribute("roleList", roleService.getRoles(property, order));
-		return "role/list";
+		return ROLE_LIST;
 	}
 	
 	@RequestMapping(value = "delete/{id}")
@@ -79,7 +82,7 @@ public class RoleController {
 		else {
 			redirectAttributes.addFlashAttribute("errorMessage", "message.role.delete.error");
 		}
-		return "redirect:/admin/role/list";
+		return ROLE_LIST_WITH_REDIRECT;
 	}
 	
 	/**

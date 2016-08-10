@@ -1,11 +1,12 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
 import java.util.List;
 
-import gr.blxbrgld.myList.model.Category;
+import gr.blxbrgld.mylist.model.Category;
 
 /**
  * Category's DAO Interface
+ * @author blxbrgld
  */
 public interface CategoryDao extends AbstractDao<Category> {
 

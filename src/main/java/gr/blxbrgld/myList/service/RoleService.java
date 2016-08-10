@@ -1,13 +1,14 @@
-package gr.blxbrgld.myList.service;
+package gr.blxbrgld.mylist.service;
 
 import java.util.List;
 
 import org.springframework.validation.Errors;
 
-import gr.blxbrgld.myList.model.Role;
+import gr.blxbrgld.mylist.model.Role;
 
 /**
  * Role's Service Interface
+ * @author blxbrgld
  */
 public interface RoleService {
 

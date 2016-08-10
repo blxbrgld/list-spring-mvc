@@ -1,66 +1,89 @@
-package gr.blxbrgld.myList.service.implementation;
+package gr.blxbrgld.mylist.service.implementation;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
-import gr.blxbrgld.myList.dao.CategoryDao;
-import gr.blxbrgld.myList.dao.ItemDao;
-import gr.blxbrgld.myList.model.Category;
-import gr.blxbrgld.myList.service.CategoryService;
+import gr.blxbrgld.mylist.dao.CategoryDao;
+import gr.blxbrgld.mylist.dao.ItemDao;
+import gr.blxbrgld.mylist.model.Category;
+import gr.blxbrgld.mylist.service.CategoryService;
 
 /**
  * Category's Service Implementation
+ * @author blxbrgld
  */
 @Service
 @Transactional
 @PreAuthorize("denyAll")
 public class CategoryServiceImplementation implements CategoryService {
 
-	@Inject private CategoryDao categoryDao;
-	@Inject private ItemDao itemDao;
-	
+	@Autowired private CategoryDao categoryDao;
+	@Autowired private ItemDao itemDao;
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void persistCategory(Category category, Errors errors) {
 		validateTitle(category, errors);
 		//validateParent() Is Not Needed On persistCategory()
 		boolean valid = !errors.hasErrors();
-		if(valid) categoryDao.persist(category);
+		if(valid) {
+            categoryDao.persist(category);
+        }
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void mergeCategory(Category category, Errors errors) {
 		validateTitle(category, errors);
 		validateParent(category, errors);
 		boolean valid = !errors.hasErrors();
-		if(valid) categoryDao.merge(category);
+		if(valid) {
+            categoryDao.merge(category);
+        }
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public List<Category> getCategories(String property, String order) {
 		return categoryDao.getAll(property, order);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public Category getCategory(Long id) {
 		return categoryDao.get(id);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public Category getCategory(String title) {
 		return categoryDao.findByTitle(title);
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public boolean deleteCategory(Long id) {

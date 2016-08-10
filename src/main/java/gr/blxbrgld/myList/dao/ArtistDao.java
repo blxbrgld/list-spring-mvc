@@ -1,11 +1,12 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
 import java.util.List;
 
-import gr.blxbrgld.myList.model.Artist;
+import gr.blxbrgld.mylist.model.Artist;
 
 /**
  * Artist's DAO Interface
+ * @author blxbrgld
  */
 public interface ArtistDao extends AbstractDao<Artist> {
 

@@ -1,58 +1,78 @@
-package gr.blxbrgld.myList.service.implementation;
+package gr.blxbrgld.mylist.service.implementation;
 
 import java.util.List;
 
-import gr.blxbrgld.myList.dao.CommentDao;
-import gr.blxbrgld.myList.dao.CommentItemDao;
-import gr.blxbrgld.myList.model.Comment;
-import gr.blxbrgld.myList.service.CommentService;
+import gr.blxbrgld.mylist.dao.CommentDao;
+import gr.blxbrgld.mylist.dao.CommentItemDao;
+import gr.blxbrgld.mylist.model.Comment;
+import gr.blxbrgld.mylist.service.CommentService;
 
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
 /**
  * Comment's Service Implementation
+ * @author blxbrgld
  */
 @Service
 @Transactional
 @PreAuthorize("denyAll")
 public class CommentServiceImplementation implements CommentService {
 
-	@Inject private CommentDao commentDao;
-	@Inject private CommentItemDao commentItemDao;
-	
+	@Autowired private CommentDao commentDao;
+	@Autowired private CommentItemDao commentItemDao;
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void persistComment(Comment comment, Errors errors) {
 		validateTitle(comment, errors);
 		boolean valid = !errors.hasErrors();
-		if(valid) commentDao.persist(comment);
+		if(valid) {
+            commentDao.persist(comment);
+        }
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void mergeComment(Comment comment, Errors errors) {
 		validateTitle(comment, errors);
 		boolean valid = !errors.hasErrors();
-		if(valid) commentDao.merge(comment);
+		if(valid) {
+            commentDao.merge(comment);
+        }
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public List<Comment> getComments(String property, String order) {
 		return commentDao.getAll(property, order);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public Comment getComment(Long id) {
 		return commentDao.get(id);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public boolean deleteComment(Long id) {

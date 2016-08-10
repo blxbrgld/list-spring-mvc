@@ -1,13 +1,14 @@
-package gr.blxbrgld.myList.service;
+package gr.blxbrgld.mylist.service;
 
 import java.util.List;
 
 import org.springframework.validation.Errors;
 
-import gr.blxbrgld.myList.model.Artist;
+import gr.blxbrgld.mylist.model.Artist;
 
 /**
  * Artist's Service Interface
+ * @author blxbrgld
  */
 public interface ArtistService {
 

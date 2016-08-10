@@ -1,6 +1,6 @@
-package gr.blxbrgld.myList.utilities;
+package gr.blxbrgld.mylist.utilities;
 
-import gr.blxbrgld.myList.dao.CategoryDetailsDao;
+import gr.blxbrgld.mylist.dao.CategoryDetailsDao;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +19,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import sun.misc.IOUtils;
 
 /**
  * Menu Categories and Other Attributes Initialization At Application's Startup
+ * @author blxbrgld
  */
 public class ApplicationContextListener implements ServletContextListener {
 
@@ -32,11 +32,11 @@ public class ApplicationContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		ServletContext context = event.getServletContext();
 		WebApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(context);
-		CategoryDetailsDao categoryDetailsDao = applicationContext.getBean(gr.blxbrgld.myList.dao.CategoryDetailsDao.class);
+		CategoryDetailsDao categoryDetailsDao = applicationContext.getBean(gr.blxbrgld.mylist.dao.CategoryDetailsDao.class);
 	    /**
 	     * Read Values From miscellaneous.properties File
 	     */
-		final String props = "/miscellaneous.properties";
+		final String props = "/configuration.properties";
 		final Properties propsFromFile = new Properties();
 		try {
 			propsFromFile.load(getClass().getResourceAsStream(props));
@@ -45,9 +45,9 @@ public class ApplicationContextListener implements ServletContextListener {
 			LOGGER.error("IOException", exception);
 		}
 		for(String prop : propsFromFile.stringPropertyNames()) {
-			if(System.getProperty(prop) == null) {
-				System.setProperty(prop, propsFromFile.getProperty(prop));
-			}
+            if(prop.startsWith("filepath") && System.getProperty(prop) == null) { //Set filepath Properties As System Properties
+                System.setProperty(prop, propsFromFile.getProperty(prop));
+            }
 		}
 	    /**
 	     * Set Miscellaneous Context Parameters For Menu, Footer etc.
@@ -57,7 +57,6 @@ public class ApplicationContextListener implements ServletContextListener {
 		GregorianCalendar currentDate = new GregorianCalendar();
 		int currentYear = currentDate.get(Calendar.YEAR);
 		context.setAttribute("currentYear", currentYear); //Year
-		context.setAttribute("authorsEmail", System.getProperty("author.email")); //Author's Email
 	}
 	
 	@Override
@@ -70,10 +69,12 @@ public class ApplicationContextListener implements ServletContextListener {
 	 * @param path Filesystem Folder Containing Application's Wallpapers
 	 * @return Random Filename to be Used As Wallpaper
 	 */
-	private String randomWallpaper(String path) {
+	private static String randomWallpaper(String path) {
 		String[] files = new File(path).list();
 		List<String> filenames = new ArrayList<String>();
-		for(String f : files) { filenames.add(f); }
+		for(String f : files) {
+            filenames.add(f);
+        }
 		return filenames.get(randomInteger(0, filenames.size()-1));
 	}
 	

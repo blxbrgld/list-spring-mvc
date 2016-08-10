@@ -1,39 +1,36 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import gr.blxbrgld.myList.model.Activity;
-import gr.blxbrgld.myList.model.Artist;
-import gr.blxbrgld.myList.model.ArtistActivityItem;
-import gr.blxbrgld.myList.model.CommentItem;
-import gr.blxbrgld.myList.model.Item;
-import gr.blxbrgld.myList.service.ActivityService;
-import gr.blxbrgld.myList.service.ArtistActivityItemService;
-import gr.blxbrgld.myList.service.ArtistService;
-import gr.blxbrgld.myList.service.CategoryService;
-import gr.blxbrgld.myList.service.CommentItemService;
-import gr.blxbrgld.myList.service.CommentService;
-import gr.blxbrgld.myList.service.ItemService;
-import gr.blxbrgld.myList.service.SubtitlesService;
-import gr.blxbrgld.myList.utilities.ReturningValues;
+import gr.blxbrgld.mylist.model.Activity;
+import gr.blxbrgld.mylist.model.Artist;
+import gr.blxbrgld.mylist.model.ArtistActivityItem;
+import gr.blxbrgld.mylist.model.CommentItem;
+import gr.blxbrgld.mylist.model.Item;
+import gr.blxbrgld.mylist.service.ActivityService;
+import gr.blxbrgld.mylist.service.ArtistActivityItemService;
+import gr.blxbrgld.mylist.service.ArtistService;
+import gr.blxbrgld.mylist.service.CategoryService;
+import gr.blxbrgld.mylist.service.CommentItemService;
+import gr.blxbrgld.mylist.service.CommentService;
+import gr.blxbrgld.mylist.service.ItemService;
+import gr.blxbrgld.mylist.service.SubtitlesService;
+import gr.blxbrgld.mylist.utilities.ReturningValues;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import net.coobird.thumbnailator.Thumbnails;
 
+import org.apache.commons.math.util.MathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,23 +49,32 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Item's Controller
+ * @author blxbrgld
  */
 @Controller
 public class ItemController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
 	
-	@Inject private ItemService itemService;
-	@Inject private CategoryService categoryService;
-	@Inject private CommentService commentService;
-	@Inject private CommentItemService commentItemService;
-	@Inject private ArtistService artistService;
-	@Inject private ActivityService activityService;
-	@Inject private ArtistActivityItemService artistActivityItemService;
-	@Inject private SubtitlesService subtitlesService;
+	@Autowired private ItemService itemService;
+	@Autowired private CategoryService categoryService;
+	@Autowired private CommentService commentService;
+	@Autowired private CommentItemService commentItemService;
+	@Autowired private ArtistService artistService;
+	@Autowired private ActivityService activityService;
+	@Autowired private ArtistActivityItemService artistActivityItemService;
+	@Autowired private SubtitlesService subtitlesService;
+
+    private static final String ITEM_FORM = "item/form";
+    private static final String ITEM_LIST = "item/list";
+    private static final String ITEM_UPDATE = "item/update";
+    private static final String ITEM_DISPLAY = "item/display";
+    private static final String IMAGES_FILEPATH = "filepath.images";
+    private static final String ITEMS_FILEPATH = "items/";
+    private static final double EPSILON = 0.001;
 
 	@InitBinder
-	public void InitBinder(WebDataBinder binder) {
+	public void initBinder(WebDataBinder binder) {
 		binder.setAllowedFields(new String[] { "id", "titleEng", "titleEll", "category", "description", "year", "rating", "subtitles", "discs", "place", "photoPath", "photo", "commentItems" });
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true)); //Convert Empty String Values To NULL
 	}
@@ -76,13 +82,13 @@ public class ItemController {
 	@RequestMapping(value = "/admin/item/create", method = RequestMethod.GET)
 	public String createForm(Model model) {
 		populateForm(model, new Item());
-		return "item/form";
+		return ITEM_FORM;
 	}
 
 	@RequestMapping(value = "/admin/item/update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 		populateForm(model, itemService.getItem(id));
-		return "item/form";
+		return ITEM_FORM;
 	}
 
 	@RequestMapping(value = "/admin/item/*", method = RequestMethod.POST)
@@ -111,11 +117,11 @@ public class ItemController {
 		}
 		if(result.hasErrors()) {
 			populateForm(model, populateItemRelations(item, comments, artists, activities, false));
-			return "item/form";
+			return ITEM_FORM;
 		}
 		else {
 			redirectAttributes.addFlashAttribute("successMessage", "message.item.create.success");
-			return "redirect:/admin/item/update/" + item.getId();
+			return "redirect:/admin/" + ITEM_UPDATE + "/" + item.getId();
 		}
 	}
 
@@ -134,7 +140,7 @@ public class ItemController {
 		String orderBy = property == null ? "titleEng" : property;
 		String ordering = order == null ? "ASC" : order;
 		if(artist != null) {
-			Artist art = new Artist();
+			Artist art;
 			if(artist.equals(-1L)) {
 				art = artistService.findRandomArtist();
 				model.addAttribute("paginateRandom", art.getId()); //Paginate Random Artist If It's Needed
@@ -143,21 +149,21 @@ public class ItemController {
 				art = artistService.getArtist(artist);
 			}
 			model.addAttribute("itemList", itemService.getItemsHavingArtist(art, firstResult, sizeNo)); //Ascending titleEng Ordering Is The Default
-			float noOfPages = (float) artistActivityItemService.countArtistActivityItemsHavingArtist(art) / sizeNo;
-			model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || noOfPages == 0.0) ? noOfPages + 1 : noOfPages));
+			double noOfPages = (double) artistActivityItemService.countArtistActivityItemsHavingArtist(art) / sizeNo;
+			model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || MathUtils.equals(noOfPages, 0.0, EPSILON)) ? noOfPages + 1 : noOfPages));
 			model.addAttribute("pageHeader", "title.item.artists");
 			model.addAttribute("pageHeaderAttribute", art.getTitle());
 		}
 		else if(searchFor != null) {
 			ReturningValues result = itemService.searchItems(searchFor, searchIn, property, order, firstResult, sizeNo); //Order By Relevance Is The Default
 			model.addAttribute("itemList", result.getResults());
-			float noOfPages = (float) result.getNoOfResults() / sizeNo;
-			model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || noOfPages == 0.0) ? noOfPages + 1 : noOfPages));
-			if(searchFor.equals("*") && searchIn != null) {
+			double noOfPages = (double) result.getNoOfResults() / sizeNo;
+			model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || MathUtils.equals(noOfPages, 0.0, EPSILON)) ? noOfPages + 1 : noOfPages));
+			if("*".equals(searchFor) && searchIn != null) {
 				model.addAttribute("pageHeader", "title.item.categories");
 				model.addAttribute("pageHeaderAttribute", searchIn);			
 			}
-			else if(searchIn != null && searchIn.equals("Lists")) {
+			else if(searchIn != null && "Lists".equals(searchIn)) {
 				model.addAttribute("pageHeader", "title.item.favorites");
 				model.addAttribute("pageHeaderAttribute", null);
 			}
@@ -168,17 +174,17 @@ public class ItemController {
 		}
 		else {
 			model.addAttribute("itemList", itemService.getItems(orderBy, ordering, firstResult, sizeNo));
-			float noOfPages = (float) itemService.countItems() / sizeNo;
-			model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || noOfPages == 0.0) ? noOfPages + 1 : noOfPages));
+			double noOfPages = (double) itemService.countItems() / sizeNo;
+			model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || MathUtils.equals(noOfPages, 0.0, EPSILON)) ? noOfPages + 1 : noOfPages));
 			model.addAttribute("pageHeader", "title.item.list");
 			model.addAttribute("pageHeaderAttribute", null);
 		}
 
-		if(view != null && view.equals("list")) { //List View
-			return "item/list";
+		if(view != null && "list".equals(view)) { //List View
+			return ITEM_LIST;
 		}
 		else {
-			return "item/display";
+			return ITEM_DISPLAY;
 		}
 	}
 
@@ -188,11 +194,12 @@ public class ItemController {
 		deletePhoto(item.getPhotoPath());
 		itemService.deleteItem(item);
 		redirectAttributes.addFlashAttribute("successMessage", "message.item.delete.success");
-		return "redirect:/item/list?view=list";
+		return "redirect:/" + ITEM_LIST + "?view=list";
 	}
 
+    @ResponseBody
 	@RequestMapping(value = "/item/getArtists", method = RequestMethod.GET)
-	public @ResponseBody List<String> getArtistList(@RequestParam("term") String term) {
+    public List<String> getArtistList(@RequestParam("term") String term) {
 		return artistService.findArtistsLike(term);
 	}
 
@@ -200,31 +207,7 @@ public class ItemController {
 	public ModelAndView getExcel(@RequestParam("parent") String parent) {
 		return new ModelAndView("ItemExcel", "itemList", itemService.getItemsHavingCategory(categoryService.getCategory(parent)));
 	}
-	
-	/**
-	 * Display Item's Photo Stored In Filesystem
-	 * @param id Item's Id
-	 * @param response HttpServletResponse
-	 * @param model Model
-	 * @return null
-	 */
-	@RequestMapping(value = {"/admin/item/update/{id}/photo" }, method = RequestMethod.GET)
-	public String displayPhoto(@PathVariable("id") Long id, HttpServletResponse response, Model model) {
-		Item current = itemService.getItem(id);
-		if(current != null) {
-			try {
-				File currentPhoto = new File(System.getProperty("filepath.images"), "items/" + current.getPhotoPath());
-				OutputStream output = response.getOutputStream();
-				Files.copy(FileSystems.getDefault().getPath(System.getProperty("filepath.images") + "items/" + (currentPhoto.exists() ? current.getPhotoPath() : "no-image.png")), output);
-				output.flush();
-			} 
-			catch(IOException exception) {
-				LOGGER.error("IOException", exception);
-			}
-		}
-		return null;
-	}
-	
+
 	/**
 	 * Upload Photo, Create Thumbnail and Set Photo Attribute of Given Item
 	 * @param item Item Object
@@ -234,13 +217,13 @@ public class ItemController {
 		if(photo != null && photo.getSize() != 0) {
 			deletePhoto(item.getPhotoPath()); //Delete Old Image
 			String filename = "item_" + String.format("%05d", item.getId()) + photo.getOriginalFilename().substring(photo.getOriginalFilename().lastIndexOf('.'));
-        	File file = new File(System.getProperty("filepath.images"), "temporary/" + filename);
+        	File file = new File(System.getProperty(IMAGES_FILEPATH), "temporary/" + filename);
         	try {
         		photo.transferTo(file);
         		Thumbnails
         			.of(file)
         			.size(150, 150)
-        			.toFile(new File(System.getProperty("filepath.images"), "items/" + filename));
+        			.toFile(new File(System.getProperty(IMAGES_FILEPATH), ITEMS_FILEPATH + filename));
         		item.setPhotoPath(filename); //Set Object's Attribute
         	}
         	catch(IOException exception) {
@@ -251,14 +234,14 @@ public class ItemController {
         	}
 		}
 	}
-	
+
 	/**
 	 * Delete Old Photo In Case Of Updating
 	 * @param photo Photo's Filename
 	 */
 	void deletePhoto(String photo) {
 		if(photo != null) {
-			File file = new File(System.getProperty("filepath.images"), "items/" + photo);
+			File file = new File(System.getProperty(IMAGES_FILEPATH), ITEMS_FILEPATH + photo);
 			file.delete();
 		}
 	}	
@@ -329,7 +312,7 @@ public class ItemController {
 	List<ArtistActivityItem> artistActivityItemsListFromArrays(Item item, String[] artists, String[] activities, boolean persistRelations) {
 		List<ArtistActivityItem> artistActivityItems = new ArrayList<ArtistActivityItem>();
 		for(int i = 0; i < artists.length; i++) {
-			if(!artists[i].equals("") || !activities[i].equals("")) { //Artist or Activity Given
+			if(!"".equals(artists[i]) || !"".equals(activities[i])) { //Artist or Activity Given
 				ArtistActivityItem artistActivityItem = new ArtistActivityItem();
 				artistActivityItem.setIdItem(item);
 				/*

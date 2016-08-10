@@ -1,4 +1,4 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
 import javax.validation.constraints.NotNull;
 
@@ -8,16 +8,17 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
 
-import gr.blxbrgld.myList.model.Role;
+import gr.blxbrgld.mylist.model.Role;
 
 /**
  * UserForm Object For User's Controller
+ * @author blxbrgld
  */
 @ScriptAssert(
-		lang = "javascript",
-		script = "_this.confirmPassword.equals(_this.password)",
-		message = "user.password.mismatch.message"
-		)
+	lang = "javascript",
+	script = "_this.confirmPassword.equals(_this.password)",
+	message = "user.password.mismatch.message"
+)
 public class UserForm {
 
 	private Long id; //No Need For Annotations. It Will Be Used Only As A Hidden Field
@@ -96,10 +97,10 @@ public class UserForm {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-				.append("id", id)
-				.append("username", username)
-				.append("email", email)
-				.append("role", role)
-				.toString();
+            .append("id", id)
+            .append("username", username)
+            .append("email", email)
+            .append("role", role)
+            .toString();
 	}
 }

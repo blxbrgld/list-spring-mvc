@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `mylist-spring` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `mylist-spring`;
+CREATE DATABASE  IF NOT EXISTS `mylist-spring-it` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `mylist-spring-it`;
 -- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (x86_64)
 --
--- Host: 192.168.100.3    Database: mylist-spring
+-- Host: 192.168.100.3    Database: mylist-spring-it
 -- ------------------------------------------------------
 -- Server version	5.0.38-Ubuntu_0ubuntu1.4
 
@@ -102,7 +102,7 @@ CREATE TABLE `Roles` (
 
 LOCK TABLES `Roles` WRITE;
 /*!40000 ALTER TABLE `Roles` DISABLE KEYS */;
-INSERT INTO `Roles` VALUES (1,'Administrator','2014-02-19 10:22:46');
+INSERT INTO `Roles` VALUES (1,'Administrator','2014-02-19 10:22:46'), (2,'Viewer','2014-02-19 10:23:46');
 /*!40000 ALTER TABLE `Roles` ENABLE KEYS */;
 UNLOCK TABLES;
 

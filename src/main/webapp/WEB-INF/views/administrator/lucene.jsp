@@ -12,5 +12,5 @@
 		<c:otherwise>
 			<p>${asynchLabel}</p>
 		</c:otherwise>
-	</c:choose>
+    </c:choose>
 </div>

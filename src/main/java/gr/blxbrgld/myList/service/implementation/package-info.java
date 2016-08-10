@@ -1,4 +1,5 @@
 /**
  * Service Layer's Implementation Classes
+ * @author blxbrgld
  */
-package gr.blxbrgld.myList.service.implementation;
+package gr.blxbrgld.mylist.service.implementation;

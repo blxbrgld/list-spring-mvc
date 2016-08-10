@@ -8,6 +8,9 @@
         					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
         					http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
+    <!-- Enable Component Scanning -->
+    <context:component-scan base-package="gr.blxbrgld.mylist.web" />
+
 	<mvc:view-controller path="/login.html" />
 	<mvc:view-controller path="/denied.html" />
 	<mvc:view-controller path="/index.html" />
@@ -16,14 +19,12 @@
 
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
-	<context:component-scan base-package="gr.blxbrgld.myList.web" />
-
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource" p:basename="classpath:messages/messages" />
 
 	<mvc:annotation-driven conversion-service="applicationConversionService" />
-	<bean id="applicationConversionService" class="gr.blxbrgld.myList.web.ApplicationConversionServiceFactoryBean" />
+	<bean id="applicationConversionService" class="gr.blxbrgld.mylist.web.ApplicationConversionServiceFactoryBean" />
 
-	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
     	<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
     	<property name="order" value="0" />
   	</bean>
@@ -39,9 +40,9 @@
 
 	<bean class="org.springframework.web.servlet.view.XmlViewResolver">
 		<property name="location">
-			<value>/WEB-INF/spring-excel-views.xml</value>
+            <value>/WEB-INF/spring-excel-views.xml</value>
 		</property>
-		<property name="order" value="1" />
+        <property name="order" value="1" />
 	</bean>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

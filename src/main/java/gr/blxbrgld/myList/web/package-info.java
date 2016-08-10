@@ -1,4 +1,5 @@
 /**
  * Controllers
+ * @author blxbrgld
  */
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;

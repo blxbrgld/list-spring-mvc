@@ -4,10 +4,10 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <spring:url value="/resources/images/styles/favicon.ico" var="faviconUrl" />
 <spring:url value="/resources/bootstrap-3.3.5/dist/css/bootstrap.min.css" var="bootstrapCSSUrl" />
-<spring:url value="/resources/styles/styling.css" var="stylingUrl" />
+<spring:url value="/resources/styling.css" var="stylingUrl" />
 <spring:url value="/resources/bootstrap-3.3.5/dist/js/bootstrap.min.js" var="bootstrapJSUrl" />
 <spring:url value="/resources/bootbox-4.4.0/bootbox.min.js" var="bootboxUrl" />
-<spring:url value="/resources/js/scripts.js" var="scriptsUrl" />
+<spring:url value="/resources/scripts.js" var="scriptsUrl" />
 <spring:url value="/resources/tinymce/tinymce.min.js" var="tinymceUrl" />
 <spring:url value="/resources/font-awesome-4.4.0/css/font-awesome.min.css" var="fontawesomeUrl" />
 <!DOCTYPE html>
@@ -32,8 +32,9 @@
 	      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	    <![endif]-->
-	    <%--Default Image In As An Application Scope Parameter--%>
-		<c:set var="noImage" value="${contextPath}/resources/images/items/no-image.png" scope="application"/>
+	    <%--Images Path + Default Image As Application Scope Parameters--%>
+		<c:set var="imagesPath" value="${contextPath}/resources/images/items/" scope="application"/>
+        <c:set var="defaultImage" value="no-image.png" scope="application" />
 	</head>
 	<body>
 		<%--AddThis Follow Buttons--%>

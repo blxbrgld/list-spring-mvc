@@ -1,9 +1,10 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
-import gr.blxbrgld.myList.model.Subtitles;
+import gr.blxbrgld.mylist.model.Subtitles;
 
 /**
- * Subtitles' DAO Interface 
+ * Subtitles' DAO Interface
+ * @author blxbrgld
  */
 public interface SubtitlesDao extends AbstractDao<Subtitles> {
 

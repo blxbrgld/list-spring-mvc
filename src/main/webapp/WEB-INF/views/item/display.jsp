@@ -29,10 +29,10 @@
 									<div class="col-xs-12 picture"><%--Image--%>
 										<c:choose>
 											<c:when test="${items.photoPath!=null}">
-												<img class="img-thumbnail" src="<c:url value='${contextPath}/resources/images/items/${items.photoPath}' />" onError="this.src='<c:url value="${noImage}" />'" />
+												<img class="img-thumbnail" src="<c:url value='${imagesPath}${items.photoPath}' />" onError="this.src='<c:url value="${imagesPath}${defaultImage}" />'" />
 											</c:when>
 											<c:otherwise>
-												<img class="img-thumbnail" src="<c:url value='${noImage}' />" />
+												<img class="img-thumbnail" src="<c:url value='${imagesPath}${defaultImage}' />" />
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -138,10 +138,10 @@
 									<div class="col-xs-12 picture"><%--Image--%>
 										<c:choose>
 											<c:when test="${items.photoPath!=null}">
-												<img class="img-thumbnail" src="<c:url value='${contextPath}/resources/images/items/${items.photoPath}' />" onError="this.src='<c:url value="${noImage}" />'" />
+												<img class="img-thumbnail" src="<c:url value='${imagesPath}${items.photoPath}' />" onError="this.src='<c:url value="${imagesPath}${defaultImage}" />'" />
 											</c:when>
 											<c:otherwise>
-												<img class="img-thumbnail" src="<c:url value='${noImage}' />" />
+												<img class="img-thumbnail" src="<c:url value='${imagesPath}${defaultImage}' />" />
 											</c:otherwise>
 										</c:choose>
 									</div>

@@ -4,5 +4,5 @@
 		<%--AddThis Follow Buttons--%>
 		<div class="addthis_horizontal_follow_toolbox"></div>
 	</div>
-	<p class="copyright">Copyright &copy ${currentYear} ${authorsEmail}</p>
+	<p class="copyright">Copyright &copy ${currentYear} nikolaos.i.papadopoulos@gmail.com</p>
 </div>

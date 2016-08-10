@@ -1,4 +1,4 @@
-package gr.blxbrgld.myList.web;
+package gr.blxbrgld.mylist.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,10 +18,11 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
-import gr.blxbrgld.myList.model.Item;
+import gr.blxbrgld.mylist.model.Item;
 
 /**
  * Export Of Items To .XLS Files
+ * @author blxbrgld
  */
 public class ItemExcelView extends AbstractExcelView {
 
@@ -41,7 +42,7 @@ public class ItemExcelView extends AbstractExcelView {
 	    
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		String today = dateFormat.format(new Date());
-		String filename = today.toString() + "_" + "Export.xls"; 
+		String filename = today + "_" + "Export.xls";
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
 		
 		Map<String, CellStyle> styles = createStyles(workbook);
@@ -60,7 +61,9 @@ public class ItemExcelView extends AbstractExcelView {
 	    excelHeader.createCell(3).setCellValue("Comments");
 	    excelHeader.createCell(4).setCellValue("Place");
 	    excelHeader.createCell(5).setCellValue("Discs");
-	    for(int i = 0; i < 6; i++) excelHeader.getCell(i).setCellStyle(styles.get("header")); //Colored
+	    for(int i = 0; i < 6; i++) {
+            excelHeader.getCell(i).setCellStyle(styles.get("header")); //Colored
+        }
 	    /*
 	     * Data
 	     */
@@ -72,9 +75,13 @@ public class ItemExcelView extends AbstractExcelView {
 		    excelRow.createCell(3).setCellValue(item.getCommentsString()!=null ? item.getCommentsString() : "-");
 		    excelRow.createCell(4).setCellValue(item.getPlace()!=null ? Integer.toString(item.getPlace()) : "-");
 		    excelRow.createCell(5).setCellValue(item.getDiscs()!=null ? Integer.toString(item.getDiscs()) : "-");
-		    for(int i = 2; i < 6; i++) excelRow.getCell(i).setCellStyle(styles.get("centered")); //Centered
+		    for(int i = 2; i < 6; i++) {
+                excelRow.getCell(i).setCellStyle(styles.get("centered")); //Centered
+            }
 		}
-		for(int i = 2; i < 6; i++) excelSheet.autoSizeColumn(i); //Override DefaultColumnWidth
+		for(int i = 2; i < 6; i++) {
+            excelSheet.autoSizeColumn(i); //Override DefaultColumnWidth
+        }
 	}
 	
 	/**

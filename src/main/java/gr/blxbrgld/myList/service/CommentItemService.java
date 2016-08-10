@@ -1,10 +1,11 @@
-package gr.blxbrgld.myList.service;
+package gr.blxbrgld.mylist.service;
 
-import gr.blxbrgld.myList.model.CommentItem;
-import gr.blxbrgld.myList.model.Item;
+import gr.blxbrgld.mylist.model.CommentItem;
+import gr.blxbrgld.mylist.model.Item;
 
 /**
  * CommentItem's Service Interface
+ * @author blxbrgld
  */
 public interface CommentItemService {
 

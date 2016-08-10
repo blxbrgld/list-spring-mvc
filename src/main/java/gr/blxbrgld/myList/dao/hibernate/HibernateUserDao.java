@@ -1,32 +1,32 @@
-package gr.blxbrgld.myList.dao.hibernate;
+package gr.blxbrgld.mylist.dao.hibernate;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
-import gr.blxbrgld.myList.dao.UserDao;
-import gr.blxbrgld.myList.model.Role;
-import gr.blxbrgld.myList.model.User;
+import gr.blxbrgld.mylist.dao.UserDao;
+import gr.blxbrgld.mylist.model.Role;
+import gr.blxbrgld.mylist.model.User;
 
 import org.hibernate.Criteria;
 import org.hibernate.NullPrecedence;
 import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.sql.JoinType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 /**
  * User's DAO Implementation
+ * @author blxbrgld
  */
 @Repository
 public class HibernateUserDao extends AbstractHibernateDao<User> implements UserDao {
 
-	private static final String UPDATE_PASSWORD_QUERY = "UPDATE Users SET Password = ? WHERE Username = ?";
+	private static final String UPDATE_QUERY = "UPDATE Users SET Password = ? WHERE Username = ?";
 	
-	@Inject private JdbcTemplate jdbcTemplate;
-	@Inject private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired private JdbcTemplate jdbcTemplate;
+	@Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	/**
 	 * Override AbstractHibernateDao Method To Include Sorting Functionality According To User's Role Title
@@ -38,7 +38,7 @@ public class HibernateUserDao extends AbstractHibernateDao<User> implements User
 	@Override
 	public List<User> getAll(String property, String order) {
 		Criteria criteria = getSession().createCriteria(User.class).createAlias("role", "role", JoinType.LEFT_OUTER_JOIN);
-		if(order!=null && order.equals("DESC")) {
+		if(order!=null && "DESC".equals(order)) {
 			criteria.addOrder(Order.desc(property).nulls(NullPrecedence.FIRST));
 		}
 		else if(property!=null) {
@@ -47,34 +47,49 @@ public class HibernateUserDao extends AbstractHibernateDao<User> implements User
 		return (List<User>) criteria.list();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public void persist(User user, String password) {
 		persist(user); //With Hibernate
 		String encodedPassword = bCryptPasswordEncoder.encode(password);
-		jdbcTemplate.update(UPDATE_PASSWORD_QUERY, encodedPassword, user.getUsername()); //With JDBC
+		jdbcTemplate.update(UPDATE_QUERY, encodedPassword, user.getUsername()); //With JDBC
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public void merge(User user, String password) {
 		merge(user); //With Hibernate
 		String encodedPassword = bCryptPasswordEncoder.encode(password);
-		jdbcTemplate.update(UPDATE_PASSWORD_QUERY, encodedPassword, user.getUsername()); //With JDBC
+		jdbcTemplate.update(UPDATE_QUERY, encodedPassword, user.getUsername()); //With JDBC
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public User findByUsername(String username) {
 		Query query = getSession().getNamedQuery("findUserByUsername");
 		query.setParameter("username", username);
 		return (User) query.uniqueResult();
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public User findByEmail(String email) {
 		Query query = getSession().getNamedQuery("findUserByEmail");
 		query.setParameter("email", email);
 		return (User) query.uniqueResult();		
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> findByRole(Role role) {
@@ -83,11 +98,14 @@ public class HibernateUserDao extends AbstractHibernateDao<User> implements User
 		return (List<User>) query.list();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public boolean havingRoleExists(Role role) {
 		Query query = getSession().getNamedQuery("findUsersByRole");
 		query.setParameter("role", role);
 		query.setMaxResults(1);
-		if(query.list().isEmpty()) return false; else return true;
+        return query.list().isEmpty() ? false : true;
 	}
 }

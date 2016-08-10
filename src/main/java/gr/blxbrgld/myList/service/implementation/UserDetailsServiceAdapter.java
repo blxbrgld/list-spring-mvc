@@ -1,14 +1,13 @@
-package gr.blxbrgld.myList.service.implementation;
+package gr.blxbrgld.mylist.service.implementation;
 
-import gr.blxbrgld.myList.dao.UserDetailsDao;
-import gr.blxbrgld.myList.model.User;
-import gr.blxbrgld.myList.model.UserDetailsAdapter;
-import gr.blxbrgld.myList.service.UserService;
+import gr.blxbrgld.mylist.dao.UserDetailsDao;
+import gr.blxbrgld.mylist.model.User;
+import gr.blxbrgld.mylist.model.UserDetailsAdapter;
+import gr.blxbrgld.mylist.service.UserService;
 
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-import org.springframework.dao.DataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,16 +15,23 @@ import org.springframework.stereotype.Service;
 
 /**
  * UserDetails' Service Implementation
+ * @author blxbrgld
  */
 @Service("userDetailsServiceAdapter")
 @Transactional
 public class UserDetailsServiceAdapter implements UserDetailsService {
 
-	@Inject UserService userService;
-	@Inject UserDetailsDao userDetailsDao;
-	
+	@Autowired UserService userService;
+	@Autowired UserDetailsDao userDetailsDao;
+
+    /**
+     * Load A UserDetails Object Given A Username
+     * @param username User's Username
+     * @return UserDetails Object
+     * @throws UsernameNotFoundException
+     */
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+	public UserDetails loadUserByUsername(String username) {
 		User user = userService.getUserByUsername(username);
 		if(user == null) {
 			throw new UsernameNotFoundException("No such user: " + username);

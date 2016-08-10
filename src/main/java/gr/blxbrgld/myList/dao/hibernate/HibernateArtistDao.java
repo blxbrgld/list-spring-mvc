@@ -1,19 +1,23 @@
-package gr.blxbrgld.myList.dao.hibernate;
+package gr.blxbrgld.mylist.dao.hibernate;
 
 import java.util.List;
 
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
-import gr.blxbrgld.myList.dao.ArtistDao;
-import gr.blxbrgld.myList.model.Artist;
+import gr.blxbrgld.mylist.dao.ArtistDao;
+import gr.blxbrgld.mylist.model.Artist;
 
 /**
  * Artist's DAO Implementation
+ * @author blxbrgld
  */
 @Repository
 public class HibernateArtistDao extends AbstractHibernateDao<Artist> implements ArtistDao {
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Artist findByTitle(String title) {
 		Query query = getSession().getNamedQuery("findArtistByTitle");
@@ -21,13 +25,19 @@ public class HibernateArtistDao extends AbstractHibernateDao<Artist> implements 
 		return (Artist) query.uniqueResult();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Artist findLast() {
 		Query query = getSession().getNamedQuery("findLastArtist");
 		query.setMaxResults(1);
 		return (Artist) query.uniqueResult();
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Artist findRandom() {
 		Query query = getSession().createQuery("FROM Artist ORDER BY RAND()");
@@ -35,6 +45,9 @@ public class HibernateArtistDao extends AbstractHibernateDao<Artist> implements 
 		return (Artist) query.uniqueResult();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Artist> findLike(String term) {

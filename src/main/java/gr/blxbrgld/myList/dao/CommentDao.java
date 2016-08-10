@@ -1,9 +1,10 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
-import gr.blxbrgld.myList.model.Comment;
+import gr.blxbrgld.mylist.model.Comment;
 
 /**
  * Comment's DAO Interface
+ * @author blxbrgld
  */
 public interface CommentDao extends AbstractDao<Comment> {
 

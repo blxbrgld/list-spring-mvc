@@ -1,12 +1,13 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
-import gr.blxbrgld.myList.model.Activity;
-import gr.blxbrgld.myList.model.Artist;
-import gr.blxbrgld.myList.model.ArtistActivityItem;
-import gr.blxbrgld.myList.model.Item;
+import gr.blxbrgld.mylist.model.Activity;
+import gr.blxbrgld.mylist.model.Artist;
+import gr.blxbrgld.mylist.model.ArtistActivityItem;
+import gr.blxbrgld.mylist.model.Item;
 
 /**
  * ArtistActivityItem's DAO Interface
+ * @author blxbrgld
  */
 public interface ArtistActivityItemDao extends AbstractDao<ArtistActivityItem> {
 

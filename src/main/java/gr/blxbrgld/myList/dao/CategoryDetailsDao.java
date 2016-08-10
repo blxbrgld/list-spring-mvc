@@ -1,10 +1,11 @@
-package gr.blxbrgld.myList.dao;
+package gr.blxbrgld.mylist.dao;
 
 import java.util.List;
 import java.util.Map;
 
 /**
  * CategoryDetails' DAO Interface
+ * @author blxbrgld
  */
 public interface CategoryDetailsDao {
 

@@ -1,6 +1,5 @@
-package gr.blxbrgld.myList.model;
+package gr.blxbrgld.mylist.model;
 
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -9,9 +8,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -19,8 +15,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -54,18 +48,18 @@ import org.hibernate.search.annotations.TokenFilterDef;
 import org.hibernate.search.annotations.TokenizerDef;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import gr.blxbrgld.myList.utilities.ArtistActivityItemBridge;
-import gr.blxbrgld.myList.utilities.CategoryBridge;
-import gr.blxbrgld.myList.utilities.CategoryFilterFactory;
-import gr.blxbrgld.myList.utilities.CommonsMultipartFileValid;
-import gr.blxbrgld.myList.utilities.ParentCategoryBridge;
-import gr.blxbrgld.myList.utilities.ParentCategoryFilterFactory;
+import gr.blxbrgld.mylist.utilities.ArtistActivityItemBridge;
+import gr.blxbrgld.mylist.utilities.CategoryBridge;
+import gr.blxbrgld.mylist.utilities.CategoryFilterFactory;
+import gr.blxbrgld.mylist.utilities.CommonsMultipartFileValid;
+import gr.blxbrgld.mylist.utilities.ParentCategoryBridge;
+import gr.blxbrgld.mylist.utilities.ParentCategoryFilterFactory;
 
 /**
  * Item Java Bean
+ * @author blxbrgld
  */
 @NamedQueries({
 	@NamedQuery(
@@ -121,13 +115,10 @@ import gr.blxbrgld.myList.utilities.ParentCategoryFilterFactory;
 			impl = CategoryBridge.class)
 })
 @Table(name = "Items")
-public class Item {
+public class Item extends BaseEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Id")
-	private Long id;
-	
+    private static final long serialVersionUID = 1L;
+
 	@Fields({
 		@Field,
 		@Field(name = "sortTitle", analyze = Analyze.NO)
@@ -151,7 +142,7 @@ public class Item {
 	@Column(name = "photoPath")
 	private String photoPath;
 	
-	@CommonsMultipartFileValid(message = "{gr.blxbrgld.myList.utilities.constraints.CommonsMultipartFileValid.message}")
+	@CommonsMultipartFileValid(message = "{gr.blxbrgld.mylist.utilities.constraints.CommonsMultipartFileValid.message}")
     @Transient
 	private CommonsMultipartFile photo;
 	
@@ -194,19 +185,6 @@ public class Item {
 	@OrderBy(clause = "id ASC")
 	@Fetch(FetchMode.SELECT)
 	private Set<CommentItem> commentItems;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "DateUpdated")
-	private Calendar dateUpdated;
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getTitleEng() {
 		return titleEng;
@@ -312,14 +290,6 @@ public class Item {
 		this.commentItems = commentItems;
 	}
 	
-	public Calendar getDateUpdated() {
-		return dateUpdated;
-	}
-	
-	public void setDateUpdated(Calendar dateUpdated) {
-		this.dateUpdated = dateUpdated;
-	}
-
 	/**
 	 * Get Comment Titles From commentItems Separated With ' | ' Characters
 	 * @return String Of Item's Comment Titles
@@ -330,7 +300,7 @@ public class Item {
 		while(iterator.hasNext()) {
 			comments.append(iterator.next().getIdComment().getTitle()).append(" | ");
 		}
-		if(comments.length()>0) return comments.toString().substring(0,comments.toString().length()-3); else return null;
+        return comments.length()>0 ? comments.toString().substring(0,comments.toString().length()-3) : null;
 	}
 
 	/**
@@ -340,11 +310,11 @@ public class Item {
 	public String getArtistsString() {
 		StringBuilder artists = new StringBuilder();
 		for(int i = 0; i < artistActivityItems.size(); i++) {
-			if(!artistActivityItems.get(i).getIdActivity().getTitle().equals("Actor")) {
+			if(!"Actor".equals(artistActivityItems.get(i).getIdActivity().getTitle())) {
 				artists.append(artistActivityItems.get(i).getIdArtist().getTitle()).append(" | ");
 			}
 		}
-		if(artists.length()>0) return artists.toString().substring(0,artists.toString().length()-3); else return null;
+        return artists.length()>0 ? artists.toString().substring(0,artists.toString().length()-3) : null;
 	}
 	
 	/**
@@ -353,17 +323,17 @@ public class Item {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-				.append("id", id)
-				.append("titleEng", titleEng)
-				.append("titleEll", titleEll)
-				.append("category", category)
-				.append("photoPath", photoPath)
-				.append("description", description)
-				.append("year", year)
-				.append("rating", rating)
-				.append("subtitles", subtitles)
-				.append("discs", discs)
-				.append("place", place)
-				.toString();
+            .appendSuper(super.toString())
+            .append("titleEng", titleEng)
+            .append("titleEll", titleEll)
+            .append("category", category)
+            .append("photoPath", photoPath)
+            .append("description", description)
+            .append("year", year)
+            .append("rating", rating)
+            .append("subtitles", subtitles)
+            .append("discs", discs)
+            .append("place", place)
+            .toString();
 	}
 }

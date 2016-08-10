@@ -1,16 +1,17 @@
-package gr.blxbrgld.myList.service;
+package gr.blxbrgld.mylist.service;
 
-import gr.blxbrgld.myList.model.Artist;
-import gr.blxbrgld.myList.model.Category;
-import gr.blxbrgld.myList.model.Item;
-import gr.blxbrgld.myList.utilities.ReturningValues;
+import gr.blxbrgld.mylist.model.Artist;
+import gr.blxbrgld.mylist.model.Category;
+import gr.blxbrgld.mylist.model.Item;
+import gr.blxbrgld.mylist.utilities.ReturningValues;
 
 import java.util.List;
 
 import org.springframework.validation.Errors;
 
 /**
- * Item's Service Interface 
+ * Item's Service Interface
+ * @author blxbrgld
  */
 public interface ItemService {
 

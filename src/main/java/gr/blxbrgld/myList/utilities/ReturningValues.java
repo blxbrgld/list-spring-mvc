@@ -1,11 +1,12 @@
-package gr.blxbrgld.myList.utilities;
+package gr.blxbrgld.mylist.utilities;
 
 import java.util.List;
 
-import gr.blxbrgld.myList.model.Item;
+import gr.blxbrgld.mylist.model.Item;
 
 /**
- * Dull Class To Allow Hibernate-Search Functions Return Results Along With No Of Results Needed For Paging Purposes 
+ * Dull Class To Allow Hibernate-Search Functions Return Results Along With No Of Results Needed For Paging Purposes
+ * @author blxbrgld
  */
 public class ReturningValues {
 

@@ -3,12 +3,12 @@ jQuery(function() {
 	 * Trigger Navbar's Drop-Downs On Hover
 	 */
 	$('.dropdown').hover(function() {
-		if($('.navbar-collapse.in').length==0) { //Check If The navbar Is Collapsed
+		if($('.navbar-collapse.in').length===0) { //Check If The navbar Is Collapsed
 			$(this).addClass('open');
         }
 	},
 	function() {
-		if($('.navbar-collapse.in').length==0) {
+		if($('.navbar-collapse.in').length===0) {
 			$(this).removeClass('open');
 		}
 	});
@@ -38,7 +38,9 @@ jQuery(function() {
 	$(document).on("click", ".confirm-dialog", function(event) {
 		var _this = $(this);
 		var _accept = 'Delete';
-		if(_this.attr('accept')!=null && _this.attr('accept')!='') _accept = _this.attr('accept');
+		if(_this.attr('accept')!==null && _this.attr('accept')!=='') {
+            _accept = _this.attr('accept');
+        }
 		event.preventDefault();
 		bootbox.confirm({
 			title:'<strong>Confirm</strong>',
@@ -82,7 +84,7 @@ jQuery(function() {
 	 */
 	$(document).on("focus", ".autoComplete", function() {
 		$(this).autocomplete({
-	        source: '/myList/item/getArtists',
+	        source: '/mylist/item/getArtists',
 	        delay: 300,
 	        minLength: 3
 	    });
@@ -92,12 +94,12 @@ jQuery(function() {
 	 */
 	var _musicCategories = ["Music", "Popular Music", "Classical Music", "Greek Music"];
 	$(document).ready(function() { //On Editing An Existing Item
-		if(jQuery.inArray($("#category :selected").text(), _musicCategories)!=-1) {
+		if(jQuery.inArray($("#category :selected").text(), _musicCategories)!==-1) {
 			$("input#titleEll, input#year, select#subtitles").attr("disabled", true);
 		}
 	})
 	$(document).on("change", "select#category", function() { //On Selection Of A Category
-		if(jQuery.inArray($("#category :selected").text(), _musicCategories)!=-1) {
+		if(jQuery.inArray($("#category :selected").text(), _musicCategories)!==-1) {
 			$("input#titleEll, input#year, select#subtitles").val("");
 			$("input#titleEll, input#year, select#subtitles").attr("disabled", true);
 		}
