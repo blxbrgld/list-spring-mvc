@@ -33,5 +33,5 @@ Hopefully very soon I'll deploy a sample instance at OpenShift.
 <li><strong>Clone Repository:</strong> git clone https://github.com/blxbrgld/list-spring-mvc.git</li>
 <li>Import In Your Favorite IDE (i.e. File -> Import -> Maven -> Existing Maven project)</li>
 <li><strong>Create Database: </strong>src/main/resources/database/mysql/ contains MySQL Dumps of a sample database and database schema without data. Alternatively you can run the Liquibase scripts that exist in /src/main/resources/database/liquibase. From version 3.1 and onwards all database changes will be made with Liquibase, so these scripts will be the way to go.</li>
-<li>Create src/main/resources/configuration.properties file and add all the required properties in it (configuration.sample contains sample key/value pairs of these properties).</li>
+<li>Create <strong>src/main/resources/configuration.properties</strong> file and add all the required properties in it (configuration.sample contains sample key/value pairs of these properties).</li>
 </ol>
