@@ -23,8 +23,8 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 	@Autowired private RoleService roleService;
 	@Autowired private CategoryService categoryService;
 	@Autowired private SubtitlesService subtitlesService;
-	
-	@SuppressWarnings("deprecation")
+
+	@SuppressWarnings("deprecation") //TODO Remove The deprecation
 	@Override
 	protected void installFormatters(FormatterRegistry registry) {
 		super.installFormatters(registry);

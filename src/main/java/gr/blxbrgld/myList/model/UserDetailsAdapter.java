@@ -6,15 +6,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Authentication Implementing Spring's UserDetails Interface
  * @author blxbrgld
  */
-@SuppressWarnings({ "deprecation", "serial" })
 public class UserDetailsAdapter implements UserDetails {
+
+    private static final long serialVersionUID = 1L;
 
 	private User user;
 	private String password;
@@ -65,7 +66,7 @@ public class UserDetailsAdapter implements UserDetails {
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-		authorities.add(new GrantedAuthorityImpl(user.getRole().getTitle()));
+		authorities.add(new SimpleGrantedAuthority(user.getRole().getTitle()));
 		return authorities;
 	}
 	
