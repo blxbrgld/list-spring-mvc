@@ -7,7 +7,6 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
-    <!--Properties File-->
     <context:property-placeholder location="classpath:configuration.properties" />
 
     <!--Data Source-->
@@ -28,5 +27,4 @@
         <prop key="hibernate.search.default.optimizer.transaction_limit.max">1000</prop>
         <prop key="hibernate.show_sql">false</prop>
     </util:properties>
-
 </beans>

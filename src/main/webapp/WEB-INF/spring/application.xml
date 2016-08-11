@@ -8,14 +8,14 @@
         					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
         					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-    <!--Enable Component Scanning-->
     <context:component-scan base-package="gr.blxbrgld.mylist.service.implementation" />
     <context:component-scan base-package="gr.blxbrgld.mylist.dao.hibernate" />
     <context:component-scan base-package="gr.blxbrgld.mylist.dao.jdbc" />
 
-    <!--JDBC Template Configuration-->
-	<bean class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource" />
+    <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
+    <!--JDBC Template-->
+	<bean class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource" />
 	<!--Hibernate's Session Factory-->
 	<bean id="sessionFactory"	  
 		  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
@@ -23,10 +23,8 @@
 		  p:hibernateProperties-ref="hibernateProperties"
 		  p:packagesToScan="gr.blxbrgld.mylist.model" />
     
-    <!--Transaction Manager-->					
+    <!--Transaction Manager-->
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager" p:sessionFactory-ref="sessionFactory" />
-	
-	<!--Activate @Transactional Annotations-->
-	<tx:annotation-driven />
 
+    <tx:annotation-driven /><!--Activate @Transactional Annotations-->
 </beans>

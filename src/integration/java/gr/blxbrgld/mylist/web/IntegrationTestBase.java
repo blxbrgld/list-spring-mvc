@@ -1,4 +1,4 @@
-package gr.blxbrgld.mylist.dao;
+package gr.blxbrgld.mylist.web;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,12 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-    "classpath:dataSource-unit.xml", //H2 Database
-    "file:src/main/webapp/WEB-INF/spring/application.xml",
-    "file:src/main/webapp/WEB-INF/spring/security.xml" //Just For The PasswordEncoder Bean
+    "classpath:dataSource-integration.xml", //Integration Tests Database
+    "file:src/main/webapp/WEB-INF/spring/application.xml"
 })
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
-public abstract class DaoTestBase {
+public abstract class IntegrationTestBase {
 
 }

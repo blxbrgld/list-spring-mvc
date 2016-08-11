@@ -11,12 +11,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -34,14 +29,7 @@ import static org.hamcrest.Matchers.hasItem;
 /**
  * @author blxbrgld
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-    "classpath:integrationTestContext.xml", //Tests Specific
-    "file:src/main/webapp/WEB-INF/spring/application.xml"
-})
-@Transactional
-@TransactionConfiguration(defaultRollback = true)
-public class UserControllerIntegrationTest {
+public class UserControllerIntegrationTest extends IntegrationTestBase {
 
     @Autowired private UserController userController;
     @Autowired private UserService userService;

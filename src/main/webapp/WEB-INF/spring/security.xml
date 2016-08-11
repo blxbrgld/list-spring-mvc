@@ -21,15 +21,12 @@
 		<intercept-url pattern="/admin/subtitles/**" access="hasRole('Administrator')" />
 		<intercept-url pattern="/admin/user/**" access="hasRole('Administrator')" />
 	</http>
-
-	<beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-
+    <!-- Authentication Manager -->
 	<authentication-manager>
 		<authentication-provider user-service-ref="userDetailsServiceAdapter">
 			<password-encoder ref="bCryptPasswordEncoder" />
 		</authentication-provider>
 	</authentication-manager>
-
+    <!-- Enable Spring Security Annotations -->
 	<global-method-security pre-post-annotations="enabled" />
-
 </beans:beans>

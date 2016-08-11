@@ -12,15 +12,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -39,14 +34,7 @@ import java.util.List;
 /**
  * @author blxbrgld
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-    "classpath:integrationTestContext.xml", //Tests Specific
-    "file:src/main/webapp/WEB-INF/spring/application.xml"
-})
-@Transactional
-@TransactionConfiguration(defaultRollback = true)
-public class RoleControllerIntegrationTest {
+public class RoleControllerIntegrationTest extends IntegrationTestBase {
 
     @Autowired private RoleController roleController;
     @Autowired private RoleService roleService;
