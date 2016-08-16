@@ -5,7 +5,6 @@ import gr.blxbrgld.mylist.model.Artist;
 import gr.blxbrgld.mylist.model.Category;
 import gr.blxbrgld.mylist.model.Item;
 import gr.blxbrgld.mylist.model.Subtitles;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +38,6 @@ public class HibernateItemDaoTest extends DaoTestBase {
         Assert.assertEquals(1, itemList.size());
         itemList = itemDao.findByArtist(artist, 1, 1000); //Non Inclusive
         Assert.assertEquals(0, itemList.size());
-    }
-
-    @Ignore
-    public void search() {
-        //TODO Implementation
     }
 
     @Test
