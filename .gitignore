@@ -15,9 +15,6 @@ target/
 #Javadocs
 doc/
 
-# .properties Files
-src/main/resources/configuration.properties
-
 #Item Images Except no-image.png
 src/main/webapp/resources/images/items/*
 !src/main/webapp/resources/images/items/no-image.png
