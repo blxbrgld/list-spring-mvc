@@ -76,7 +76,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'test','$2a$10$SsSMlZ.6q90D7tk5Ol2gIOMVHXJhSwJ7yDXdqCiaz9Qd./dpyM6Ra','test@user.gr',1,1,'2014-05-02 06:18:37');
+INSERT INTO `Users` VALUES (1,'blixabargeld','$2a$10$A/8YlR/m8lAbe6.Lr.HDRuqTHYM80r9K2oIayAOTXQX6bjAKWoMGW','nikolaos.i.papadopoulos@gmail.com',1,1,'2014-05-02 06:18:37');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 

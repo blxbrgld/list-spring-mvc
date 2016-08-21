@@ -15,8 +15,8 @@ public class JdbcUserDetailsDaoTest extends DaoTestBase {
 
     @Test
     public void findPasswordByUsername() {
-        String password = userDetailsDao.findPasswordByUsername("test");
-        Assert.assertTrue(password != null && password.startsWith("$2a$10$SsSMlZ"));
+        String password = userDetailsDao.findPasswordByUsername("blixabargeld");
+        Assert.assertTrue(password != null && password.startsWith("$2a$10$A"));
     }
 
     @Test(expected = EmptyResultDataAccessException.class)

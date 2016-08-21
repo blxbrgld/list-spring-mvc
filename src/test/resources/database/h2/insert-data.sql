@@ -9,7 +9,7 @@ INSERT INTO Roles VALUES
   (2,'Viewer','2014-02-19 10:23:46');
 
 INSERT INTO Users VALUES
-  (1,'test','$2a$10$SsSMlZ.6q90D7tk5Ol2gIOMVHXJhSwJ7yDXdqCiaz9Qd./dpyM6Ra','test@user.gr',1,1,'2014-05-02 06:18:37');
+  (1,'blixabargeld','$2a$10$A/8YlR/m8lAbe6.Lr.HDRuqTHYM80r9K2oIayAOTXQX6bjAKWoMGW','nikolaos.i.papadopoulos@gmail.com',1,1,'2014-05-02 06:18:37');
 
 INSERT INTO Subtitles VALUES
   (1,'No Subtitles','2014-04-01 12:27:02'),

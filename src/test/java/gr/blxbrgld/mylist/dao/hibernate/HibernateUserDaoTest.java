@@ -45,7 +45,7 @@ public class HibernateUserDaoTest extends DaoTestBase {
     @Test
     public void merge() {
         Role role = roleDao.findByTitle("Viewer");
-        User user = userDao.findByUsername("test");
+        User user = userDao.findByUsername("blixabargeld");
         user.setRole(role); //Change User's Role
         userDao.merge(user, "password");
 
@@ -56,16 +56,16 @@ public class HibernateUserDaoTest extends DaoTestBase {
 
     @Test
     public void findByUsername() {
-        User user = userDao.findByUsername("test");
+        User user = userDao.findByUsername("blixabargeld");
         Assert.assertNotNull(user);
-        Assert.assertEquals("test@user.gr", user.getEmail());
+        Assert.assertEquals("nikolaos.i.papadopoulos@gmail.com", user.getEmail());
     }
 
     @Test
     public void findByEmail() {
-        User user = userDao.findByEmail("test@user.gr");
+        User user = userDao.findByEmail("nikolaos.i.papadopoulos@gmail.com");
         Assert.assertNotNull(user);
-        Assert.assertEquals("test", user.getUsername());
+        Assert.assertEquals("blixabargeld", user.getUsername());
     }
 
     @Test

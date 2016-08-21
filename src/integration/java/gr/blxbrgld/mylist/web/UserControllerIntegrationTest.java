@@ -65,7 +65,7 @@ public class UserControllerIntegrationTest extends IntegrationTestBase {
         @SuppressWarnings("unchecked")
         List<User> userList = (List<User>) model.asMap().get("userList");
         Assert.assertEquals(1, userList.size()); //test User
-        Assert.assertEquals("test", userList.get(0).getUsername());
+        Assert.assertEquals("blixabargeld", userList.get(0).getUsername());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class UserControllerIntegrationTest extends IntegrationTestBase {
         String viewName = userController.updateForm(1L, model); //The Only Existing Role Is The test User
         Assert.assertEquals(EXPECTED_USER_FORM, viewName);
         UserForm userForm = (UserForm) model.asMap().get("user");
-        Assert.assertEquals("test", userForm.getUsername());
+        Assert.assertEquals("blixabargeld", userForm.getUsername());
         @SuppressWarnings("unchecked")
         List<Role> roles = (List<Role>) model.asMap().get("selectRole");
         Assert.assertTrue(roles.size()==2); //Roles List Should Be Added To The Model
@@ -175,7 +175,7 @@ public class UserControllerIntegrationTest extends IntegrationTestBase {
         userForm.setUsername("username");
         userForm.setPassword("password");
         userForm.setConfirmPassword("password");
-        userForm.setEmail("nikolaos.i.papadopoulos@gmail.com");
+        userForm.setEmail("username@email.com");
         userForm.setRole(roleService.getRole(1L));
         return userForm;
     }
