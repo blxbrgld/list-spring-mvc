@@ -67,7 +67,7 @@
             <build>
                 <filters>
                     <!-- dev + prod Environments Have The Same .properties (For Now) -->
-                    <filter>src/main/resources/profiles/dev/configuration.properties</filter>
+                    <filter>src/main/resources/profiles/${build.profile.id}/configuration.properties</filter>
                 </filters>
                 <resources>
                     <resource>
@@ -87,7 +87,7 @@
             <build>
                 <filters>
                     <!-- dev + prod Environments Have The Same .properties (For Now) -->
-                    <filter>src/main/resources/profiles/prod/configuration.properties</filter>
+                    <filter>src/main/resources/profiles/${build.profile.id}/configuration.properties</filter>
                 </filters>
                 <resources>
                     <resource>
@@ -100,6 +100,25 @@
                 <build.profile.id>prod</build.profile.id>
                 <skip.integration.tests>false</skip.integration.tests>
                 <skip.unit.tests>false</skip.unit.tests>
+            </properties>
+        </profile>
+        <profile>
+            <id>openshift</id>
+            <build>
+                <filters>
+                    <filter>src/main/resources/profiles/${build.profile.id}/configuration.properties</filter>
+                </filters>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+            </build>
+            <properties>
+                <build.profile.id>openshift</build.profile.id>
+                <skip.integration.tests>true</skip.integration.tests>
+                <skip.unit.tests>true</skip.unit.tests>
             </properties>
         </profile>
     </profiles>
