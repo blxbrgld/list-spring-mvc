@@ -57,9 +57,7 @@
         <!-- Sonar JDBC Properties Are Not Required Anymore. The Communication Is Done With Web Services -->
         <sonar.host.url>http://localhost:9000</sonar.host.url>
     </properties>
-    <!-- Profiles -->
-    <!-- mvn clean install -Pdev To Run Only Unit Tests -->
-    <!-- mvn clean install -Pprod To Run Both Unit + Integration Tests -->
+    <!-- Profiles: dev To Run Only Unit Tests, prod To Run Both Unit + Integration Tests -->
     <profiles>
         <profile>
             <id>dev</id>
@@ -68,8 +66,8 @@
             </activation>
             <build>
                 <filters>
-                    <!-- Files To Filter (For Now The Properties Are The Same For Both Profiles) -->
-                    <filter>src/main/resources/configuration.properties</filter>
+                    <!-- dev + prod Environments Have The Same .properties (For Now) -->
+                    <filter>src/main/resources/profiles/dev/configuration.properties</filter>
                 </filters>
                 <resources>
                     <resource>
@@ -88,8 +86,8 @@
             <id>prod</id>
             <build>
                 <filters>
-                    <!-- Files To Filter (For Now The Properties Are The Same For Both Profiles) -->
-                    <filter>src/main/resources/configuration.properties</filter>
+                    <!-- dev + prod Environments Have The Same .properties (For Now) -->
+                    <filter>src/main/resources/profiles/prod/configuration.properties</filter>
                 </filters>
                 <resources>
                     <resource>
