@@ -23,10 +23,6 @@ Version 3.1 introduced some new Maven plug-ins (Liquibase, SonarQube et.al.) and
 <li>SonarQube</li>
 </ul>
 
-### What Does It Look Like
-
-Hopefully very soon I'll deploy a sample instance at OpenShift.
-
 ### IDE Setup
 
 <ol>
