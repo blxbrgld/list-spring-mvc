@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
  * @author blxbrgld
  */
 @Repository
+@SuppressWarnings("JpaQueryApiInspection")
 public class SubtitlesDaoImplementation extends AbstractHibernateDao<Subtitles> implements SubtitlesDao {
 
     /**

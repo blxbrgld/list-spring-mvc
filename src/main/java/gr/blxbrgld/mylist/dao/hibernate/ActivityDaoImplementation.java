@@ -10,6 +10,7 @@ import gr.blxbrgld.mylist.model.Activity;
  * @author blxbrgld
  */
 @Repository
+@SuppressWarnings("JpaQueryApiInspection")
 public class ActivityDaoImplementation extends AbstractHibernateDao<Activity> implements ActivityDao {
 
     /**

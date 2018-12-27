@@ -25,6 +25,7 @@ import gr.blxbrgld.mylist.utilities.ReturningValues;
  */
 @Slf4j
 @Repository
+@SuppressWarnings("JpaQueryApiInspection")
 public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements ItemDao {
 
     /**

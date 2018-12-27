@@ -12,6 +12,7 @@ import gr.blxbrgld.mylist.model.Artist;
  * @author blxbrgld
  */
 @Repository
+@SuppressWarnings("JpaQueryApiInspection")
 public class ArtistDaoImplementation extends AbstractHibernateDao<Artist> implements ArtistDao {
 
     /**

@@ -32,7 +32,7 @@ import gr.blxbrgld.mylist.utilities.ReturningValues;
 @PreAuthorize("denyAll")
 public class ItemServiceImplementation implements ItemService {
 
-	private static final List<String> filmCategories = new ArrayList<String>(Arrays.asList(new String[] {"DVD Films", "DivX Films"}));
+	private static final List<String> filmCategories = new ArrayList<>(Arrays.asList(new String[] {"DVD Films", "DivX Films"}));
 	
 	@Autowired
 	private ItemDao itemDao;
@@ -192,7 +192,7 @@ public class ItemServiceImplementation implements ItemService {
 			errors.rejectValue("artistActivityItems", "error.missing.item.artistActivityItems");
 		}
 		else { //No Duplicates Allowed
-			Map<String, List<String>> artistActivityMap = new HashMap<String, List<String>>();
+			Map<String, List<String>> artistActivityMap = new HashMap<>();
 			for(ArtistActivityItem artistActivityItem : artistActivityItems) {
 				String artist = artistActivityItem.getIdArtist().getTitle();
 				String activity = artistActivityItem.getIdActivity().getTitle();
@@ -206,14 +206,14 @@ public class ItemServiceImplementation implements ItemService {
                     artistActivityMap.put(activity, artistList);
                 }
                 else {
-                    List<String> artistList = new ArrayList<String>();
+                    List<String> artistList = new ArrayList<>();
                     artistList.add(artist);
                     artistActivityMap.put(activity, artistList);
                 }
 			}
 
 			for(List<String> value : artistActivityMap.values()) { //Loop Through Map Values To Check For Duplicates
-				Set<String> artistSet = new HashSet<String>(value);
+				Set<String> artistSet = new HashSet<>(value);
 				if(value.size() != artistSet.size()) {
 					errors.rejectValue("artistActivityItems", "error.duplicate.item.artistActivityItems");
 					break; //Stop Processing
@@ -228,11 +228,11 @@ public class ItemServiceImplementation implements ItemService {
 	 * @param errors BindingResult Errors Of Item Form
 	 */
 	private void validateCommentItems(Item item, Errors errors) {
-		List<String> commentsList = new ArrayList<String>();
+		List<String> commentsList = new ArrayList<>();
 		for(CommentItem comment : item.getCommentItems()) {
 			commentsList.add(comment.getIdComment().getTitle());
 		}
-		Set<String> commentsSet = new HashSet<String>(commentsList);
+		Set<String> commentsSet = new HashSet<>(commentsList);
 		if(commentsSet.size() != commentsList.size()) {
             errors.rejectValue("commentItems", "error.duplicate");
         }

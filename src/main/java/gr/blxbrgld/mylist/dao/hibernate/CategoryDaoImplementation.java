@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
  * @author blxbrgld
  */
 @Repository
+@SuppressWarnings("JpaQueryApiInspection")
 public class CategoryDaoImplementation extends AbstractHibernateDao<Category> implements CategoryDao {
 
 	/**

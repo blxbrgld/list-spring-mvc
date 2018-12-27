@@ -69,15 +69,6 @@ public class ArtistServiceImplementation implements ArtistService {
      */
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
-	public List<Artist> getArtists(String property, String order) {
-		return artistDao.getAll(property, order);
-	}
-
-    /**
-     * {@inheritDoc}
-     */
-	@Override
-	@PreAuthorize("hasRole('Administrator')")
 	public List<Artist> getArtists(String property, String order, int first, int size) {
 		return artistDao.getAll(property, order, first, size);
 	}
@@ -149,7 +140,7 @@ public class ArtistServiceImplementation implements ArtistService {
 	@PreAuthorize("hasRole('Administrator')")
 	public List<String> findArtistsLike(String term) {
 		List<Artist> artistList = artistDao.findLike(term);
-		List<String> titleList = new ArrayList<String>();
+		List<String> titleList = new ArrayList<>();
 		for(Artist artist : artistList) {
 			titleList.add(artist.getTitle());
 		}

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
  * @author blxbrgld
  */
 @Repository
+@SuppressWarnings("JpaQueryApiInspection")
 public class UserDaoImplementation extends AbstractHibernateDao<User> implements UserDao {
 
 	private static final String UPDATE_QUERY = "UPDATE Users SET Password = ? WHERE Username = ?";

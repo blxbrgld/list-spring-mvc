@@ -29,8 +29,8 @@ public class CategoryDetailsDaoImplementation implements CategoryDetailsDao {
      */
 	@Override
 	public Map<String, List<String>> categoriesTree() {
-		Map<Integer, String> categoriesMap = new TreeMap<Integer, String>();
-		Map<String, List<String>> categoriesTree = new TreeMap<String, List<String>>();
+		Map<Integer, String> categoriesMap = new TreeMap<>();
+		Map<String, List<String>> categoriesTree = new TreeMap<>();
 		/*
 		 * Create Map Of Parent Categories
 		 */
@@ -43,8 +43,9 @@ public class CategoryDetailsDaoImplementation implements CategoryDetailsDao {
 		 */
 		Iterator<Entry<Integer, String>> entries = categoriesMap.entrySet().iterator();
 		while(entries.hasNext()) {
-			List<String> categoriesList = new ArrayList<String>();
+			List<String> categoriesList = new ArrayList<>();
 			Entry<Integer, String> entry = entries.next();
+			//noinspection RedundantArrayCreation
 			rows = jdbcTemplate.queryForList(FIND_BY_PARENT_QUERY, new Object[] { entry.getKey() });
 			for(Map<String, Object> row : rows) { //Temporary List Of Children
 				categoriesList.add((String)row.get("Title"));

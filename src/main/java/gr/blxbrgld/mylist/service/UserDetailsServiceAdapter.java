@@ -30,7 +30,7 @@ public class UserDetailsServiceAdapter implements UserDetailsService {
      * Load A UserDetails Object Given A Username
      * @param username User's Username
      * @return UserDetails Object
-     * @throws UsernameNotFoundException
+     * @throws UsernameNotFoundException In Case Of An Error
      */
 	@Override
 	public UserDetails loadUserByUsername(String username) {

@@ -12,6 +12,7 @@ import gr.blxbrgld.mylist.model.Item;
  * @author blxbrgld
  */
 @Repository
+@SuppressWarnings("JpaQueryApiInspection")
 public class CommentItemDaoImplementation extends AbstractHibernateDao<CommentItem> implements CommentItemDao {
 
     /**

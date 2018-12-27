@@ -8,6 +8,7 @@ import java.util.List;
  * @param <T> Generic Class
  * @author blxbrgld
  */
+@SuppressWarnings("TypeParameterExplicitlyExtendsObject")
 public interface AbstractDao<T extends Object> {
 
 	/**

@@ -10,6 +10,7 @@ import gr.blxbrgld.mylist.model.Role;
  * @author blxbrgld
  */
 @Repository
+@SuppressWarnings("JpaQueryApiInspection")
 public class RoleDaoImplementation extends AbstractHibernateDao<Role> implements RoleDao {
 
     /**
