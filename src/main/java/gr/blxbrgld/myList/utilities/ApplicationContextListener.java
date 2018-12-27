@@ -2,14 +2,8 @@ package gr.blxbrgld.mylist.utilities;
 
 import gr.blxbrgld.mylist.dao.jdbc.CategoryDetailsDao;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Properties;
-import java.util.Random;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -26,6 +20,9 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 @Slf4j
 public class ApplicationContextListener implements ServletContextListener {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		ServletContext context = event.getServletContext();
@@ -42,19 +39,19 @@ public class ApplicationContextListener implements ServletContextListener {
 			log.error("IOException", exception);
 		}
 		for(String prop : propsFromFile.stringPropertyNames()) {
-            if(prop.startsWith("filepath") && System.getProperty(prop) == null) { //Set filepath Properties As System Properties
+            if(prop.startsWith("filepath") && System.getProperty(prop) == null) { // Set filepath Properties As System Properties
                 System.setProperty(prop, propsFromFile.getProperty(prop));
             }
 		}
 	    /**
 	     * Set Miscellaneous Context Parameters For Menu, Footer etc.
 	     */
-	    context.setAttribute("categoriesTree", categoryDetailsDao.categoriesTree()); //Menu Categories
-		GregorianCalendar currentDate = new GregorianCalendar();
-		int currentYear = currentDate.get(Calendar.YEAR);
-		context.setAttribute("currentYear", currentYear); //Year
+	    context.setAttribute("categoriesTree", categoryDetailsDao.categoriesTree()); // Menu Categories
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {
 		//Nothing To Do
