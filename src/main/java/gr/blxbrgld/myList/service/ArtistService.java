@@ -33,14 +33,6 @@ public interface ArtistService {
 	void mergeArtist(Artist artist, Errors errors);
 	
 	/**
-	 * Get All Artist Objects
-	 * @param property Property To Order Results By
-	 * @param order Ascending or Descending Ordering
-	 * @return List Of Artists
-	 */
-	List<Artist> getArtists(String property, String order);
-	
-	/**
 	 * Get All Artist Objects With Pagination
 	 * @param property Property To Order Results By
 	 * @param order Ascending or Descending Ordering
