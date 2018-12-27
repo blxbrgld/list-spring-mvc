@@ -3,9 +3,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <spring:url value="/resources/images/styles/favicon.ico" var="faviconUrl" />
-<spring:url value="/resources/bootstrap-3.3.5/dist/css/bootstrap.min.css" var="bootstrapCSSUrl" />
+<spring:url value="/resources/bootstrap-3.3.7/css/bootstrap.min.css" var="bootstrapCSSUrl" />
 <spring:url value="/resources/styling.css" var="stylingUrl" />
-<spring:url value="/resources/bootstrap-3.3.5/dist/js/bootstrap.min.js" var="bootstrapJSUrl" />
+<spring:url value="/resources/bootstrap-3.3.7/js/bootstrap.min.js" var="bootstrapJSUrl" />
 <spring:url value="/resources/bootbox-4.4.0/bootbox.min.js" var="bootboxUrl" />
 <spring:url value="/resources/scripts.js" var="scriptsUrl" />
 <spring:url value="/resources/tinymce/tinymce.min.js" var="tinymceUrl" />

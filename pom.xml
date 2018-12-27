@@ -50,7 +50,7 @@
         <!-- Exclude Third Party Libraries From SonarQube Analysis -->
         <sonar.exclusions>
             src/main/webapp/resources/bootbox-4.4.0/**,
-            src/main/webapp/resources/bootstrap-3.3.5/**,
+            src/main/webapp/resources/bootstrap-3.3.7/**,
             src/main/webapp/resources/font-awesome-4.4.0/**,
             src/main/webapp/resources/tinymce/**
         </sonar.exclusions>

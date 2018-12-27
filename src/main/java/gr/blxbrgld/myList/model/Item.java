@@ -140,7 +140,6 @@ public class Item extends BaseEntity {
     @Transient
 	private CommonsMultipartFile photo;
 	
-	//TODO Description Is Not Needed, Delete It
 	@Field
 	@Lob
 	@Column(name = "Description", columnDefinition = "text")
