@@ -159,10 +159,10 @@
 			<div class="form-group">
 				<c:choose>
 					<c:when test="${item.id!=null && item.photoPath!=null}">
-						<img src="<c:url value='/item/image/${item.photoPath}' />" class="img-thumbnail" onError="this.src='<c:url value='/item/image/no-image.jpg' />'" />
+						<img src="<c:url value='/item/image/${item.photoPath}' />" class="img-thumbnail" onError="this.src='<c:url value='${contextPath}/resources/images/styles/no-image.jpg' />'" />
 					</c:when>
 					<c:otherwise>
-						<img src="<c:url value='/item/image/no-image.jpg' />" class="img-thumbnail" />
+						<img src="<c:url value='${contextPath}/resources/images/styles/no-image.jpg' />" class="img-thumbnail" />
 					</c:otherwise>
 				</c:choose>
 			</div>
