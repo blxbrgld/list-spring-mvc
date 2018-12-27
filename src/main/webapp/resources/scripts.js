@@ -84,7 +84,7 @@ jQuery(function() {
 	 */
 	$(document).on("focus", ".autoComplete", function() {
 		$(this).autocomplete({
-	        source: '/mylist/item/getArtists',
+	        source: '/myList/item/getArtists',
 	        delay: 300,
 	        minLength: 3
 	    });

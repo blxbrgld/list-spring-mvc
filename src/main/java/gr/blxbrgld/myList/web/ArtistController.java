@@ -28,7 +28,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/admin/artist")
 public class ArtistController {
 
-	@Autowired private ArtistService artistService;
+	@Autowired
+	private ArtistService artistService;
 
     private static final String ARTIST_FORM = "artist/form";
     private static final String ARTIST_LIST = "artist/list";

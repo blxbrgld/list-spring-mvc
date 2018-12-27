@@ -20,11 +20,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApplicationConversionServiceFactoryBean extends FormattingConversionServiceFactoryBean {
 
-	@Autowired private RoleService roleService;
-	@Autowired private CategoryService categoryService;
-	@Autowired private SubtitlesService subtitlesService;
+	@Autowired
+    private RoleService roleService;
 
-	@SuppressWarnings("deprecation") //TODO Remove The deprecation
+	@Autowired
+    private CategoryService categoryService;
+
+	@Autowired
+    private SubtitlesService subtitlesService;
+
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void installFormatters(FormatterRegistry registry) {
 		super.installFormatters(registry);

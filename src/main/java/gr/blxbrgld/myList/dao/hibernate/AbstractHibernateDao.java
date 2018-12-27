@@ -6,28 +6,26 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Calendar;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.NullPrecedence;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ReflectionUtils;
-
-import gr.blxbrgld.mylist.dao.AbstractDao;
 
 /**
  * Generic Class's DAO Implementation
  * @param <T> Generic Class
  * @author blxbrgld
  */
+@Slf4j
 public abstract class AbstractHibernateDao<T extends Object> implements AbstractDao<T> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractHibernateDao.class);
+	@Autowired
+	private SessionFactory sessionFactory;
 
-	@Autowired private SessionFactory sessionFactory;
 	private Class<T> domainClass;
 	
 	/**
@@ -69,9 +67,8 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 		if(method!=null) {
 			try {
 				method.invoke(t, Calendar.getInstance());
-			}
-			catch(Exception exception) {
-				LOGGER.error("Exception", exception);
+			} catch(Exception exception) {
+				log.error("Exception", exception);
 			}
 		}
 		getSession().persist(t);
@@ -88,9 +85,8 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 		if(method!=null) {
 			try {
 				method.invoke(t, Calendar.getInstance());
-			}
-			catch(Exception exception) {
-				LOGGER.error("Exception", exception);
+			} catch(Exception exception) {
+				log.error("Exception", exception);
 			}
 		}		
 		
@@ -124,8 +120,7 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 		Criteria criteria = getSession().createCriteria(getDomainClass());
 		if(order!=null && "DESC".equals(order)) {
 			criteria.addOrder(Order.desc(property).nulls(NullPrecedence.FIRST));
-		}
-		else if(property!=null) {
+		} else if(property!=null) {
 			criteria.addOrder(Order.asc(property).nulls(NullPrecedence.FIRST));
 		}
 		return (List<T>) criteria.list();
@@ -140,8 +135,7 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 		Criteria criteria = getSession().createCriteria(getDomainClass());
 		if(order!=null && "DESC".equals(order)) {
 			criteria.addOrder(Order.desc(property).nulls(NullPrecedence.FIRST));
-		}
-		else if(property!=null) {
+		} else if(property!=null) {
 			criteria.addOrder(Order.asc(property).nulls(NullPrecedence.FIRST));
 		}
 		criteria.setFirstResult(first);

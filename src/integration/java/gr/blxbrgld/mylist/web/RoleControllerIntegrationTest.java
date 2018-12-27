@@ -1,6 +1,6 @@
 package gr.blxbrgld.mylist.web;
 
-import gr.blxbrgld.mylist.dao.RoleDao;
+import gr.blxbrgld.mylist.dao.hibernate.RoleDao;
 import gr.blxbrgld.mylist.model.Role;
 import gr.blxbrgld.mylist.service.RoleService;
 import org.hamcrest.Matchers;
@@ -36,10 +36,17 @@ import java.util.List;
  */
 public class RoleControllerIntegrationTest extends IntegrationTestBase {
 
-    @Autowired private RoleController roleController;
-    @Autowired private RoleService roleService;
-    @Autowired private RoleDao roleDao;
-    @Autowired private SessionFactory sessionFactory;
+    @Autowired
+    private RoleController roleController;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private RoleDao roleDao;
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     private SessionFactory badSessionFactory;
 

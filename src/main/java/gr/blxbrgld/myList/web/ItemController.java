@@ -1,7 +1,9 @@
 package gr.blxbrgld.mylist.web;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -23,15 +25,19 @@ import gr.blxbrgld.mylist.service.ItemService;
 import gr.blxbrgld.mylist.service.SubtitlesService;
 import gr.blxbrgld.mylist.utilities.ReturningValues;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math.util.MathUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,19 +57,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * Item's Controller
  * @author blxbrgld
  */
+@Slf4j
 @Controller
 public class ItemController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
-	
-	@Autowired private ItemService itemService;
-	@Autowired private CategoryService categoryService;
-	@Autowired private CommentService commentService;
-	@Autowired private CommentItemService commentItemService;
-	@Autowired private ArtistService artistService;
-	@Autowired private ActivityService activityService;
-	@Autowired private ArtistActivityItemService artistActivityItemService;
-	@Autowired private SubtitlesService subtitlesService;
+	@Autowired
+	private ItemService itemService;
+
+	@Autowired
+	private CategoryService categoryService;
+
+	@Autowired
+	private CommentService commentService;
+
+	@Autowired
+	private CommentItemService commentItemService;
+
+	@Autowired
+	private ArtistService artistService;
+
+	@Autowired
+	private ActivityService activityService;
+
+	@Autowired
+	private ArtistActivityItemService artistActivityItemService;
+
+	@Autowired
+	private SubtitlesService subtitlesService;
 
     private static final String ITEM_FORM = "item/form";
     private static final String ITEM_LIST = "item/list";
@@ -105,8 +125,7 @@ public class ItemController {
 				uploadPhoto(item);
 				itemService.mergeItem(populateItemRelations(item, comments, artists, activities, true), result);
 			}
-		}
-		else {
+		} else {
 			itemService.mergeItem(populateItemRelations(item, comments, artists, activities, false), result);
 			if(!result.hasErrors()) {
 				uploadPhoto(item);
@@ -118,8 +137,7 @@ public class ItemController {
 		if(result.hasErrors()) {
 			populateForm(model, populateItemRelations(item, comments, artists, activities, false));
 			return ITEM_FORM;
-		}
-		else {
+		} else {
 			redirectAttributes.addFlashAttribute("successMessage", "message.item.create.success");
 			return "redirect:/admin/" + ITEM_UPDATE + "/" + item.getId();
 		}
@@ -144,8 +162,7 @@ public class ItemController {
 			if(artist.equals(-1L)) {
 				art = artistService.findRandomArtist();
 				model.addAttribute("paginateRandom", art.getId()); //Paginate Random Artist If It's Needed
-			}
-			else {
+			} else {
 				art = artistService.getArtist(artist);
 			}
 			model.addAttribute("itemList", itemService.getItemsHavingArtist(art, firstResult, sizeNo)); //Ascending titleEng Ordering Is The Default
@@ -153,8 +170,7 @@ public class ItemController {
 			model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || MathUtils.equals(noOfPages, 0.0, EPSILON)) ? noOfPages + 1 : noOfPages));
 			model.addAttribute("pageHeader", "title.item.artists");
 			model.addAttribute("pageHeaderAttribute", art.getTitle());
-		}
-		else if(searchFor != null) {
+		} else if(searchFor != null) {
 			ReturningValues result = itemService.searchItems(searchFor, searchIn, property, order, firstResult, sizeNo); //Order By Relevance Is The Default
 			model.addAttribute("itemList", result.getResults());
 			double noOfPages = (double) result.getNoOfResults() / sizeNo;
@@ -162,17 +178,14 @@ public class ItemController {
 			if("*".equals(searchFor) && searchIn != null) {
 				model.addAttribute("pageHeader", "title.item.categories");
 				model.addAttribute("pageHeaderAttribute", searchIn);			
-			}
-			else if(searchIn != null && "Lists".equals(searchIn)) {
+			} else if(searchIn != null && "Lists".equals(searchIn)) {
 				model.addAttribute("pageHeader", "title.item.favorites");
 				model.addAttribute("pageHeaderAttribute", null);
-			}
-			else {
+			} else {
 				model.addAttribute("pageHeader", "title.item.search");
 				model.addAttribute("pageHeaderAttribute", null);
 			}
-		}
-		else {
+		} else {
 			model.addAttribute("itemList", itemService.getItems(orderBy, ordering, firstResult, sizeNo));
 			double noOfPages = (double) itemService.countItems() / sizeNo;
 			model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || MathUtils.equals(noOfPages, 0.0, EPSILON)) ? noOfPages + 1 : noOfPages));
@@ -182,8 +195,7 @@ public class ItemController {
 
 		if(view != null && "list".equals(view)) { //List View
 			return ITEM_LIST;
-		}
-		else {
+		} else {
 			return ITEM_DISPLAY;
 		}
 	}
@@ -195,6 +207,28 @@ public class ItemController {
 		itemService.deleteItem(item);
 		redirectAttributes.addFlashAttribute("successMessage", "message.item.delete.success");
 		return "redirect:/" + ITEM_LIST + "?view=list";
+	}
+
+	/**
+	 * Given An Item's Image Name, Set The Actual Image To The Output Stream
+	 * @param image The Item's Image Name
+	 * @param response HttpServletResponse Object
+	 */
+	@RequestMapping(value = "/item/image/{image:.*}", method = RequestMethod.GET)
+	public void getImage(@PathVariable("image") String image, HttpServletResponse response) {
+		try {
+			File file = new File(System.getProperty(IMAGES_FILEPATH) + "/items/" + image);
+			InputStream inputStream = new FileInputStream(file);
+			String extension = StringUtils.substringAfterLast(image, ".");
+			if("png".equalsIgnoreCase(extension)) { // png, jpg and jpeg Are The Only Allowed Extensions
+				response.setContentType(MediaType.IMAGE_PNG_VALUE);
+			} else {
+				response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+			}
+			IOUtils.copy(inputStream, response.getOutputStream());
+		} catch(Exception exception) { // The Default Image Will Be Displayed
+			log.error("Exception", exception);
+		}
 	}
 
     @ResponseBody
@@ -225,11 +259,9 @@ public class ItemController {
         			.size(150, 150)
         			.toFile(new File(System.getProperty(IMAGES_FILEPATH), ITEMS_FILEPATH + filename));
         		item.setPhotoPath(filename); //Set Object's Attribute
-        	}
-        	catch(IOException exception) {
-        		LOGGER.error("IOException", exception);
-        	}
-        	finally {
+        	} catch(IOException exception) {
+        		log.error("IOException", exception);
+        	} finally {
         		file.delete(); //Delete Temporary Image
         	}
 		}
@@ -240,9 +272,11 @@ public class ItemController {
 	 * @param photo Photo's Filename
 	 */
 	void deletePhoto(String photo) {
+		log.info("deletePhoto() Invoked For Photo = {}.", photo);
 		if(photo != null) {
 			File file = new File(System.getProperty(IMAGES_FILEPATH), ITEMS_FILEPATH + photo);
-			file.delete();
+			boolean result = file.delete();
+			log.info("deletePhoto() Result = {}.", result); // true|false Indicating Success|Failure
 		}
 	}	
 	
@@ -293,8 +327,7 @@ public class ItemController {
 					commentItemService.persistCommentItem(commentItem);
 				}
 				commentItems.add(commentItem);
-			}
-			catch(NumberFormatException exception) { //Ignore Null Drop-Down Values
+			} catch(NumberFormatException exception) { //Ignore Null Drop-Down Values
 			
 			}
 		}
@@ -333,8 +366,7 @@ public class ItemController {
 				Activity idActivity = new Activity();
 				try {
 					idActivity = activityService.getActivity(Long.parseLong(activities[i]));
-				}
-				catch(NumberFormatException exception) { //Ignore Null Drop-Down Values
+				} catch(NumberFormatException exception) { //Ignore Null Drop-Down Values
 				
 				}
 				artistActivityItem.setIdActivity(idActivity);

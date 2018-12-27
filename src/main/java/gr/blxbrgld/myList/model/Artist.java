@@ -11,6 +11,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.solr.analysis.HTMLStripCharFilterFactory;
@@ -32,18 +36,15 @@ import org.hibernate.validator.constraints.Length;
  * Artist Java Bean
  * @author blxbrgld
  */
-@NamedQueries({
-	@NamedQuery(
-			name = "findArtistByTitle",
-			query = "FROM Artist WHERE title = :title"),
-	@NamedQuery(
-			name = "findLastArtist",
-			query = "FROM Artist ORDER BY dateUpdated DESC"),
-	@NamedQuery(
-			name = "findArtistsLike",
-			query = "FROM Artist WHERE title LIKE :term ORDER BY title ASC")
-})
+@Getter
+@Setter
 @Entity
+@Table(name = "Artists")
+@NamedQueries({
+	@NamedQuery(name = "findArtistByTitle", query = "FROM Artist WHERE title = :title"),
+	@NamedQuery(name = "findLastArtist", query = "FROM Artist ORDER BY dateUpdated DESC"),
+	@NamedQuery(name = "findArtistsLike", query = "FROM Artist WHERE title LIKE :term ORDER BY title ASC")
+})
 @AnalyzerDef(
 	name = "artistAnalyzer",
 	charFilters = {
@@ -59,7 +60,6 @@ import org.hibernate.validator.constraints.Length;
 	}
 )
 @Analyzer(definition = "artistAnalyzer")
-@Table(name = "Artists")
 public class Artist extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -79,39 +79,48 @@ public class Artist extends BaseEntity {
 	@OneToMany(mappedBy = "idArtist")
 	private List<ArtistActivityItem> artistActivityItems;
 
-	public String getTitle() {
-		return title;
-	}
-	
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public List<ArtistActivityItem> getArtistActivityItems() {
-		return artistActivityItems;
-	}
-	
-	public void setArtistActivityItems(List<ArtistActivityItem> artistActivityItems) {
-		this.artistActivityItems = artistActivityItems;
-	}
-	
 	/**
-	 * @return String Representation Of Artist Object
+	 * Override The Default toString() Method
+	 * @return Object's String Representation
 	 */
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-            .appendSuper(super.toString())
-            .append("title", title)
-            .append("description", description)
-            .toString();
+			.appendSuper(super.toString())
+			.append("title", title)
+			.append("description", description)
+			.toString();
+	}
+
+	/**
+	 * Override The Default equals() Method
+	 * @return TRUE If It's Equal, Else FALSE
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null) { return false; }
+		if(obj==this) { return true; }
+		if(obj.getClass()!=getClass()) {
+			return false;
+		}
+		Artist rhs = (Artist) obj;
+		return new EqualsBuilder()
+			.appendSuper(super.equals(obj))
+			.append(title, rhs.title)
+			.append(description, rhs.description)
+			.isEquals();
+	}
+
+	/**
+	 * Override The Default hashCode() Method
+	 * @return Object's Hash Code
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(11, 13)
+			.appendSuper(super.hashCode())
+			.append(title)
+			.append(description)
+			.toHashCode();
 	}
 }

@@ -26,7 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/admin/activity")
 public class ActivityController {
 	
-	@Autowired private ActivityService activityService;
+	@Autowired
+	private ActivityService activityService;
 
     private static final String ACTIVITY_FORM = "activity/form";
     private static final String ACTIVITY_LIST = "activity/list";

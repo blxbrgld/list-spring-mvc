@@ -26,7 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/admin/subtitles")
 public class SubtitlesController {
 
-	@Autowired private SubtitlesService subtitlesService;
+	@Autowired
+	private SubtitlesService subtitlesService;
 
     private static final String SUBTITLES_FORM = "subtitles/form";
     private static final String SUBTITLES_LIST = "subtitles/list";

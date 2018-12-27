@@ -28,8 +28,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/admin/user")
 public class UserController {
 
-	@Autowired private UserService userService;
-	@Autowired private RoleService roleService;
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private RoleService roleService;
 
     private static final String USER_FORM = "user/form";
     private static final String USER_LIST = "user/list";

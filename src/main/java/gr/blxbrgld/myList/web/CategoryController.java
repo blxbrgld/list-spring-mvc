@@ -26,7 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/admin/category")
 public class CategoryController {
 
-	@Autowired private CategoryService categoryService;
+	@Autowired
+	private CategoryService categoryService;
 
     private static final String CATEGORY_FORM = "category/form";
     private static final String CATEGORY_LIST = "category/list";

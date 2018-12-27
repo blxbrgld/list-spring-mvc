@@ -31,10 +31,17 @@ import static org.hamcrest.Matchers.hasItem;
  */
 public class UserControllerIntegrationTest extends IntegrationTestBase {
 
-    @Autowired private UserController userController;
-    @Autowired private UserService userService;
-    @Autowired private RoleService roleService;
-    @Autowired private SessionFactory sessionFactory;
+    @Autowired
+    private UserController userController;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     private Model model;
     private LocalValidatorFactoryBean localValidatorFactory;

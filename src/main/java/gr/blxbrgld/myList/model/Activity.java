@@ -9,6 +9,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
@@ -17,11 +21,11 @@ import org.hibernate.validator.constraints.Length;
  * Activity Java Bean
  * @author blxbrgld
  */
-@NamedQuery(
-		name = "findActivityByTitle",
-		query = "FROM Activity WHERE title = :title")
+@Getter
+@Setter
 @Entity
 @Table(name = "Activities")
+@NamedQuery(name = "findActivityByTitle", query = "FROM Activity WHERE title = :title")
 public class Activity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -34,30 +38,45 @@ public class Activity extends BaseEntity {
 	@OneToMany(mappedBy = "idActivity")
 	private List<ArtistActivityItem> artistActivityItems;
 
-	public String getTitle() {
-		return title;
-	}
-		
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	
-	public List<ArtistActivityItem> getArtistActivityItems() {
-		return artistActivityItems;
-	}
-	
-	public void setArtistActivityItems(List<ArtistActivityItem> artistActivityItems) {
-		this.artistActivityItems = artistActivityItems;
-	}
-
 	/**
-	 * @return String Representation Of Activity Object
+	 * Override The Default toString() Method
+	 * @return Object's String Representation
 	 */
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-            .appendSuper(super.toString())
-            .append("title", title)
-            .toString();
+			.appendSuper(super.toString())
+			.append("title", title)
+			.toString();
+	}
+
+	/**
+	 * Override The Default equals() Method
+	 * @return TRUE If It's Equal, Else FALSE
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null) { return false; }
+		if(obj==this) { return true; }
+		if(obj.getClass()!=getClass()) {
+			return false;
+		}
+		Activity rhs = (Activity) obj;
+		return new EqualsBuilder()
+			.appendSuper(super.equals(obj))
+			.append(title, rhs.title)
+			.isEquals();
+	}
+
+	/**
+	 * Override The Default hashCode() Method
+	 * @return Object's Hash Code
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(5, 7)
+			.appendSuper(super.hashCode())
+			.append(title)
+			.toHashCode();
 	}
 }

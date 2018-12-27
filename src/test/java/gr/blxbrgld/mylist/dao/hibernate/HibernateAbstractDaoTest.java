@@ -1,9 +1,6 @@
 package gr.blxbrgld.mylist.dao.hibernate;
 
-import gr.blxbrgld.mylist.dao.ArtistDao;
-import gr.blxbrgld.mylist.dao.CommentDao;
 import gr.blxbrgld.mylist.dao.DaoTestBase;
-import gr.blxbrgld.mylist.dao.SubtitlesDao;
 import gr.blxbrgld.mylist.model.Artist;
 import gr.blxbrgld.mylist.model.Comment;
 import gr.blxbrgld.mylist.model.Subtitles;
@@ -21,10 +18,17 @@ import java.util.Calendar;
  */
 public class HibernateAbstractDaoTest extends DaoTestBase {
 
-    @Autowired private SubtitlesDao subtitlesDao;
-    @Autowired private ArtistDao artistDao;
-    @Autowired private CommentDao commentDao;
-    @Autowired private SessionFactory sessionFactory;
+    @Autowired
+    private SubtitlesDao subtitlesDao;
+
+    @Autowired
+    private ArtistDao artistDao;
+
+    @Autowired
+    private CommentDao commentDao;
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Test
     public void persist() {

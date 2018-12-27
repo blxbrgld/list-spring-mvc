@@ -1,8 +1,9 @@
 package gr.blxbrgld.mylist.service.implementation;
 
-import gr.blxbrgld.mylist.dao.UserDao;
+import gr.blxbrgld.mylist.dao.hibernate.UserDao;
 import gr.blxbrgld.mylist.model.Role;
 import gr.blxbrgld.mylist.model.User;
+import gr.blxbrgld.mylist.service.UserServiceImplementation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

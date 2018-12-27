@@ -18,9 +18,14 @@ import gr.blxbrgld.mylist.service.ItemService;
 @Controller
 public class HomeController {
 	
-	@Autowired ItemService itemService;
-	@Autowired ArtistService artistService;
-	@Autowired ActivityService activityService;
+	@Autowired
+	private ItemService itemService;
+
+	@Autowired
+	private ArtistService artistService;
+
+	@Autowired
+	private ActivityService activityService;
 
     private static final String HOME_PAGE = "home";
 

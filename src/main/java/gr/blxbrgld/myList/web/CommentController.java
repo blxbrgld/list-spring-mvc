@@ -26,7 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/admin/comment")
 public class CommentController {
 
-	@Autowired private CommentService commentService;
+	@Autowired
+	private CommentService commentService;
 
     private static final String COMMENT_FORM = "comment/form";
     private static final String COMMENT_LIST = "comment/list";

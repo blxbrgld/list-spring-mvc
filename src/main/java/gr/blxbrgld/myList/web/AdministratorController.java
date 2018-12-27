@@ -16,7 +16,8 @@ import gr.blxbrgld.mylist.service.ItemService;
 @RequestMapping("/admin/administrator")
 public class AdministratorController {
 
-	@Autowired private ItemService itemService;
+	@Autowired
+	private ItemService itemService;
 
     private static final String LUCENE_PAGE = "administrator/lucene";
 	

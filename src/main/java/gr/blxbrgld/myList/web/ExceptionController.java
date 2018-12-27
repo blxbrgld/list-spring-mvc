@@ -1,8 +1,7 @@
 package gr.blxbrgld.mylist.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,10 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
  * Exception's Controller
  * @author blxbrgld
  */
+@Slf4j
 @ControllerAdvice
 public class ExceptionController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionController.class);
 
     private static final String EXCEPTION_PAGE = "exception/exception";
 
@@ -32,7 +30,7 @@ public class ExceptionController {
 	 * @return Stack Trace's String Representation
 	 */
 	private String exceptionStackTraceToString(Exception exception) {
-        LOGGER.error("Exception", exception); //Log Before Returning
+        log.error("Exception", exception); //Log Before Returning
         return ExceptionUtils.getStackTrace(exception);
 	}
 }

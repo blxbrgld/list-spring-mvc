@@ -32,9 +32,6 @@
 	      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	    <![endif]-->
-	    <%--Images Path + Default Image As Application Scope Parameters--%>
-		<c:set var="imagesPath" value="${contextPath}/resources/images/items/" scope="application"/>
-        <c:set var="defaultImage" value="no-image.png" scope="application" />
 	</head>
 	<body>
 		<%--AddThis Follow Buttons--%>
@@ -44,7 +41,6 @@
 		<div class="container-fluid">
 			<div class="row">
 				<%--Main Content--%>
-				<tiles:insertAttribute name="wallpaper" />
 		   		<div class="col-xs-12 col-sm-10">
 			   		<%--Alert Messages--%>
 			   		<c:if test="${not empty successMessage or not empty errorMessage or not empty warningMessage}">

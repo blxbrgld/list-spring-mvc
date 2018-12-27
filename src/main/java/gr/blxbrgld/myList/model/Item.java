@@ -19,6 +19,10 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.solr.analysis.HTMLStripCharFilterFactory;
@@ -61,27 +65,18 @@ import gr.blxbrgld.mylist.utilities.ParentCategoryFilterFactory;
  * Item Java Bean
  * @author blxbrgld
  */
-@NamedQueries({
-	@NamedQuery(
-			name = "findItemsByCategory",
-			query = "FROM Item WHERE category = :category OR category.parent = :category"),
-	@NamedQuery(
-			name = "findItemsByArtist",
-			query = "SELECT DISTINCT i FROM Item i, IN (i.artistActivityItems) c WHERE c.idArtist = :artist ORDER BY i.titleEng"),
-	@NamedQuery(
-			name = "findItemsBySubtitles",
-			query = "FROM Item WHERE subtitles = :subtitles"),
-	@NamedQuery(
-			name = "countItemsHavingCategory",
-			query = "SELECT COUNT(*) FROM Item WHERE category.title = :category OR category.parent.title = :category"),			
-	@NamedQuery(
-			name = "findLastItemHavingParent",
-			query = "FROM Item WHERE category.parent.title = :parent ORDER BY dateUpdated DESC"),
-	@NamedQuery(
-			name = "findNextPlaceHavingParent",
-			query = "SELECT max(place) + 1 FROM Item WHERE category.parent.title = :parent")
-})
+@Getter
+@Setter
 @Entity
+@Table(name = "Items")
+@NamedQueries({
+	@NamedQuery(name = "findItemsByCategory", query = "FROM Item WHERE category = :category OR category.parent = :category"),
+	@NamedQuery(name = "findItemsByArtist", query = "SELECT DISTINCT i FROM Item i, IN (i.artistActivityItems) c WHERE c.idArtist = :artist ORDER BY i.titleEng"),
+	@NamedQuery(name = "findItemsBySubtitles", query = "FROM Item WHERE subtitles = :subtitles"),
+	@NamedQuery(name = "countItemsHavingCategory", query = "SELECT COUNT(*) FROM Item WHERE category.title = :category OR category.parent.title = :category"),
+	@NamedQuery(name = "findLastItemHavingParent", query = "FROM Item WHERE category.parent.title = :parent ORDER BY dateUpdated DESC"),
+	@NamedQuery(name = "findNextPlaceHavingParent", query = "SELECT max(place) + 1 FROM Item WHERE category.parent.title = :parent")
+})
 @Indexed
 @AnalyzerDef(
 	name = "itemAnalyzer",
@@ -114,7 +109,6 @@ import gr.blxbrgld.mylist.utilities.ParentCategoryFilterFactory;
 			name = "itemCategory",
 			impl = CategoryBridge.class)
 })
-@Table(name = "Items")
 public class Item extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -146,6 +140,7 @@ public class Item extends BaseEntity {
     @Transient
 	private CommonsMultipartFile photo;
 	
+	//TODO Description Is Not Needed, Delete It
 	@Field
 	@Lob
 	@Column(name = "Description", columnDefinition = "text")
@@ -186,110 +181,6 @@ public class Item extends BaseEntity {
 	@Fetch(FetchMode.SELECT)
 	private Set<CommentItem> commentItems;
 
-	public String getTitleEng() {
-		return titleEng;
-	}
-	
-	public void setTitleEng(String titleEng) {
-		this.titleEng = titleEng;
-	}
-	
-	public String getTitleEll() {
-		return titleEll;
-	}
-	
-	public void setTitleEll(String titleEll) {
-		this.titleEll = titleEll;
-	}
-	
-	public Category getCategory() {
-		return category;
-	}
-	
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-	
-	public String getPhotoPath() {
-		return photoPath;
-	}
-	
-	public void setPhotoPath(String photoPath) {
-		this.photoPath = photoPath;
-	}
-	
-	public CommonsMultipartFile getPhoto() {
-		return photo;
-	}
-	
-	public void setPhoto(CommonsMultipartFile photo) {
-		this.photo = photo;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public Integer getYear() {
-		return year;
-	}
-	
-	public void setYear(Integer year) {
-		this.year = year;
-	}
-	
-	public Integer getRating() {
-		return rating;
-	}
-	
-	public void setRating(Integer rating) {
-		this.rating = rating;
-	}
-	
-	public Subtitles getSubtitles() {
-		return subtitles;
-	}
-	
-	public void setSubtitles(Subtitles subtitles) {
-		this.subtitles = subtitles;
-	}
-	
-	public Integer getDiscs() {
-		return discs;
-	}
-	
-	public void setDiscs(Integer discs) {
-		this.discs = discs;
-	}
-	
-	public Integer getPlace() {
-		return place;
-	}
-	
-	public void setPlace(Integer place) {
-		this.place = place;
-	}
-	
-	public List<ArtistActivityItem> getArtistActivityItems() {
-		return artistActivityItems;
-	}
-	
-	public void setArtistActivityItems(List<ArtistActivityItem> artistActivityItems) {
-		this.artistActivityItems = artistActivityItems;
-	}
-	
-	public Set<CommentItem> getCommentItems() {
-		return commentItems;
-	}
-	
-	public void setCommentItems(Set<CommentItem> commentItems) {
-		this.commentItems = commentItems;
-	}
-	
 	/**
 	 * Get Comment Titles From commentItems Separated With ' | ' Characters
 	 * @return String Of Item's Comment Titles
@@ -316,24 +207,73 @@ public class Item extends BaseEntity {
 		}
         return artists.length()>0 ? artists.toString().substring(0,artists.toString().length()-3) : null;
 	}
-	
+
 	/**
-	 * @return String Representation Of Item Object
+	 * Override The Default toString() Method
+	 * @return Object's String Representation
 	 */
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-            .appendSuper(super.toString())
-            .append("titleEng", titleEng)
-            .append("titleEll", titleEll)
-            .append("category", category)
-            .append("photoPath", photoPath)
-            .append("description", description)
-            .append("year", year)
-            .append("rating", rating)
-            .append("subtitles", subtitles)
-            .append("discs", discs)
-            .append("place", place)
-            .toString();
+			.appendSuper(super.toString())
+			.append("titleEng", titleEng)
+			.append("titleEll", titleEll)
+			.append("category", category)
+			.append("photoPath", photoPath)
+			.append("description", description)
+			.append("year", year)
+			.append("rating", rating)
+			.append("subtitles", subtitles)
+			.append("discs", discs)
+			.append("place", place)
+			.toString();
+	}
+
+	/**
+	 * Override The Default equals() Method
+	 * @return TRUE If It's Equal, Else FALSE
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null) { return false; }
+		if(obj==this) { return true; }
+		if(obj.getClass()!=getClass()) {
+			return false;
+		}
+		Item rhs = (Item) obj;
+		return new EqualsBuilder()
+			.appendSuper(super.equals(obj))
+			.append(titleEng, rhs.titleEng)
+			.append(titleEll, rhs.titleEll)
+			.append(category, rhs.category)
+			.append(photoPath, rhs.photoPath)
+			.append(description, rhs.description)
+			.append(year, rhs.year)
+			.append(rating, rhs.rating)
+			.append(subtitles, rhs.subtitles)
+			.append(discs, rhs.discs)
+			.append(place, rhs.place)
+			.isEquals();
+	}
+
+	/**
+	 * Override The Default hashCode() Method
+	 * @return Object's Hash Code
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(47, 53)
+			.appendSuper(super.hashCode())
+			.append(titleEng)
+			.append(titleEll)
+			.append(category)
+			.append(photoPath)
+			.append(description)
+			.append(year)
+			.append(rating)
+			.append(subtitles)
+			.append(discs)
+			.append(place)
+			.toHashCode();
 	}
 }

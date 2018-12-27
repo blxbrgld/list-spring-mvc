@@ -57,19 +57,10 @@ body {
  font-weight: bold;
  color: white;
 }
-/*** Wallpaper ***/
-.wallpaper {
- background-color: black;
- height: 100px;
-}
-.wallpaper img {
- display: block;
- height: 100px;
- width: auto;
- float: right;
- margin-right: 7%;
-}
 /*** Content ***/
+.content {
+ margin-top: 50px;
+}
 .content h3 {
  margin-top: 15px;
  font-weight: 800;
@@ -266,9 +257,6 @@ body {
  margin-right: 4px;
 }
 /*** Sidebar ***/
-.sidebar {
- padding-top: 8px;
-}
 .sidebar .btn {
  width: 100%;
  margin-bottom: 8px;

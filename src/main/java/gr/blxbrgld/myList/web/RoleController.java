@@ -26,7 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/admin/role")
 public class RoleController {
 
-	@Autowired private RoleService roleService;
+	@Autowired
+	private RoleService roleService;
 
     private static final String ROLE_FORM = "role/form";
     private static final String ROLE_LIST = "role/list";
