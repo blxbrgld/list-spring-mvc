@@ -272,7 +272,7 @@
                 <version>3.0.2</version>
             </plugin>
             <!-- Liquibase Plugin -->
-            <!-- mvn resources:resources liquibase:liguibase-goal -P<profile_name> -->
+            <!-- mvn resources:resources liquibase:liquibase-goal -P<profile_name> -->
             <!-- For Now Both Profiles Use The Same Liquibase Properties So You Can Skip The -P<profile_name> Option -->
             <plugin>
                 <groupId>org.liquibase</groupId>
