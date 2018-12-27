@@ -25,7 +25,6 @@ import gr.blxbrgld.mylist.service.ItemService;
 import gr.blxbrgld.mylist.service.SubtitlesService;
 import gr.blxbrgld.mylist.utilities.ReturningValues;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -36,6 +35,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math.util.MathUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -85,11 +85,13 @@ public class ItemController {
 	@Autowired
 	private SubtitlesService subtitlesService;
 
-    private static final String ITEM_FORM = "item/form";
+	@Value("${filepath.images}")
+	private String filepathImages;
+
+	private static final String ITEM_FORM = "item/form";
     private static final String ITEM_LIST = "item/list";
     private static final String ITEM_UPDATE = "item/update";
     private static final String ITEM_DISPLAY = "item/display";
-    private static final String IMAGES_FILEPATH = "filepath.images";
     private static final String ITEMS_FILEPATH = "items/";
     private static final double EPSILON = 0.001;
 
@@ -217,7 +219,7 @@ public class ItemController {
 	@RequestMapping(value = "/item/image/{image:.*}", method = RequestMethod.GET)
 	public void getImage(@PathVariable("image") String image, HttpServletResponse response) {
 		try {
-			File file = new File(System.getProperty(IMAGES_FILEPATH) + "/items/" + image);
+			File file = new File(filepathImages + "/items/" + image);
 			InputStream inputStream = new FileInputStream(file);
 			String extension = StringUtils.substringAfterLast(image, ".");
 			if("png".equalsIgnoreCase(extension)) { // png, jpg and jpeg Are The Only Allowed Extensions
@@ -251,13 +253,13 @@ public class ItemController {
 		if(photo != null && photo.getSize() != 0) {
 			deletePhoto(item.getPhotoPath()); //Delete Old Image
 			String filename = "item_" + String.format("%05d", item.getId()) + photo.getOriginalFilename().substring(photo.getOriginalFilename().lastIndexOf('.'));
-        	File file = new File(System.getProperty(IMAGES_FILEPATH), "temporary/" + filename);
+        	File file = new File(filepathImages, "temporary/" + filename);
         	try {
         		photo.transferTo(file);
         		Thumbnails
         			.of(file)
         			.size(150, 150)
-        			.toFile(new File(System.getProperty(IMAGES_FILEPATH), ITEMS_FILEPATH + filename));
+        			.toFile(new File(filepathImages, ITEMS_FILEPATH + filename));
         		item.setPhotoPath(filename); //Set Object's Attribute
         	} catch(IOException exception) {
         		log.error("IOException", exception);
@@ -274,7 +276,7 @@ public class ItemController {
 	void deletePhoto(String photo) {
 		log.info("deletePhoto() Invoked For Photo = {}.", photo);
 		if(photo != null) {
-			File file = new File(System.getProperty(IMAGES_FILEPATH), ITEMS_FILEPATH + photo);
+			File file = new File(filepathImages, ITEMS_FILEPATH + photo);
 			boolean result = file.delete();
 			log.info("deletePhoto() Result = {}.", result); // true|false Indicating Success|Failure
 		}

@@ -11,6 +11,9 @@
     <!-- Enable Component Scanning -->
     <context:component-scan base-package="gr.blxbrgld.mylist.web" />
 
+	<!-- Property Sources Placeholder Configurer -->
+	<context:property-placeholder location="classpath:configuration.properties" />
+
 	<mvc:view-controller path="/login.html" />
 	<mvc:view-controller path="/denied.html" />
 	<mvc:view-controller path="/index.html" />

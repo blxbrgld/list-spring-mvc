@@ -7,9 +7,10 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
+    <!-- Property Sources Placeholder Configurer -->
     <context:property-placeholder location="classpath:configuration.properties" />
 
-    <!--Data Source-->
+    <!-- Data Source -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${dataSource.driverClassName}" />
         <property name="url" value="${dataSource.url}" />
@@ -17,7 +18,7 @@
         <property name="password" value="${dataSource.password}" />
     </bean>
 
-    <!--Hibernate Properties-->
+    <!-- Hibernate Properties -->
     <util:properties id="hibernateProperties">
         <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
         <prop key="hibernate.search.lucene_version">LUCENE_36</prop>
