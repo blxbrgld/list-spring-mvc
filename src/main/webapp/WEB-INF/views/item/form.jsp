@@ -88,7 +88,7 @@
 			</div>
 			<div class="form-group">
 				<form:label path="description">${descriptionLabel}</form:label>
-				<form:textarea path="description" class="form-control textarea" rows="10" placeholder="${descriptionLabel}" />
+				<form:textarea path="description" class="form-control textarea" rows="5" placeholder="${descriptionLabel}" />
 				<form:errors path="description" class="errors" />
 			</div>		
 		</fieldset>

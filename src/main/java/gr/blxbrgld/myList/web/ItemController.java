@@ -4,17 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import gr.blxbrgld.mylist.model.Activity;
-import gr.blxbrgld.mylist.model.Artist;
-import gr.blxbrgld.mylist.model.ArtistActivityItem;
-import gr.blxbrgld.mylist.model.CommentItem;
-import gr.blxbrgld.mylist.model.Item;
+import gr.blxbrgld.mylist.model.*;
 import gr.blxbrgld.mylist.service.ActivityService;
 import gr.blxbrgld.mylist.service.ArtistActivityItemService;
 import gr.blxbrgld.mylist.service.ArtistService;
@@ -289,7 +281,15 @@ public class ItemController {
 	 */
 	void populateForm(Model model, Item item) {
 		model.addAttribute("item", item);
-		model.addAttribute("selectCategory", categoryService.getCategories(null, null));
+		List<Category> categories = categoryService.getCategories(null, null);
+		Iterator<Category> iterator = categories.iterator();
+		while(iterator.hasNext()) {
+			Category category = iterator.next();
+			if(Arrays.asList("Music", "Films").contains(category.getTitle())) { // These Should Not Be A Selection
+				iterator.remove();
+			}
+		}
+		model.addAttribute("selectCategory", categories);
 		model.addAttribute("selectComment", commentService.getComments("title", "ASC"));
 		model.addAttribute("selectActivity", activityService.getActivities(null, null));
 		model.addAttribute("selectSubtitles", subtitlesService.getSubtitles(null, null));

@@ -31,8 +31,7 @@ public class CategoryDaoImplementation extends AbstractHibernateDao<Category> im
 		Criteria criteria = getSession().createCriteria(Category.class).createAlias("parent", "parent", JoinType.LEFT_OUTER_JOIN);
 		if(order!=null && "DESC".equals(order)) {
 			criteria.addOrder(Order.desc(property).nulls(NullPrecedence.FIRST));
-		}
-		else if(property!=null) {
+		} else if(property!=null) {
 			criteria.addOrder(Order.asc(property).nulls(NullPrecedence.FIRST));
 		}
 		return (List<Category>) criteria.list();
