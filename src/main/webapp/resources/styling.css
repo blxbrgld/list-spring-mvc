@@ -315,6 +315,9 @@ body {
 .ui-autocomplete li:nth-child(even) {
  background-color: #F9F9F9;
 }
+span.ui-helper-hidden-accessible {
+ display: none;
+}
 /*
 * Media Queries
 */
