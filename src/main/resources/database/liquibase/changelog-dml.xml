@@ -8,4 +8,17 @@
             INSERT INTO Users VALUES (1,'blixabargeld','$2a$10$A/8YlR/m8lAbe6.Lr.HDRuqTHYM80r9K2oIayAOTXQX6bjAKWoMGW','nikolaos.i.papadopoulos@gmail.com',1,1,'2014-05-02 06:18:37');
         </sql>
     </changeSet>
+    <!-- 'Book' Entity Change Sets -->
+    <changeSet author="npapadooulos" id="dml-2">
+        <comment>Book Category</comment>
+        <sql>
+            INSERT INTO `Categories` (`Title`) VALUES ('Books');
+        </sql>
+    </changeSet>
+    <changeSet author="blxbrgld" id="dml-3">
+        <comment>Author Activity</comment>
+        <sql>
+            INSERT INTO `Activities` (`Title`) VALUES ('Author');
+        </sql>
+    </changeSet>
 </databaseChangeLog>

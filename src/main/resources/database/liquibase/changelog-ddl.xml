@@ -208,4 +208,30 @@
     <changeSet author="blxbrgld" id="ddl-24">
         <addForeignKeyConstraint baseColumnNames="Role" baseTableName="Users" constraintName="FK_User_Role" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE" referencedColumnNames="Id" referencedTableName="Roles"/>
     </changeSet>
+    <!-- 'Book' Entity Change Sets -->
+    <changeSet author="blxbrgld" id="ddl-25">
+        <comment>Publishers Table</comment>
+        <sql>
+            CREATE TABLE `Publishers` (
+            `Id` int(11) NOT NULL AUTO_INCREMENT,
+            `Title` varchar(255) NOT NULL,
+            `DateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (`Id`),
+            UNIQUE KEY `UNIQUE_Title` (`Title`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=5923 DEFAULT CHARSET=utf8
+        </sql>
+    </changeSet>
+    <changeSet author="blxbrgld" id="ddl-26">
+        <comment>Pages Column For Items</comment>
+        <sql>
+            ALTER TABLE `Items` ADD COLUMN `Pages` INT(11) NULL DEFAULT NULL AFTER `Place`;
+        </sql>
+    </changeSet>
+    <changeSet author="blxbrgld" id="ddl-27">
+        <comment>Publisher Column For Items + FK</comment>
+        <sql>
+            ALTER TABLE `Items` ADD COLUMN `Publisher` INT(11) NULL AFTER `Category`, ADD INDEX `FK_Item_Publisher` (`Publisher` ASC);
+            ALTER TABLE `Items` ADD CONSTRAINT `FK_Item_Publisher` FOREIGN KEY (`Publisher`) REFERENCES `Publishers` (`Id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
