@@ -3,7 +3,7 @@
 <spring:message var="pageTitle" code="title.home" />
 <div class="content">
 	<h3>${pageTitle}</h3>
-	<%--Music Items--%>
+	<%-- Music Items --%>
 	<ul class="list-group">
   		<li class="list-group-item">
   			<i class="fa fa-music"></i>
@@ -18,7 +18,7 @@
 			<spring:message code="home.nextMusic" arguments="${nextMusic}" />
 		</li>
 	</ul>
-	<%--Film Items--%>
+	<%-- Film Items --%>
 	<ul class="list-group">
 		<li class="list-group-item">
 			<i class="fa fa-film"></i>
@@ -33,7 +33,18 @@
 			<spring:message code="home.nextFilm" arguments="${nextFilm}" />
 		</li>
 	</ul>
-	<%--Artists--%>
+	<%-- Book Items --%>
+	<ul class="list-group">
+		<li class="list-group-item">
+			<i class="fa fa-book"></i>
+			<spring:message code="home.totalBooks" arguments="${totalBooks}" />
+		</li>
+		<li class="list-group-item">
+			<i class="fa fa-calendar-check-o"></i>
+			<spring:message code="home.lastBook" arguments="${lastBookDate}" />
+		</li>
+	</ul>
+	<%-- Artists --%>
 	<ul class="list-group">
 		<li class="list-group-item">
 			<i class="fa fa-user"></i>

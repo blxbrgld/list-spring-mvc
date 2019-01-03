@@ -14,6 +14,7 @@ import gr.blxbrgld.mylist.service.ItemService;
 
 /**
  * Home Page Controller
+ * @author blxbrgld
  */
 @Controller
 public class HomeController {
@@ -32,24 +33,25 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		/*
-		 * Music Items
-		 */
+
+		// Music Items
 		model.addAttribute("totalPopular", itemService.countItemsHavingCategory("Popular Music"));
 		model.addAttribute("totalClassical", itemService.countItemsHavingCategory("Classical Music"));
 		model.addAttribute("totalGreek", itemService.countItemsHavingCategory("Greek Music"));
-		model.addAttribute("lastMusicDate", dateFormat.format(itemService.findLastDateHavingParent("Music").getDateUpdated().getTime()));
+		model.addAttribute("lastMusicDate", dateFormat.format(itemService.findLastDateHavingCategory("Music", true).getDateUpdated().getTime()));
 		model.addAttribute("nextMusic", itemService.findNextPlaceHavingParent("Music"));
-		/*
-		 * Film Items
-		 */
+
+		// Film Items
 		model.addAttribute("totalDVD", itemService.countItemsHavingCategory("DVD Films"));
 		model.addAttribute("totalDivX", itemService.countItemsHavingCategory("DivX Films"));
-		model.addAttribute("lastFilmDate", dateFormat.format(itemService.findLastDateHavingParent("Films").getDateUpdated().getTime()));
+		model.addAttribute("lastFilmDate", dateFormat.format(itemService.findLastDateHavingCategory("Films", true).getDateUpdated().getTime()));
 		model.addAttribute("nextFilm", itemService.findNextPlaceHavingParent("Films"));	
-		/*
-		 * Artists
-		 */
+
+		// Book Items
+		model.addAttribute("totalBooks", itemService.countItemsHavingCategory("Books"));
+		model.addAttribute("lastBookDate", dateFormat.format(itemService.findLastDateHavingCategory("Books", false).getDateUpdated().getTime()));
+
+		// Artists
 		model.addAttribute("totalArtists", artistService.countArtists());
 		model.addAttribute("lastArtistDate", dateFormat.format(artistService.findLastArtist().getDateUpdated().getTime()));
 		model.addAttribute("totalActivities", activityService.countActivities());

@@ -68,17 +68,18 @@ public interface ItemDao extends AbstractDao<Item> {
 
 	/**
 	 * Count All Items Existing In Database Having The Given Category
-	 * @param category Category's Title
+	 * @param title Category's Title
 	 * @return Count Of Items
 	 */
-	Long countItems(String category);
+	Long countItems(String title);
 	
 	/**
-	 * Find Last Created Item Having The Given Parent Category
-	 * @param parent Parent Category's Title
+	 * Find Last Created Item Having The Given Category
+	 * @param title Category's Title
+	 * @param parent Boolean Indicating If The Given Category Is A Parent Category Or Not
 	 * @return Item Object
 	 */
-	Item findLastDate(String parent);
+	Item findLastDate(String title, boolean parent);
 	
 	/**
 	 * Find Next Available Place For Items With The Given Parent Category

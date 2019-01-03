@@ -74,8 +74,9 @@ import gr.blxbrgld.mylist.utilities.ParentCategoryFilterFactory;
 	@NamedQuery(name = "findItemsByArtist", query = "SELECT DISTINCT i FROM Item i, IN (i.artistActivityItems) c WHERE c.idArtist = :artist ORDER BY i.titleEng"),
 	@NamedQuery(name = "findItemsBySubtitles", query = "FROM Item WHERE subtitles = :subtitles"),
 	@NamedQuery(name = "findItemsByPublisher", query = "FROM Item WHERE publisher = :publisher"),
-	@NamedQuery(name = "countItemsHavingCategory", query = "SELECT COUNT(*) FROM Item WHERE category.title = :category OR category.parent.title = :category"),
-	@NamedQuery(name = "findLastItemHavingParent", query = "FROM Item WHERE category.parent.title = :parent ORDER BY dateUpdated DESC"),
+	@NamedQuery(name = "countItemsHavingCategory", query = "SELECT COUNT(*) FROM Item WHERE category.title = :title"),
+	@NamedQuery(name = "findLastItemHavingCategory", query = "FROM Item WHERE category.title = :title ORDER BY dateUpdated DESC"),
+	@NamedQuery(name = "findLastItemHavingParentCategory", query = "FROM Item WHERE category.parent.title = :title ORDER BY dateUpdated DESC"),
 	@NamedQuery(name = "findNextPlaceHavingParent", query = "SELECT max(place) + 1 FROM Item WHERE category.parent.title = :parent")
 })
 @Indexed

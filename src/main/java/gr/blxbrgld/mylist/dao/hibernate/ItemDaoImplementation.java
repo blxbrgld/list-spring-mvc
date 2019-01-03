@@ -187,9 +187,9 @@ public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements
      * {@inheritDoc}
      */
 	@Override
-	public Long countItems(String category) {
+	public Long countItems(String title) {
 		Query query = getSession().getNamedQuery("countItemsHavingCategory");
-		query.setParameter("category", category);
+		query.setParameter("title", title);
 		return (Long) query.uniqueResult();
 	}
 
@@ -197,9 +197,9 @@ public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements
      * {@inheritDoc}
      */
 	@Override
-	public Item findLastDate(String parent) {
-		Query query = getSession().getNamedQuery("findLastItemHavingParent");
-		query.setParameter("parent", parent);
+	public Item findLastDate(String title, boolean parent) {
+		Query query = parent ? getSession().getNamedQuery("findLastItemHavingParentCategory") : getSession().getNamedQuery("findLastItemHavingCategory");
+		query.setParameter("title", title);
 		query.setMaxResults(1);
 		return (Item) query.uniqueResult();
 	}

@@ -60,16 +60,9 @@ public class ItemDaoImplementationTest extends DaoTestBase {
     }
 
     @Test
-    public void countItems() {
-        Category category = categoryDao.findByTitle("Films");
-        Long items = itemDao.countItems(category.getTitle());
-        Assert.assertEquals(60, items.intValue());
-    }
-
-    @Test
     public void findLastDate() {
         Category category = categoryDao.findByTitle("Films");
-        Item item = itemDao.findLastDate(category.getTitle()); //The Most Recent Film Item
+        Item item = itemDao.findLastDate(category.getTitle(), true); // The Most Recent Film Item
         Assert.assertEquals("24 Hour Party People", item.getTitleEng());
     }
 

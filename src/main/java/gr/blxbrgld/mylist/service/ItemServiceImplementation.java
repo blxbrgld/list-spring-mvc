@@ -150,8 +150,8 @@ public class ItemServiceImplementation implements ItemService {
      */
 	@Override
 	@PreAuthorize("permitAll")
-	public Long countItemsHavingCategory(String category) {
-		return itemDao.countItems(category);
+	public Long countItemsHavingCategory(String title) {
+		return itemDao.countItems(title);
 	}
 
     /**
@@ -159,8 +159,8 @@ public class ItemServiceImplementation implements ItemService {
      */
 	@Override
 	@PreAuthorize("permitAll")
-	public Item findLastDateHavingParent(String parent) {
-		return itemDao.findLastDate(parent);
+	public Item findLastDateHavingCategory(String title, boolean parent) {
+		return itemDao.findLastDate(title, parent);
 	}
 
     /**

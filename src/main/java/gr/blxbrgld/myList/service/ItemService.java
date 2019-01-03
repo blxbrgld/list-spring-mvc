@@ -94,17 +94,18 @@ public interface ItemService {
 	
 	/**
 	 * Count All Items Having The Given Category
-	 * @param category Category's Title
+	 * @param title Category's Title
 	 * @return Count Of Items
 	 */
-	Long countItemsHavingCategory(String category);
+	Long countItemsHavingCategory(String title);
 	
 	/**
-	 * Find Last Item Having The Given Category As Parent Category
-	 * @param parent Parent Category
+	 * Find Last Item Having The Given Category
+	 * @param title Category's Title
+	 * @param parent boolean Indicating If The Given Category Is Parent Or Not
 	 * @return Item Object
 	 */
-	Item findLastDateHavingParent(String parent);
+	Item findLastDateHavingCategory(String title, boolean parent);
 	
 	/**
 	 * Find Next Available Place For Items With The Given Category As Parent Category
