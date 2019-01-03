@@ -4,6 +4,7 @@ import java.util.List;
 
 import gr.blxbrgld.mylist.model.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.hibernate.Query;
@@ -13,8 +14,6 @@ import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-
-import gr.blxbrgld.mylist.utilities.ReturningValues;
 
 /**
  * Item's DAO Implementation
@@ -52,36 +51,29 @@ public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements
     /**
      * {@inheritDoc}
      */
+    @Override
 	@SuppressWarnings("unchecked")
-	@Override
-	public ReturningValues search(String searchFor, String searchIn, String property, String order, int first, int size) {
+	public ImmutablePair<Integer, List<Item>> search(String searchFor, String searchIn, String property, String order, int first, int size) {
 		FullTextSession fullTextSession = Search.getFullTextSession(getSession());
 		QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(Item.class).get();
 		org.apache.lucene.search.Query luceneQuery;
 		String searchString = searchFor != null ? searchFor.trim() : "";
 		
-		if(searchIn != null && "*".equals(searchString)) { //All Category Items
+		if(searchIn != null && "*".equals(searchString)) { // All Category Items
 			luceneQuery = queryBuilder
                 .keyword()
                 .wildcard()
                 .onField("titleEng")
                 .matching(searchString)
-					.createQuery();
+				.createQuery();
 		} else if(searchIn != null && "Artist".equals(searchIn)) { //Search Only Artists
 			luceneQuery = queryBuilder
 				.phrase()
                 .onField("artistActivityItems.idArtist.title").boostedTo(2)
                 .andField("artistActivityItems.idArtist.description")
                 .sentence(searchString)
-					.createQuery();
-		} else if(searchIn != null && "Favorites".equals(searchIn)) { //5- Star Reviews
-			luceneQuery = queryBuilder
-				.range()
-				.onField("rating")
-				.above(4)
-				.excludeLimit()
 				.createQuery();
-		} else { //Search All
+		} else { // Search All
 			luceneQuery = queryBuilder
                 .phrase()
                 .onField("titleEng").boostedTo(2)
@@ -98,15 +90,15 @@ public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements
 		/*
 		 * Filters
 		 */
-		if(searchIn != null && !"Lists".equals(searchIn)) {
+		if(searchIn != null) {
 			if("*".equals(searchString)) {
 				String[] tokens = StringUtils.tokenizeToStringArray(searchIn, " ");
-				if("music".equalsIgnoreCase(tokens[0]) || "films".equalsIgnoreCase(tokens[0])) { //Parent Category Filter
+				if("music".equalsIgnoreCase(tokens[0]) || "films".equalsIgnoreCase(tokens[0])) { // Parent Category Filter
 					hibernateQuery.enableFullTextFilter("parentCategoryFilter").setParameter("parentCategory", tokens[0].toLowerCase());
-				} else { //Category Filter
+				} else { // Category Filter
 					hibernateQuery.enableFullTextFilter("categoryFilter").setParameter("category", tokens[0].toLowerCase());
 				}
-			} else if(!"Artist".equals(searchIn)) { //Parent Category Filter
+			} else if(!"Artist".equals(searchIn)) { // Parent Category Filter
 				String parentCategory = "Music".equals(searchIn) ? "music" : "Films".equals(searchIn) ? "films" : "books";
 				hibernateQuery.enableFullTextFilter("parentCategoryFilter").setParameter("parentCategory", parentCategory);
 			}
@@ -115,8 +107,7 @@ public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements
 		/*
 		 * Order By Clause
 		 */
-		boolean ordering = (order != null && "DESC".equals(order)) ? true : false;
-		
+		boolean ordering = order != null && "DESC".equals(order);
 		if(property != null && "titleEng".equals(property)) {
 			Sort sort = new Sort(new SortField("sortTitle", SortField.STRING, ordering));
 			hibernateQuery.setSort(sort);
@@ -129,7 +120,7 @@ public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements
 		hibernateQuery.setFirstResult(first);
 		hibernateQuery.setMaxResults(size);
 		
-		return new ReturningValues(noOfResults, (List<Item>) hibernateQuery.list());
+		return new ImmutablePair<>(noOfResults, (List<Item>) hibernateQuery.list());
 	}
 
     /**

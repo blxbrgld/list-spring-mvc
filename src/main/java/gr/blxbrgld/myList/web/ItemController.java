@@ -8,7 +8,6 @@ import java.util.*;
 
 import gr.blxbrgld.mylist.model.*;
 import gr.blxbrgld.mylist.service.*;
-import gr.blxbrgld.mylist.utilities.ReturningValues;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -18,6 +17,7 @@ import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.math.util.MathUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -159,17 +159,13 @@ public class ItemController {
 			model.addAttribute("pageHeader", "title.item.artists");
 			model.addAttribute("pageHeaderAttribute", art.getTitle());
 		} else if(searchFor != null) {
-			ReturningValues result = itemService.searchItems(searchFor, searchIn, property, order, firstResult, sizeNo); //Order By Relevance Is The Default
-			model.addAttribute("itemList", result.getResults());
-			double noOfPages = (double) result.getNoOfResults() / sizeNo;
+			ImmutablePair<Integer, List<Item>> result = itemService.searchItems(searchFor, searchIn, property, order, firstResult, sizeNo); //Order By Relevance Is The Default
+			model.addAttribute("itemList", result.getValue());
+			double noOfPages = (double) result.getKey() / sizeNo;
 			model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || MathUtils.equals(noOfPages, 0.0, EPSILON)) ? noOfPages + 1 : noOfPages));
 			if("*".equals(searchFor) && searchIn != null) {
 				model.addAttribute("pageHeader", "title.item.categories");
 				model.addAttribute("pageHeaderAttribute", searchIn);			
-			} else if(searchIn != null && "Lists".equals(searchIn)) {
-				//TODO Delete This
-				model.addAttribute("pageHeader", "title.item.favorites");
-				model.addAttribute("pageHeaderAttribute", null);
 			} else {
 				model.addAttribute("pageHeader", "title.item.search");
 				model.addAttribute("pageHeaderAttribute", null);

@@ -3,10 +3,10 @@ package gr.blxbrgld.mylist.service;
 import gr.blxbrgld.mylist.model.Artist;
 import gr.blxbrgld.mylist.model.Category;
 import gr.blxbrgld.mylist.model.Item;
-import gr.blxbrgld.mylist.utilities.ReturningValues;
 
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.validation.Errors;
 
 /**
@@ -63,9 +63,9 @@ public interface ItemService {
 	 * @param order Ascending or Descending Ordering
 	 * @param first First Page Result
 	 * @param size Results Per Page
-	 * @return Returning Values Object Containing A List Of Items and Number Of Results
+	 * @return ImmutablePair Containing The Number Of Results As The Key And The Actual Results As The Value
 	 */
-	ReturningValues searchItems(String searchFor, String searchIn, String property, String order, int first, int size);
+	ImmutablePair<Integer, List<Item>> searchItems(String searchFor, String searchIn, String property, String order, int first, int size);
 	
 	/**
 	 * Re-Build Lucene Index From Scratch

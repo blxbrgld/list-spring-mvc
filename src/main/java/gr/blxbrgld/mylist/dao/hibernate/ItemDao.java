@@ -3,7 +3,7 @@ package gr.blxbrgld.mylist.dao.hibernate;
 import java.util.List;
 
 import gr.blxbrgld.mylist.model.*;
-import gr.blxbrgld.mylist.utilities.ReturningValues;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 /**
  * Item's DAO Interface
@@ -35,9 +35,9 @@ public interface ItemDao extends AbstractDao<Item> {
 	 * @param order Ascending or Descending Ordering
 	 * @param first First Page Result
 	 * @param size Results Per Page
-	 * @return Returning Values Object Containing A List Of Items and Number Of Results
+	 * @return ImmutablePair Containing The Number Of Results As The Key And The Actual Results As The Value
 	 */
-	ReturningValues search(String searchFor, String searchIn, String property, String order, int first, int size);
+	ImmutablePair<Integer, List<Item>> search(String searchFor, String searchIn, String property, String order, int first, int size);
 	
 	/**
 	 * Re-Build Lucene Index From Scratch

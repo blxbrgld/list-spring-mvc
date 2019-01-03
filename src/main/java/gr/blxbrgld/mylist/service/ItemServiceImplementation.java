@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,6 @@ import gr.blxbrgld.mylist.model.ArtistActivityItem;
 import gr.blxbrgld.mylist.model.Category;
 import gr.blxbrgld.mylist.model.CommentItem;
 import gr.blxbrgld.mylist.model.Item;
-import gr.blxbrgld.mylist.utilities.ReturningValues;
 
 /**
  * Item's Service Implementation
@@ -105,7 +105,7 @@ public class ItemServiceImplementation implements ItemService {
      */
 	@Override
 	@PreAuthorize("permitAll")
-	public ReturningValues searchItems(String searchFor, String searchIn, String property, String order, int first, int size) {
+	public ImmutablePair<Integer, List<Item>> searchItems(String searchFor, String searchIn, String property, String order, int first, int size) {
 		return itemDao.search(searchFor, searchIn, property, order, first, size);
 	}
 
