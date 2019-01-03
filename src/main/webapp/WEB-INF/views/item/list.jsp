@@ -4,8 +4,6 @@
 <spring:message var="artistsLabel" code="label.artist.plural" />
 <spring:message var="titleLabel" code="label.title" />
 <spring:message var="commentsLabel" code="label.comment.plural" />
-<spring:message var="placeLabel" code="label.place" />
-<spring:message var="discsLabel" code="label.discs" />
 <spring:message var="ascLabel" code="label.ascending" />
 <spring:message var="descLabel" code="label.descending" />
 <spring:message var="deleteLabel" code="label.delete" />
@@ -37,22 +35,6 @@
 						</c:if>
 					</th>
 					<th class="text-center">${commentsLabel}</th>
-					<th class="text-center hidden-xs">
-						${placeLabel}
-						<c:if test="${empty param.searchFor}">
-							<br />
-							<a href="<c:url value='list?searchFor=${param.searchFor}&searchIn=${param.searchIn}&property=place&order=ASC&view=list' />" title="${ascLabel}"><i class="fa fa-arrow-down"></i></a>
-							<a href="<c:url value='list?searchFor=${param.searchFor}&searchIn=${param.searchIn}&property=place&order=DESC&view=list' />" title="${descLabel}"><i class="fa fa-arrow-up"></i></a>
-						</c:if>
-					</th>
-					<th class="text-center hidden-xs">
-						${discsLabel}
-						<c:if test="${empty param.searchFor}">
-							<br />
-							<a href="<c:url value='list?searchFor=${param.searchFor}&searchIn=${param.searchIn}&property=discs&order=ASC&view=list' />" title="${ascLabel}"><i class="fa fa-arrow-down"></i></a>
-							<a href="<c:url value='list?searchFor=${param.searchFor}&searchIn=${param.searchIn}&property=discs&order=DESC&view=list' />" title="${descLabel}"><i class="fa fa-arrow-up"></i></a>
-						</c:if>
-					</th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -75,24 +57,6 @@
 							<c:choose>
 								<c:when test="${items.commentsString!=null}">
 									<c:out value="${items.commentsString}" />
-								</c:when>
-								<c:otherwise>-</c:otherwise>
-							</c:choose>
-						</td>
-						<td class="text-center text-nowrap hidden-xs">
-							<c:choose>
-								<c:when test="${items.place!=null}">
-									<i class="fa fa-database"></i>
-									<c:out value="${items.place}" />
-								</c:when>
-								<c:otherwise>-</c:otherwise>
-							</c:choose>
-						</td>
-						<td class="text-center text-nowrap hidden-xs">
-							<c:choose>
-								<c:when test="${items.discs!=null}">
-									<i class="fa fa-clone"></i>
-									<c:out value="${items.discs}" />
 								</c:when>
 								<c:otherwise>-</c:otherwise>
 							</c:choose>

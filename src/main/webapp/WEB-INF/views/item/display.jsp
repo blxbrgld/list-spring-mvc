@@ -9,6 +9,8 @@
 <spring:message var="conductorsLabel" code="label.activity.conductor.plural" />
 <spring:message var="actorsLabel" code="label.activity.actor.plural" />
 <spring:message var="directorsLabel" code="label.activity.director.plural" />
+<spring:message var="originalTitleLabel" code="label.titleOriginal" />
+<spring:message var="publisherLabel" code="label.publisher" />
 <spring:message var="descriptionLabel" code='label.description' />
 <spring:message var="noResultsLabel" code="title.item.search.noResults" />
 <spring:message var="editLabel" code="label.edit" />
@@ -21,8 +23,8 @@
 		<c:when test="${fn:length(itemList) gt 0}">
 			<c:forEach var="items" items="${itemList}">
 				<c:choose>
+					<%-- Music Items --%>
 					<c:when test="${items.category.id==1 || items.category.parent.id==1}">
-						<%--Music Items--%>
 						<div class="row item music">
 							<div class="col-xs-4 col-sm-2 text-center left"><%--Left Column--%>
 								<div class="row">
@@ -130,8 +132,8 @@
 							</div>
 						</div>						
 					</c:when>
+					<%-- Film Items --%>
 					<c:when test="${items.category.id==2 || items.category.parent.id==2}">
-						<%--Film Items--%>
 						<div class="row item music">
 							<div class="col-xs-4 col-sm-2 text-center left"><%--Left Column--%>
 								<div class="row">
@@ -207,7 +209,7 @@
 									<%--Director Row--%>
 									<div class="col-xs-12 director">
 										<div class="row">
-											<div class="col-xs-12 col-sm-1 activity">
+											<div class="col-xs-12 col-sm-1 row-label">
 												${directorsLabel} :
 											</div>
 											<div class="col-xs-12 col-sm-11">
@@ -238,7 +240,7 @@
 									</c:forEach>
 									<div class="col-xs-12 actor"><%--Actor Row Always Present--%>
 										<div class="row">
-											<div class="col-xs-12 col-sm-1 activity">
+											<div class="col-xs-12 col-sm-1 row-label">
 												${actorsLabel} : 
 											</div>
 											<div class="col-xs-12 col-sm-11">
@@ -259,6 +261,65 @@
 												</c:choose>
 											</div>
 										</div>
+									</div>
+									<div class="col-xs-12 description hidden">
+										${items.description}
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:when>
+					<%-- Book Items --%>
+					<c:when test="${items.category.id==8}">
+						<div class="row item book">
+							<div class="col-xs-4 col-sm-2 text-center left"><%--Left Column--%>
+								<div class="row">
+									<div class="col-xs-12 picture"><%--Image--%>
+										<c:choose>
+											<c:when test="${items.photoPath!=null}">
+												<img class="img-thumbnail" src="<c:url value='/item/image/${items.photoPath}' />" onError="this.src='<c:url value="${contextPath}/resources/images/styles/no-image.jpg" />'" />
+											</c:when>
+											<c:otherwise>
+												<img class="img-thumbnail" src="<c:url value='${contextPath}/resources/images/styles/no-image.jpg' />" />
+											</c:otherwise>
+										</c:choose>
+									</div>
+									<div class="col-xs-12 info"><%--Info--%>
+										<security:authorize access="hasRole('Administrator')">
+											<a href="<c:url value='/admin/item/update/${items.id}' />">${editLabel}</a>
+										</security:authorize>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-8 col-sm-10 right"><%--Right Column--%>
+								<div class="row">
+									<div class="col-xs-12 title">
+										<h4>${items.titleEng}</h4>
+									</div>
+									<div class="col-xs-12 author">
+										<c:forEach var="loopArtists" items="${items.artistActivityItems}" varStatus="loop">
+											<a href="<c:url value='/item/list?artist=${loopArtists.idArtist.id}' />">${loopArtists.idArtist.title}</a>
+											<c:if test="${!loop.last}"> | </c:if>
+										</c:forEach>
+									</div>
+									<div class="col-xs-12">
+										<span class="category">${items.category.title}</span>
+										<c:if test="${items.description!=null}">
+											<span class="description toggle"><i class="fa fa-file-text-o"></i>Description</span>
+										</c:if>
+										<c:if test="${items.rating!=null}">
+											<span class="rating rating${items.rating}"></span>
+										</c:if>
+									</div>
+									<div class="col-xs-12 original-title">
+										<c:if test="${items.titleEll!=null}">
+											<strong>${originalTitleLabel} :</strong>
+											${items.titleEll}
+										</c:if>
+									</div>
+									<div class="col-xs-12 publisher">
+										<strong>${publisherLabel} :</strong>
+										${items.publisher.title}<c:if test="${items.year!=null}">, ${items.year}</c:if><c:if test="${items.pages!=null}">, ${items.pages} Pages</c:if>
 									</div>
 									<div class="col-xs-12 description hidden">
 										${items.description}

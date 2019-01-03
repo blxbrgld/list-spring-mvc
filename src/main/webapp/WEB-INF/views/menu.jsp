@@ -8,6 +8,7 @@
 <spring:message var="activitiesLabel" code="label.activity.plural" />
 <spring:message var="commentsLabel" code="label.comment.plural" />
 <spring:message var="subtitlesLabel" code="label.subtitles" />
+<spring:message var="publisherLabel" code="label.publisher.plural" />
 <spring:message var="usersLabel" code="label.user.plural" />
 <spring:message var="editLabel" code="label.edit" />
 <spring:message var="administratorLabel" code="label.administrator" />
@@ -30,14 +31,21 @@
     	<div class="collapse navbar-collapse" id="fixed-navbar-collapse">
       		<ul class="nav navbar-nav">
         		<c:forEach var="parent" items="${categoriesTree}">
-        			<li class="dropdown">
-	        			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${parent.key} <span class="caret"></span></a>
-	         		 	<ul class="dropdown-menu">
-	        				<c:forEach var="child" items="${parent.value}">
-	        					<li><a href="<c:url value='/item/list?searchFor=*&searchIn=${child}&property=titleEng' />">${child}</a></li>
-	        				</c:forEach>
-	        			</ul>
-        			</li>
+					<c:choose>
+						<c:when test="${not empty parent.value}">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${parent.key} <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<c:forEach var="child" items="${parent.value}">
+										<li><a href="<c:url value='/item/list?searchFor=*&searchIn=${child}&property=titleEng' />">${child}</a></li>
+									</c:forEach>
+								</ul>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="<c:url value='/item/list?searchFor=*&searchIn=${parent.key}&property=titleEng' />">${parent.key}</a></li>
+						</c:otherwise>
+					</c:choose>
         		</c:forEach>
         		<security:authorize access="hasRole('Administrator')">
 					<li class="dropdown">
@@ -49,7 +57,8 @@
 				    		<li><a href="<c:url value='/admin/activity/list' />">${activitiesLabel}</a></li>
 				    		<li><a href="<c:url value='/admin/comment/list' />">${commentsLabel}</a></li>
 				    		<li><a href="<c:url value='/admin/subtitles/list' />">${subtitlesLabel}</a></li>
-				    		<li role="separator" class="divider"></li>
+							<li><a href="<c:url value='/admin/publisher/list' />">${publisherLabel}</a></li>
+							<li role="separator" class="divider"></li>
                	 			<li><a href="<c:url value='/admin/user/list' />">${usersLabel}</a></li>
 						</ul>
 					</li>

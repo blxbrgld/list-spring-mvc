@@ -7,14 +7,7 @@ import java.io.InputStream;
 import java.util.*;
 
 import gr.blxbrgld.mylist.model.*;
-import gr.blxbrgld.mylist.service.ActivityService;
-import gr.blxbrgld.mylist.service.ArtistActivityItemService;
-import gr.blxbrgld.mylist.service.ArtistService;
-import gr.blxbrgld.mylist.service.CategoryService;
-import gr.blxbrgld.mylist.service.CommentItemService;
-import gr.blxbrgld.mylist.service.CommentService;
-import gr.blxbrgld.mylist.service.ItemService;
-import gr.blxbrgld.mylist.service.SubtitlesService;
+import gr.blxbrgld.mylist.service.*;
 import gr.blxbrgld.mylist.utilities.ReturningValues;
 
 import javax.servlet.http.HttpServletResponse;
@@ -77,6 +70,9 @@ public class ItemController {
 	@Autowired
 	private SubtitlesService subtitlesService;
 
+	@Autowired
+	private PublisherService publisherService;
+
 	@Value("${filepath.images}")
 	private String filepathImages;
 
@@ -89,7 +85,7 @@ public class ItemController {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		binder.setAllowedFields(new String[] { "id", "titleEng", "titleEll", "category", "description", "year", "rating", "subtitles", "discs", "place", "photoPath", "photo", "commentItems" });
+		binder.setAllowedFields(new String[] { "id", "titleEng", "titleEll", "category", "publisher", "description", "year", "rating", "subtitles", "discs", "place", "pages", "photoPath", "photo", "commentItems" });
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true)); //Convert Empty String Values To NULL
 	}
 
@@ -110,9 +106,7 @@ public class ItemController {
 							@RequestParam("artists") String[] artists,
 							@RequestParam("activities") String[] activities,
 							@ModelAttribute("item") @Valid Item item,
-							BindingResult result,
-							Model model,
-							RedirectAttributes redirectAttributes) {
+							BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 		if(item.getId()==null) { 
 			itemService.persistItem(populateItemRelations(item, comments, artists, activities, false), result);
 			if(!result.hasErrors()) {
@@ -173,6 +167,7 @@ public class ItemController {
 				model.addAttribute("pageHeader", "title.item.categories");
 				model.addAttribute("pageHeaderAttribute", searchIn);			
 			} else if(searchIn != null && "Lists".equals(searchIn)) {
+				//TODO Delete This
 				model.addAttribute("pageHeader", "title.item.favorites");
 				model.addAttribute("pageHeaderAttribute", null);
 			} else {
@@ -187,11 +182,7 @@ public class ItemController {
 			model.addAttribute("pageHeaderAttribute", null);
 		}
 
-		if(view != null && "list".equals(view)) { //List View
-			return ITEM_LIST;
-		} else {
-			return ITEM_DISPLAY;
-		}
+		return view!=null && "list".equals(view) ? ITEM_LIST : ITEM_DISPLAY;
 	}
 
 	@RequestMapping(value = "/admin/item/delete/{id}")
@@ -293,6 +284,7 @@ public class ItemController {
 		model.addAttribute("selectComment", commentService.getComments("title", "ASC"));
 		model.addAttribute("selectActivity", activityService.getActivities(null, null));
 		model.addAttribute("selectSubtitles", subtitlesService.getSubtitles(null, null));
+		model.addAttribute("selectPublisher", publisherService.getPublishers("title", "ASC"));
 		model.addAttribute("selectRating", Arrays.asList(new String[] {"1", "2", "3", "4", "5"}));
 	}
 	

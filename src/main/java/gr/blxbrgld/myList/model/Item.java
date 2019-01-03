@@ -73,6 +73,7 @@ import gr.blxbrgld.mylist.utilities.ParentCategoryFilterFactory;
 	@NamedQuery(name = "findItemsByCategory", query = "FROM Item WHERE category = :category OR category.parent = :category"),
 	@NamedQuery(name = "findItemsByArtist", query = "SELECT DISTINCT i FROM Item i, IN (i.artistActivityItems) c WHERE c.idArtist = :artist ORDER BY i.titleEng"),
 	@NamedQuery(name = "findItemsBySubtitles", query = "FROM Item WHERE subtitles = :subtitles"),
+	@NamedQuery(name = "findItemsByPublisher", query = "FROM Item WHERE publisher = :publisher"),
 	@NamedQuery(name = "countItemsHavingCategory", query = "SELECT COUNT(*) FROM Item WHERE category.title = :category OR category.parent.title = :category"),
 	@NamedQuery(name = "findLastItemHavingParent", query = "FROM Item WHERE category.parent.title = :parent ORDER BY dateUpdated DESC"),
 	@NamedQuery(name = "findNextPlaceHavingParent", query = "SELECT max(place) + 1 FROM Item WHERE category.parent.title = :parent")
@@ -94,20 +95,12 @@ import gr.blxbrgld.mylist.utilities.ParentCategoryFilterFactory;
 )
 @Analyzer(definition = "itemAnalyzer")
 @FullTextFilterDefs({
-	@FullTextFilterDef(
-			name = "parentCategoryFilter",
-			impl = ParentCategoryFilterFactory.class),
-	@FullTextFilterDef(
-			name = "categoryFilter",
-			impl = CategoryFilterFactory.class),	
+	@FullTextFilterDef(name = "parentCategoryFilter", impl = ParentCategoryFilterFactory.class),
+	@FullTextFilterDef(name = "categoryFilter", impl = CategoryFilterFactory.class),
 })
 @ClassBridges({
-	@ClassBridge(
-			name = "itemParentCategory",
-			impl = ParentCategoryBridge.class),
-	@ClassBridge(
-			name = "itemCategory",
-			impl = CategoryBridge.class)
+	@ClassBridge(name = "itemParentCategory", impl = ParentCategoryBridge.class),
+	@ClassBridge(name = "itemCategory", impl = CategoryBridge.class)
 })
 public class Item extends BaseEntity {
 
@@ -131,6 +124,10 @@ public class Item extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "Category", referencedColumnName = "Id", nullable = false)
 	private Category category;
+
+	@ManyToOne
+	@JoinColumn(name = "Publisher", referencedColumnName = "Id")
+	private Publisher publisher;
 	
 	@Length(max = 45)
 	@Column(name = "photoPath")
@@ -158,7 +155,6 @@ public class Item extends BaseEntity {
 	@JoinColumn(name = "Subtitles", referencedColumnName = "Id", nullable = true)
 	private Subtitles subtitles;
 	
-	@NotNull
 	@Range(min = 1, max = 100)
 	@Column(name = "Discs")
 	private Integer discs;
@@ -166,6 +162,10 @@ public class Item extends BaseEntity {
 	@Min(1)
 	@Column(name = "Place")
 	private Integer place;
+
+	@Min(10)
+	@Column(name = "Pages")
+	private Integer pages;
 	
 	@Field(name = "sortArtist", analyze = Analyze.NO)
 	@FieldBridge(impl = ArtistActivityItemBridge.class)

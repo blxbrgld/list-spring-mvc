@@ -2,6 +2,7 @@ package gr.blxbrgld.mylist.dao.hibernate;
 
 import java.util.List;
 
+import gr.blxbrgld.mylist.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
@@ -13,10 +14,6 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import gr.blxbrgld.mylist.model.Artist;
-import gr.blxbrgld.mylist.model.Category;
-import gr.blxbrgld.mylist.model.Item;
-import gr.blxbrgld.mylist.model.Subtitles;
 import gr.blxbrgld.mylist.utilities.ReturningValues;
 
 /**
@@ -174,7 +171,19 @@ public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements
         return query.list().isEmpty() ? false : true;
 	}
 
-    /**
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean havingPublisherExists(Publisher publisher) {
+		Query query = getSession().getNamedQuery("findItemsByPublisher");
+		query.setParameter("publisher", publisher);
+		query.setMaxResults(1);
+		return !query.list().isEmpty();
+	}
+
+
+	/**
      * {@inheritDoc}
      */
 	@Override

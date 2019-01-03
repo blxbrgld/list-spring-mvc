@@ -1,9 +1,11 @@
 package gr.blxbrgld.mylist.web;
 
 import gr.blxbrgld.mylist.model.Category;
+import gr.blxbrgld.mylist.model.Publisher;
 import gr.blxbrgld.mylist.model.Role;
 import gr.blxbrgld.mylist.model.Subtitles;
 import gr.blxbrgld.mylist.service.CategoryService;
+import gr.blxbrgld.mylist.service.PublisherService;
 import gr.blxbrgld.mylist.service.RoleService;
 import gr.blxbrgld.mylist.service.SubtitlesService;
 
@@ -29,6 +31,9 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 	@Autowired
     private SubtitlesService subtitlesService;
 
+    @Autowired
+	private PublisherService publisherService;
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void installFormatters(FormatterRegistry registry) {
@@ -38,14 +43,16 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 	@Override
     public void afterPropertiesSet() {
         super.afterPropertiesSet();
-        //Register Application Converters
+        // Register Application Converters
         installConverters(getObject());
     }
 	
     public void installConverters(FormatterRegistry registry) {
 		registry.addConverter(getIdToRoleConverter());
     	registry.addConverter(getStringToRoleConverter());
-    	registry.addConverter(getIdToCategoryConverter());
+        registry.addConverter(getIdToPublisherConverter());
+        registry.addConverter(getStringToPublisherConverter());
+        registry.addConverter(getIdToCategoryConverter());
     	registry.addConverter(getStringToCategoryConverter());
     	registry.addConverter(getIdToSubtitlesConverter());
     	registry.addConverter(getStringToSubtitlesConverter());
@@ -66,9 +73,30 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
             public Role convert(String id) {
             	if("".equals(id)) {
                     return null;
-                }
-            	else {
+                } else {
                     return getObject().convert(Long.valueOf(id), Role.class);
+                }
+            }
+        };
+    }
+
+    public Converter<Long, Publisher> getIdToPublisherConverter() {
+        return new Converter<Long, Publisher>() {
+            @Override
+            public Publisher convert(Long id) {
+                return publisherService.getPublisher(id);
+            }
+        };
+    }
+
+    public Converter<String, Publisher> getStringToPublisherConverter() {
+        return new Converter<String, Publisher>() {
+            @Override
+            public Publisher convert(String id) {
+                if("".equals(id)) {
+                    return null;
+                } else {
+                    return getObject().convert(Long.valueOf(id), Publisher.class);
                 }
             }
         };
@@ -89,8 +117,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
             public Category convert(String id) {
     			if("".equals(id)) {
                     return null;
-                }
-    			else {
+                } else {
                     return getObject().convert(Long.valueOf(id), Category.class);
                 }
     		}
@@ -112,8 +139,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
             public Subtitles convert(String id) {
     			if("".equals(id)) {
                     return null;
-                }
-    			else {
+                } else {
                     return getObject().convert(Long.valueOf(id), Subtitles.class);
                 }
     		}

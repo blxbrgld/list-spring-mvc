@@ -33,6 +33,8 @@ import gr.blxbrgld.mylist.utilities.ReturningValues;
 public class ItemServiceImplementation implements ItemService {
 
 	private static final List<String> filmCategories = new ArrayList<>(Arrays.asList(new String[] {"DVD Films", "DivX Films"}));
+
+	private static final String booksCategory = "Books";
 	
 	@Autowired
 	private ItemDao itemDao;
@@ -43,11 +45,11 @@ public class ItemServiceImplementation implements ItemService {
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void persistItem(Item item, Errors errors) {
-		validateCategory(item, errors);
 		validateArtistActivityItems(item, errors);
 		validateCommentItems(item, errors);
 		validateSubtitles(item, errors);
 		validateYear(item, errors);
+		validatePublisher(item, errors);
 		boolean valid = !errors.hasErrors();
 		if(valid) {
             itemDao.persist(item);
@@ -60,11 +62,11 @@ public class ItemServiceImplementation implements ItemService {
 	@Override
 	@PreAuthorize("hasRole('Administrator')")
 	public void mergeItem(Item item, Errors errors) {
-		validateCategory(item, errors);
 		validateArtistActivityItems(item, errors);
 		validateCommentItems(item, errors);
 		validateSubtitles(item, errors);
 		validateYear(item, errors);
+		validatePublisher(item, errors);
 		boolean valid = !errors.hasErrors();
 		if(valid) {
             itemDao.merge(item);
@@ -171,17 +173,6 @@ public class ItemServiceImplementation implements ItemService {
 	}
 	
 	/**
-	 * An Item Can Not Belong To A Root Category
-	 * @param item Item Object
-	 * @param errors BindingResult Errors Of Item Form
-	 */
-	private void validateCategory(Item item, Errors errors) {
-		if(item.getCategory() != null && item.getCategory().getParent() == null) {
-			errors.rejectValue("category", "error.imperfect.item.category");
-		}
-	}
-	
-	/**
 	 * Validate Uniqueness Of Item's artistActivityItems. At Least One artistActivityItem Is Required
 	 * @param item Item Object
 	 * @param errors BindingResult Errors Of Item Form
@@ -257,6 +248,17 @@ public class ItemServiceImplementation implements ItemService {
 	private void validateYear(Item item, Errors errors) {
 		if(item.getCategory() != null && filmCategories.contains(item.getCategory().getTitle()) && item.getYear() == null) {
 			errors.rejectValue("year", "error.missing.item.year");
+		}
+	}
+
+	/**
+	 * Validate Existence Of Publisher For Book Items
+	 * @param item Item Object
+	 * @param errors BindingResult Errors Of Item Form
+	 */
+	private void validatePublisher(Item item, Errors errors) {
+		if(item.getCategory()!=null && booksCategory.equalsIgnoreCase(item.getCategory().getTitle()) && item.getPublisher()==null) {
+			errors.rejectValue("publisher", "error.missing.item.publisher");
 		}
 	}
 }

@@ -16,9 +16,10 @@ public class ParentCategoryBridge implements StringBridge {
 		Item item = (Item) object;
 		if(StringUtils.containsIgnoreCase(item.getCategory().getTitle(), "films")) {
 			return "films";
-		}
-		else {
+		} else if(StringUtils.containsIgnoreCase(item.getCategory().getTitle(), "music")) {
 			return "music";
+		} else {
+			return "books";
 		}
 	}
 }

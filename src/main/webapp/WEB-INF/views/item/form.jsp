@@ -7,9 +7,12 @@
 <spring:message var="detailsLabel" code="label.item.details" />
 <spring:message var="titleEngLabel" code="label.titleEng" />
 <spring:message var="titleEllLabel" code="label.titleEll" />
+<spring:message var="publisherLabel" code="label.publisher" />
+<spring:message var="publisherSelectLabel" code="label.publisher.select" />
 <spring:message var="yearLabel" code="label.year" />
 <spring:message var="placeLabel" code="label.place" />
 <spring:message var="discsLabel" code="label.discs" />
+<spring:message var="pagesLabel" code="label.pages" />
 <spring:message var="subtitlesLabel" code="label.subtitles" />
 <spring:message var="subtitlesSelectLabel" code="label.subtitles.select" />
 <spring:message var="ratingLabel" code="label.rating" />
@@ -56,6 +59,14 @@
 				<form:errors path="titleEll" class="errors" />
 			</div>
 			<div class="form-group">
+				<form:label path="publisher">${publisherLabel}</form:label>
+				<form:select path="publisher" class="form-control">
+					<form:option value="" label="${publisherSelectLabel}" />
+					<form:options items="${selectPublisher}" itemValue="id" itemLabel="title" />
+				</form:select>
+				<form:errors path="publisher" class="errors" />
+			</div>
+			<div class="form-group">
 				<form:label path="year">${yearLabel}</form:label>
 				<form:input path="year" class="form-control" placeholder="${yearLabel}" />
 				<form:errors path="year" class="errors" />
@@ -64,12 +75,17 @@
 				<form:label path="place">${placeLabel}</form:label>
 				<form:input path="place" class="form-control" placeholder="${placeLabel}" />
 				<form:errors path="place" class="errors" />
-			</div>		
+			</div>
 			<div class="form-group">
 				<form:label path="discs">${discsLabel}</form:label>
 				<form:input path="discs" class="form-control" placeholder="${discsLabel}" />
 				<form:errors path="discs" class="errors" />
-			</div>		
+			</div>
+			<div class="form-group">
+				<form:label path="pages">${pagesLabel}</form:label>
+				<form:input path="pages" class="form-control" placeholder="${pagesLabel}" />
+				<form:errors path="pages" class="errors" />
+			</div>
 			<div class="form-group">
 				<form:label path="subtitles">${subtitlesLabel}</form:label>
 				<form:select path="subtitles" class="form-control">
@@ -77,7 +93,7 @@
 					<form:options items="${selectSubtitles}" itemValue="id" itemLabel="title" />
 				</form:select>
 				<form:errors path="subtitles" class="errors" />
-			</div>	
+			</div>
 			<div class="form-group">
 				<form:label path="rating">${ratingLabel}</form:label>
 				<form:select path="rating" class="form-control">
@@ -98,7 +114,7 @@
 			<form:errors path="artistActivityItems" element="div" class="errors" />
 			<%--Hidden Div To Clone As Response To 'Add Artist' Event--%>
 			<div id="hiddenArtist" class="form-group clearfix hidden item-artists">
-				<input name="artists" type="text" value="" class="form-control autoComplete" placeholder="${artistLabel}" />
+				<input name="artists" type="text" value="" class="form-control artist-auto" placeholder="${artistLabel}" />
 				<select name="activities" class="form-control">
 					<option value="">${activitySelectLabel}</option>
 					<c:forEach var="ai" items="${selectActivity}">

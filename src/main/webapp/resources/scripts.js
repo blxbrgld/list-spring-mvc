@@ -87,9 +87,9 @@ jQuery(function() {
 	});
 
 	/*
-	 * Auto-Complete For Item Artists
+	 * Auto-Complete Functionality
 	 */
-	$(document).on("focus", ".autoComplete", function() {
+	$(document).on("focus", ".artist-auto", function() {
 		$(this).autocomplete({
 	        source: '/myList/item/getArtists',
 	        delay: 300,
@@ -102,27 +102,42 @@ jQuery(function() {
 	 */
     var _musicCategories = [ "Popular Music", "Classical Music", "Greek Music" ];
 	function hideNotNeededFields(category) {
-		$("input#titleEll, input#year, select#subtitles, input#place, input#discs").each(function() {
-			$(this).parent("div.form-group").show(); // Show All Fields In Order To Handle The Case Of Changing Selection...
+		// Show All Fields In Order To Handle The Case Of Changing Selection...
+        $("label[for='titleEng']").text("English Title");
+        $("input#titleEng").attr("placeholder", "English Title");
+        $("label[for='titleEll']").text("Greek Title");
+        $("input#titleEll").attr("placeholder", "Greek Title");
+        _fieldsSelector = "select#subtitles, input#place, input#discs";
+		$("input#titleEll, input#year, select#subtitles, input#place, input#discs, input#publisher, input#pages").each(function() {
+			$(this).parent("div.form-group").show();
 		});
 		// ...and Then Hide Whatever Should Be Hidden
+		var _fieldsSelector = "";
 		if(jQuery.inArray(category, _musicCategories)!==-1) {
 			// Music Items Have Only One Title (The Original)
             $("label[for='titleEng']").text("Title");
             $("input#titleEng").attr("placeholder", "Title");
-            $("input#titleEll, input#year, select#subtitles").each(function() {
-            	if($(this).is('input:text')) {
-            		$(this).val("");
-				}
-            	$(this).parent("div.form-group").hide();
-			});
+            _fieldsSelector = "input#titleEll, input#year, select#subtitles, input#publisher, input#pages";
         } else if(category == "DVD Films") {
-            $("input#place").val("");
-			$("input#place").parent("div.form-group").hide();
+			_fieldsSelector = "input#place, input#publisher, input#pages";
 		} else if(category == "DivX Films") {
-			$("input#discs").val("1"); // The Default Value
-            $("input#discs").parent("div.form-group").hide();
-        }
+            _fieldsSelector = "input#discs, input#publisher, input#pages";
+        } else if(category == "Books") {
+			// For Books, We Have The Required Greek Title And The Optional Original Title
+            $("label[for='titleEng']").text("Title");
+            $("input#titleEng").attr("placeholder", "Title");
+            $("label[for='titleEll']").text("Original Title");
+            $("input#titleEll").attr("placeholder", "Original Title");
+            _fieldsSelector = "select#subtitles, input#place, input#discs";
+		}
+		if(_fieldsSelector!="") {
+            $(_fieldsSelector).each(function() {
+                if($(this).is('input:text')) {
+                    $(this).val("");
+                }
+                $(this).parent("div.form-group").hide();
+            });
+		}
 	}
 	// Add The Event Handlers For hideNotNeededFields()
 	$(document).ready(function() {

@@ -111,14 +111,27 @@ body {
  color: #333;
  text-decoration: none;
 }
+.content .item .author {
+ margin-bottom: 10px;
+}
+.content .item .author a {
+ font-size: 18px;
+ font-weight: 600;
+ color: #ADABAB;
+ text-decoration: none;
+}
+.content .item .original-title {
+ margin-top: 10px;
+}
 .content .item .director {
  margin-top: 10px;
 }
-.content .item .director .activity, .content .item .actor .activity {
+.content .item .row-label {
  padding-right: 0;
  font-size: 10px;
  font-weight: 800;
  line-height: 20px;
+ text-transform: uppercase;
 }
 .content .item .director a, .content .item .actor a {
  font-weight: 600;

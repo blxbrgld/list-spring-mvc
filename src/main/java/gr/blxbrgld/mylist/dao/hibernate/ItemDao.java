@@ -2,10 +2,7 @@ package gr.blxbrgld.mylist.dao.hibernate;
 
 import java.util.List;
 
-import gr.blxbrgld.mylist.model.Artist;
-import gr.blxbrgld.mylist.model.Category;
-import gr.blxbrgld.mylist.model.Item;
-import gr.blxbrgld.mylist.model.Subtitles;
+import gr.blxbrgld.mylist.model.*;
 import gr.blxbrgld.mylist.utilities.ReturningValues;
 
 /**
@@ -61,7 +58,14 @@ public interface ItemDao extends AbstractDao<Item> {
 	 * @return TRUE or FALSE
 	 */
 	boolean havingSubtitlesExists(Subtitles subtitles);
-	
+
+	/**
+	 * Check If Items Having The Given Publisher Exist
+	 * @param publisher Publisher Object
+	 * @return TRUE or FALSE
+	 */
+	boolean havingPublisherExists(Publisher publisher);
+
 	/**
 	 * Count All Items Existing In Database Having The Given Category
 	 * @param category Category's Title
