@@ -107,7 +107,7 @@ public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements
 					hibernateQuery.enableFullTextFilter("categoryFilter").setParameter("category", tokens[0].toLowerCase());
 				}
 			} else if(!"Artist".equals(searchIn)) { //Parent Category Filter
-				String parentCategory = "Music".equals(searchIn) ? "music" : "films";
+				String parentCategory = "Music".equals(searchIn) ? "music" : "Films".equals(searchIn) ? "films" : "books";
 				hibernateQuery.enableFullTextFilter("parentCategoryFilter").setParameter("parentCategory", parentCategory);
 			}
 		}
