@@ -34,8 +34,8 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     @Autowired
 	private PublisherService publisherService;
 
-	@SuppressWarnings("deprecation")
 	@Override
+    @SuppressWarnings({"deprecation", "EmptyMethod"})
 	protected void installFormatters(FormatterRegistry registry) {
 		super.installFormatters(registry);
 	}

@@ -153,7 +153,7 @@ public class Item extends BaseEntity {
 	private Integer rating;
 	
 	@ManyToOne
-	@JoinColumn(name = "Subtitles", referencedColumnName = "Id", nullable = true)
+	@JoinColumn(name = "Subtitles", referencedColumnName = "Id")
 	private Subtitles subtitles;
 	
 	@Range(min = 1, max = 100)

@@ -35,7 +35,7 @@ public class CategoryController {
 
     @InitBinder
 	public void initBinder(WebDataBinder binder) {
-		binder.setAllowedFields(new String[] { "id", "title", "parent" } );
+		binder.setAllowedFields("id", "title", "parent");
 	}
 	
 	@RequestMapping(value = "create", method = RequestMethod.GET)

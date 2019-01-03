@@ -85,7 +85,7 @@ public class ItemController {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		binder.setAllowedFields(new String[] { "id", "titleEng", "titleEll", "category", "publisher", "description", "year", "rating", "subtitles", "discs", "place", "pages", "photoPath", "photo", "commentItems" });
+		binder.setAllowedFields("id", "titleEng", "titleEll", "category", "publisher", "description", "year", "rating", "subtitles", "discs", "place", "pages", "photoPath", "photo", "commentItems");
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true)); //Convert Empty String Values To NULL
 	}
 
@@ -141,8 +141,8 @@ public class ItemController {
 						@RequestParam(value = "searchFor", required = false) String searchFor,
 						@RequestParam(value = "searchIn", required = false) String searchIn,
 						Model model) {
-		int sizeNo = size == null ? 50 : size.intValue();
-		int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+		int sizeNo = size == null ? 50 : size;
+		int firstResult = page == null ? 0 : (page - 1) * sizeNo;
 		String orderBy = property == null ? "titleEng" : property;
 		String ordering = order == null ? "ASC" : order;
 		if(artist != null) {
@@ -220,6 +220,7 @@ public class ItemController {
 
 	@RequestMapping(value = "/admin/item/export", method = RequestMethod.GET)
 	public ModelAndView getExcel(@RequestParam("parent") String parent) {
+		//TODO Different ExcelView For Book Items
 		return new ModelAndView("ItemExcel", "itemList", itemService.getItemsHavingCategory(categoryService.getCategory(parent)));
 	}
 
@@ -243,7 +244,7 @@ public class ItemController {
         	} catch(IOException exception) {
         		log.error("IOException", exception);
         	} finally {
-        		file.delete(); //Delete Temporary Image
+        		file.delete(); // Delete Temporary Image
         	}
 		}
 	}
@@ -281,7 +282,7 @@ public class ItemController {
 		model.addAttribute("selectActivity", activityService.getActivities(null, null));
 		model.addAttribute("selectSubtitles", subtitlesService.getSubtitles(null, null));
 		model.addAttribute("selectPublisher", publisherService.getPublishers("title", "ASC"));
-		model.addAttribute("selectRating", Arrays.asList(new String[] {"1", "2", "3", "4", "5"}));
+		model.addAttribute("selectRating", Arrays.asList("1", "2", "3", "4", "5"));
 	}
 	
 	/**
@@ -307,7 +308,7 @@ public class ItemController {
 	 * @return Item Object With CommentItems
 	 */
 	Set<CommentItem> commentItemsSetFromArray(Item item, String[] comments, boolean persistRelations) {
-		Set<CommentItem> commentItems = new HashSet<CommentItem>();
+		Set<CommentItem> commentItems = new HashSet<>();
 		for(String comment : comments) {
 			try {
 				CommentItem commentItem = new CommentItem();
@@ -333,7 +334,7 @@ public class ItemController {
 	 * @return Item Object With ArtistActivityItems
 	 */
 	List<ArtistActivityItem> artistActivityItemsListFromArrays(Item item, String[] artists, String[] activities, boolean persistRelations) {
-		List<ArtistActivityItem> artistActivityItems = new ArrayList<ArtistActivityItem>();
+		List<ArtistActivityItem> artistActivityItems = new ArrayList<>();
 		for(int i = 0; i < artists.length; i++) {
 			if(!"".equals(artists[i]) || !"".equals(activities[i])) { //Artist or Activity Given
 				ArtistActivityItem artistActivityItem = new ArtistActivityItem();

@@ -39,7 +39,7 @@ public class ArtistController {
 
     @InitBinder
 	public void initBinder(WebDataBinder binder) {
-		binder.setAllowedFields(new String[] { "id", "title", "description" });
+		binder.setAllowedFields("id", "title", "description");
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true)); //Convert Empty String Values To NULL
 	}
 	
@@ -80,8 +80,8 @@ public class ArtistController {
 						@RequestParam(value = "page", required = false) Integer page, 
 						@RequestParam(value = "size", required = false) Integer size,
 						Model model) {
-		int sizeNo = size == null ? 50 : size.intValue();
-		int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+		int sizeNo = size == null ? 50 : size;
+		int firstResult = page == null ? 0 : (page - 1) * sizeNo;
 		model.addAttribute("artistList", artistService.getArtists(property, order, firstResult, sizeNo));
 		double noOfPages = (double) artistService.countArtists() / sizeNo;
 		model.addAttribute("maxPages", (int) ((noOfPages > (int) noOfPages || MathUtils.equals(noOfPages, 0.0, EPSILON)) ? noOfPages + 1 : noOfPages));

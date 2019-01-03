@@ -65,7 +65,7 @@ public class UserDetailsAdapter implements UserDetails {
 	
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
-		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+		Set<GrantedAuthority> authorities = new HashSet<>();
 		authorities.add(new SimpleGrantedAuthority(user.getRole().getTitle()));
 		return authorities;
 	}

@@ -42,7 +42,7 @@ public class Category extends BaseEntity {
 	private String title;
 	
 	@ManyToOne
-	@JoinColumn(name = "Parent", referencedColumnName = "Id", nullable = true)
+	@JoinColumn(name = "Parent", referencedColumnName = "Id")
 	private Category parent;
 	
 	@OneToMany(mappedBy = "parent")

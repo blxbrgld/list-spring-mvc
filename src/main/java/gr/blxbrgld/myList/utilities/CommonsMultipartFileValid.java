@@ -24,7 +24,7 @@ import javax.validation.Payload;
 @Documented
 public @interface CommonsMultipartFileValid {
 
-	String message() default "Only .jpg, .jpeg, .png Files are Allowed, with Size < 2Mbytes";
+	String message() default "Only .jpg, .jpeg, .png Files are Allowed, with Size < 2Mb";
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
 	String fileSize() default "2000000"; //2 MB

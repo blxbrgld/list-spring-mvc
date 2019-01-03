@@ -29,7 +29,7 @@ public class PublisherController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.setAllowedFields(new String[] { "id", "title" });
+        binder.setAllowedFields("id", "title");
     }
 
     @RequestMapping(value = "create", method = RequestMethod.GET)

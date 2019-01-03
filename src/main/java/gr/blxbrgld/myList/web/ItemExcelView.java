@@ -32,7 +32,7 @@ public class ItemExcelView extends AbstractExcelView {
 	 * @param workbook Workbook
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
-	 * @throws Exception
+	 * @throws Exception In Case Of An Error
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -90,7 +90,7 @@ public class ItemExcelView extends AbstractExcelView {
 	 * @return Map Of Cell Styles
 	 */
 	private static Map<String, CellStyle> createStyles(Workbook workbook) {
-		Map<String, CellStyle> styles = new HashMap<String, CellStyle>();
+		Map<String, CellStyle> styles = new HashMap<>();
 		CellStyle style;
 		/*
 		 * Colored

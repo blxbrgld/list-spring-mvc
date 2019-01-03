@@ -21,6 +21,7 @@ import org.springframework.util.ReflectionUtils;
  * @author blxbrgld
  */
 @Slf4j
+@SuppressWarnings("TypeParameterExplicitlyExtendsObject")
 public abstract class AbstractHibernateDao<T extends Object> implements AbstractDao<T> {
 
 	@Autowired

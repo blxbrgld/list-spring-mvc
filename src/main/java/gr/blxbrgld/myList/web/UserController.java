@@ -40,7 +40,7 @@ public class UserController {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		binder.setAllowedFields(new String[] { "id", "username", "password", "confirmPassword", "email", "role" });
+		binder.setAllowedFields("id", "username", "password", "confirmPassword", "email", "role");
 	}
 	
 	@RequestMapping(value = "create", method = RequestMethod.GET)
