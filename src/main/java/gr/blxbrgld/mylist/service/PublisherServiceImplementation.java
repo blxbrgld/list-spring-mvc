@@ -73,15 +73,6 @@ public class PublisherServiceImplementation implements PublisherService {
      */
     @Override
     @PreAuthorize("hasRole('Administrator')")
-    public Publisher getPublisherByTitle(String title) {
-        return publisherDao.findByTitle(title);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @PreAuthorize("hasRole('Administrator')")
     public boolean deletePublisher(Long id) {
         if(!itemDao.havingPublisherExists(publisherDao.get(id))) { // No Items With This Publisher Exist
             publisherDao.deleteById(id);

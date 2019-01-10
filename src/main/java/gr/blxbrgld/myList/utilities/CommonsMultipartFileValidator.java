@@ -34,10 +34,9 @@ public class CommonsMultipartFileValidator implements ConstraintValidator<Common
 	 */
 	@Override
 	public boolean isValid(CommonsMultipartFile value, ConstraintValidatorContext context) {
-		if(value == null || value.isEmpty()) { //Not Required
+		if(value == null || value.isEmpty()) { // Not Required
 			return true;
-		}
-		else {
+		} else {
 			return validateFileExtension(value) && validateFileSize(value);
 		}
 	}

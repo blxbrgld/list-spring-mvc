@@ -23,7 +23,7 @@ public class CommentItemDaoImplementation extends AbstractHibernateDao<CommentIt
 		Query query = getSession().getNamedQuery("findCommentItemsByComment");
 		query.setParameter("comment", comment);
 		query.setMaxResults(1);
-        return query.list().isEmpty() ? false : true;
+        return !query.list().isEmpty();
 	}
 
     /**

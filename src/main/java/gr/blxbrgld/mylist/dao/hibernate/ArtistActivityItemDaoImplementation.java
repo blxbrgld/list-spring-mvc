@@ -34,7 +34,7 @@ public class ArtistActivityItemDaoImplementation extends AbstractHibernateDao<Ar
 		Query query = getSession().getNamedQuery("findArtistActivityItemsByArtist");
 		query.setParameter("artist", artist);
 		query.setMaxResults(1);
-        return query.list().isEmpty() ? false : true;
+        return !query.list().isEmpty();
 	}
 
     /**
@@ -45,7 +45,7 @@ public class ArtistActivityItemDaoImplementation extends AbstractHibernateDao<Ar
 		Query query = getSession().getNamedQuery("findArtistActivityItemsByActivity");
 		query.setParameter("activity", activity);
 		query.setMaxResults(1);
-        return query.list().isEmpty() ? false : true;
+        return !query.list().isEmpty();
 	}
 
     /**

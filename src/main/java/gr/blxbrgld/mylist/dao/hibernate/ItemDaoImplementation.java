@@ -148,7 +148,7 @@ public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements
 		Query query = getSession().getNamedQuery("findItemsByCategory");
 		query.setParameter("category", category);
 		query.setMaxResults(1);
-        return query.list().isEmpty() ? false : true;
+        return !query.list().isEmpty();
 	}
 
     /**
@@ -159,7 +159,7 @@ public class ItemDaoImplementation extends AbstractHibernateDao<Item> implements
 		Query query = getSession().getNamedQuery("findItemsBySubtitles");
 		query.setParameter("subtitles", subtitles);
 		query.setMaxResults(1);
-        return query.list().isEmpty() ? false : true;
+        return !query.list().isEmpty();
 	}
 
 	/**

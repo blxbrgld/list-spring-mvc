@@ -41,13 +41,6 @@ public interface PublisherService {
     Publisher getPublisher(Long id);
 
     /**
-     * Get Publisher Object Given It's Title
-     * @param title Publisher's Title
-     * @return Publisher Object
-     */
-    Publisher getPublisherByTitle(String title);
-
-    /**
      * Delete Publisher With The Given Id If There Are No Related Item Objects
      * @param id Publisher's Id
      * @return TRUE or FALSE

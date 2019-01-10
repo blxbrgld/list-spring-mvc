@@ -109,6 +109,6 @@ public class UserDaoImplementation extends AbstractHibernateDao<User> implements
 		Query query = getSession().getNamedQuery("findUsersByRole");
 		query.setParameter("role", role);
 		query.setMaxResults(1);
-        return query.list().isEmpty() ? false : true;
+        return !query.list().isEmpty();
 	}
 }

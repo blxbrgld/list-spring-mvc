@@ -249,7 +249,10 @@ public class ItemController {
         	} catch(IOException exception) {
         		log.error("IOException", exception);
         	} finally {
-        		file.delete(); // Delete Temporary Image
+        		boolean deleted = file.delete(); // Delete Temporary Image
+				if(!deleted) {
+					log.error("Failed To Delete File With Name = {}.", filename);
+				}
         	}
 		}
 	}

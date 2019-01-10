@@ -63,7 +63,7 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 	 */
 	@Override
 	public void persist(T t) {
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings({"rawtypes", "RedundantArrayCreation"})
         Method method = ReflectionUtils.findMethod(getDomainClass(), "setDateUpdated", new Class[] { Calendar.class });
 		if(method!=null) {
 			try {
@@ -81,7 +81,7 @@ public abstract class AbstractHibernateDao<T extends Object> implements Abstract
 	 */
 	@Override
 	public void merge(T t) {
-        @SuppressWarnings("rawtypes")
+        @SuppressWarnings({"rawtypes", "RedundantArrayCreation"})
 		Method method = ReflectionUtils.findMethod(getDomainClass(), "setDateUpdated", new Class[] { Calendar.class });
 		if(method!=null) {
 			try {
