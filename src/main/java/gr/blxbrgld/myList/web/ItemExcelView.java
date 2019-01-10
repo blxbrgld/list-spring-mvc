@@ -2,20 +2,18 @@ package gr.blxbrgld.mylist.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import gr.blxbrgld.mylist.utilities.ApplicationUtils;
+import gr.blxbrgld.mylist.utilities.Constants;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import gr.blxbrgld.mylist.model.Item;
@@ -37,81 +35,48 @@ public class ItemExcelView extends AbstractExcelView {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    List<Item> itemList = (List<Item>) model.get("itemList");
-		int record = 1; //Row Counter Excluding Header
-	    
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-		String today = dateFormat.format(new Date());
-		String filename = today + "_" + "Export.xls";
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.XLS_DATE_PATTERN);
+		String filename = dateFormat.format(new Date()) + "_" + Constants.XLS_FILENAME;
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
 		
-		Map<String, CellStyle> styles = createStyles(workbook);
-		/*
-		 * Sheet
-		 */
-		HSSFSheet excelSheet = workbook.createSheet("Items");
-		excelSheet.setDefaultColumnWidth(40);
-		/*
-		 * Header
-		 */
-		HSSFRow excelHeader = excelSheet.createRow(0);
-		excelHeader.createCell(0).setCellValue("Artist(s)");
-	    excelHeader.createCell(1).setCellValue("Title");
-	    excelHeader.createCell(2).setCellValue("Category");
-	    excelHeader.createCell(3).setCellValue("Comments");
-	    excelHeader.createCell(4).setCellValue("Place");
-	    excelHeader.createCell(5).setCellValue("Discs");
+		Map<String, CellStyle> styles = ApplicationUtils.xlsStyles(workbook);
+
+		// Sheet
+		HSSFSheet sheet = workbook.createSheet("Items");
+		sheet.setDefaultColumnWidth(Constants.XLS_COLUMN_WIDTH); // Setting A Default Column Width Due To Title, Artists et.al. Columns Which May Be Too Long
+
+		// Header
+		HSSFRow header = sheet.createRow(0);
+		header.createCell(0).setCellValue("Artist(s)");
+		header.createCell(1).setCellValue("Title");
+		header.createCell(2).setCellValue("Category");
+		header.createCell(3).setCellValue("Comments");
+		header.createCell(4).setCellValue("Place");
+		header.createCell(5).setCellValue("Discs");
 	    for(int i = 0; i < 6; i++) {
-            excelHeader.getCell(i).setCellStyle(styles.get("header")); //Colored
+			header.getCell(i).setCellStyle(styles.get(Constants.XLS_HEADER_STYLING));
         }
-	    /*
-	     * Data
-	     */
-		for(Item item : itemList) {
-			HSSFRow excelRow = excelSheet.createRow(record++);
-			excelRow.createCell(0).setCellValue(item.getArtistsString()!=null ? item.getArtistsString() : "None Listed");
-			excelRow.createCell(1).setCellValue(item.getTitleEng());
-		    excelRow.createCell(2).setCellValue(item.getCategory().getTitle());
-		    excelRow.createCell(3).setCellValue(item.getCommentsString()!=null ? item.getCommentsString() : "-");
-		    excelRow.createCell(4).setCellValue(item.getPlace()!=null ? Integer.toString(item.getPlace()) : "-");
-		    excelRow.createCell(5).setCellValue(item.getDiscs()!=null ? Integer.toString(item.getDiscs()) : "-");
+
+        // Data
+		int record = 1; // Row Counter Excluding Header
+		List<Item> items = (List<Item>) model.get("items");
+	    for(Item item : items) {
+			HSSFRow row = sheet.createRow(record++);
+			row.createCell(0).setCellValue(item.getArtistsString()!=null ? item.getArtistsString() : "None Listed");
+			row.createCell(1).setCellValue(item.getTitleEng());
+			row.createCell(2).setCellValue(item.getCategory().getTitle());
+			row.createCell(3).setCellValue(item.getCommentsString()!=null ? item.getCommentsString() : "-");
+			row.createCell(4).setCellValue(item.getPlace()!=null ? Integer.toString(item.getPlace()) : "-");
+			row.createCell(5).setCellValue(item.getDiscs()!=null ? Integer.toString(item.getDiscs()) : "-");
 		    for(int i = 2; i < 6; i++) {
-                excelRow.getCell(i).setCellStyle(styles.get("centered")); //Centered
+				row.getCell(i).setCellStyle(styles.get(Constants.XLS_ALIGN_STYLING)); // Centered
             }
 		}
-		for(int i = 2; i < 6; i++) {
-            excelSheet.autoSizeColumn(i); //Override DefaultColumnWidth
-        }
-	}
-	
-	/**
-	 * Create Map Of Cell Styles To Use In buildExcelDocument Method
-	 * @param workbook Workbook
-	 * @return Map Of Cell Styles
-	 */
-	private static Map<String, CellStyle> createStyles(Workbook workbook) {
-		Map<String, CellStyle> styles = new HashMap<>();
-		CellStyle style;
-		/*
-		 * Colored
-		 */
-		Font headerFont = workbook.createFont();
-		headerFont.setFontHeightInPoints((short) 11);
-        headerFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
-        headerFont.setColor(IndexedColors.WHITE.getIndex());
-        style = workbook.createCellStyle();
-        style.setAlignment(CellStyle.ALIGN_CENTER);
-        style.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
-        style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-        style.setFont(headerFont);
-        styles.put("header", style);
-        /*
-         * Centered
-         */
-        style = workbook.createCellStyle();
-        style.setAlignment(CellStyle.ALIGN_CENTER);
-        styles.put("centered", style);
 
-        return styles;
+		// Override DefaultColumnWidth For Columns That Can Not Be Too Long
+		for(int i = 2; i < 6; i++) {
+			sheet.autoSizeColumn(i);
+        }
 	}
 }

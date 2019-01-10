@@ -221,7 +221,7 @@ public class ItemController {
 	@RequestMapping(value = "/admin/item/export", method = RequestMethod.GET)
 	public ModelAndView getExcel(@RequestParam("parent") String parent) {
 		//TODO Different ExcelView For Book Items
-		return new ModelAndView("ItemExcel", "itemList", itemService.getItemsHavingCategory(categoryService.getCategory(parent)));
+		return new ModelAndView("ItemExcel", "items", itemService.getItemsHavingCategory(categoryService.getCategory(parent)));
 	}
 
 	/**
