@@ -66,7 +66,7 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${administratorLabel} <span class="caret"></span></a>
 	         		 	<ul class="dropdown-menu">
 	         		 		<c:forEach var="categoriesTree" items="${categoriesTree}">
-								<li><a href="<c:url value='/admin/item/export?parent=${categoriesTree.key}' />"><spring:message code="label.export.items" arguments="${categoriesTree.key}" /></a></li>
+								<li><a href="<c:url value='/admin/item/export?category=${categoriesTree.key}' />"><spring:message code="label.export.items" arguments="${categoriesTree.key}" /></a></li>
 							</c:forEach>
 							<li role="separator" class="divider"></li>
 							<li><a href="<c:url value='/admin/administrator/lucene?mode=synchronously' />" class="confirm-dialog" dialog="${confirmMessage}" accept="${confirmLabel}">${luceneRebuild}</a></li>

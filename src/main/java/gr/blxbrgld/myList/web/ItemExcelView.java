@@ -24,16 +24,18 @@ import gr.blxbrgld.mylist.model.Item;
  */
 public class ItemExcelView extends AbstractExcelView {
 
+	private static final int NUMBER_OF_COLUMNS = 6;
+
 	/**
-	 * Build Excel Document for itemList Model Attribute
-	 * @param model Model
-	 * @param workbook Workbook
-	 * @param request HttpServletRequest
-	 * @param response HttpServletResponse
+	 * Build Excel Document For 'items' Model Attribute
+	 * @param model Model Object
+	 * @param workbook Workbook Object
+	 * @param request HttpServletRequest Object
+	 * @param response HttpServletResponse Object
 	 * @throws Exception In Case Of An Error
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.XLS_DATE_PATTERN);
@@ -54,7 +56,7 @@ public class ItemExcelView extends AbstractExcelView {
 		header.createCell(3).setCellValue("Comments");
 		header.createCell(4).setCellValue("Place");
 		header.createCell(5).setCellValue("Discs");
-	    for(int i = 0; i < 6; i++) {
+	    for(int i = 0; i < NUMBER_OF_COLUMNS; i++) {
 			header.getCell(i).setCellStyle(styles.get(Constants.XLS_HEADER_STYLING));
         }
 
@@ -69,13 +71,13 @@ public class ItemExcelView extends AbstractExcelView {
 			row.createCell(3).setCellValue(item.getCommentsString()!=null ? item.getCommentsString() : "-");
 			row.createCell(4).setCellValue(item.getPlace()!=null ? Integer.toString(item.getPlace()) : "-");
 			row.createCell(5).setCellValue(item.getDiscs()!=null ? Integer.toString(item.getDiscs()) : "-");
-		    for(int i = 2; i < 6; i++) {
+		    for(int i = 2; i < NUMBER_OF_COLUMNS; i++) {
 				row.getCell(i).setCellStyle(styles.get(Constants.XLS_ALIGN_STYLING)); // Centered
             }
 		}
 
 		// Override DefaultColumnWidth For Columns That Can Not Be Too Long
-		for(int i = 2; i < 6; i++) {
+		for(int i = 2; i < NUMBER_OF_COLUMNS; i++) {
 			sheet.autoSizeColumn(i);
         }
 	}

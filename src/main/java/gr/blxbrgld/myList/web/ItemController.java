@@ -218,10 +218,15 @@ public class ItemController {
 		return artistService.findArtistsLike(term);
 	}
 
+	/**
+	 * Export All Category Items To An XLS File
+	 * @param category The Category To Be Exported
+	 * @return ModelAndView Object
+	 */
 	@RequestMapping(value = "/admin/item/export", method = RequestMethod.GET)
-	public ModelAndView getExcel(@RequestParam("parent") String parent) {
-		//TODO Different ExcelView For Book Items
-		return new ModelAndView("ItemExcel", "items", itemService.getItemsHavingCategory(categoryService.getCategory(parent)));
+	public ModelAndView getExcel(@RequestParam("category") String category) {
+		String view = "Books".equalsIgnoreCase(category) ? "BookExcel" : "ItemExcel";
+		return new ModelAndView(view, "items", itemService.getItemsHavingCategory(categoryService.getCategory(category)));
 	}
 
 	/**

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
-	
-	<bean id="ItemExcel" class="gr.blxbrgld.mylist.web.ItemExcelView" />
 
+	<!-- Book Items Have A Different XLS View -->
+	<bean id="BookExcel" class="gr.blxbrgld.mylist.web.BookExcelView" />
+	<!-- For Anything Else There Is The Default One -->
+	<bean id="ItemExcel" class="gr.blxbrgld.mylist.web.ItemExcelView" />
 </beans>
