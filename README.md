@@ -1,11 +1,9 @@
-list-spring-mvc Application 3.1
+list-spring-mvc Application 4.0
 ===============================
 
-### Changes From Version 2.0
+### Changes From Version 3.1.1
 
-Bootstap 3 added to the game. Nearly everything redesigned and now the application is full mobile friendly. Furthermore, all administrator pages are now under the /admin path so that we can separate the logic of the front-end and the back-end. This will help, among other things, to create more easily a Varnish template for the application, which i'm planning to do very soon. 
-
-Version 3.1 introduced some new Maven plug-ins (Liquibase, SonarQube et.al.) and some changes needed to keep SonarQube happy.
+Book entity added along with all the needed changes (frontend and backend).
 
 ### Technologies / Tools
 
